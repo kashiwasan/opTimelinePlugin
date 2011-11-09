@@ -139,7 +139,7 @@ class timelineActions extends sfActions
     return $this->renderText(json_encode($json));
   }
 
-  public function executegetCRSFToken(sfWebRequest $request)
+  public function executeGetCRSFToken(sfWebRequest $request)
   {
     $form = new sfForm();
     mt_srand();
