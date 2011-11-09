@@ -13,9 +13,10 @@
  *
  * @package    OpenPNE
  * @subpackage timeline
- * @author     Your name here
+ * @author     Shouta Kashiwagi <kashiwagi@tejimaya.com>
  * @version    SVN: $Id: actions.class.php 9301 2008-05-27 01:08:46Z dwhittle $
  */
+
 class timelineActions extends sfActions
 {
  /**
@@ -47,7 +48,7 @@ class timelineActions extends sfActions
         $uri = $activity->getUri();
         $source = $activity->getSource();
         $sourceUri = $activity->getSourceUri();
-        $createdAt = $activity->getCreateAt();
+        $createdAt = $activity->getCreatedAt();
         $ac[] = array( 'id' => $id, 'memberId' => $memberId, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
       }
       $json = array( 'status' => 'success', 'data' => $ac, );
@@ -64,7 +65,7 @@ class timelineActions extends sfActions
       else
       {
         $ac = array();
-        $activityData = Doctrine::getTable('ActivityData')->retrieveByInReplyToMemberId($memberSelfId);
+        $activityData = Doctrine::getTable('ActivityData')->retrieveByInReplyToActivityId($memberSelfId);
         foreach ($activityData as $activity)
         {
           $id = $activity->getId();
@@ -91,12 +92,51 @@ class timelineActions extends sfActions
       $json = array('status' => 'error', 'message' => 'Error. Invalid CSRF token Key.');
       return $this->renderText(json_encode($json));
     }
-    
+    $activity = new Activity();
+    $activity->setMemberId($this->getUser()->getMemberId()); 
+    $activity->setBody($request->getParameter('body'));
+    $inReplyToActivityId = $request->getParameter('replyId');
+    if (isset($inReplyToActivityId))
+    {
+      $activity->setInReplyToMemberId($inReplyToActivityId);
+    }
+    $foreign = $request->getParameeter('forign');
+    $foreignId = $request->getParameter('foreignId');
+    if (isset($foreign) && isset($foreignId))
+    {
+      $activity->setForeign($foreign); 
+      $activity->setForeignId($foreignId);
+    }
+    $activity->save();
+    $json = array( 'status' => 'success', 'msg' => 'UPDATE was succeeed!', );
+    return $this->renderText(json_encode($json));
   }
 
   public function executeDelete(sfWebRequest $request)
   {
-
+    $form = new sfForm();
+    $token = $form->getCSRFToken($request->getParameter('secretKey'));
+    if ($token=!$request->getParameter('CSRFtoken'))
+    {
+      $json = array('status' => 'error', 'message' => 'Error. Invalid CSRF token key.', );
+      return $this->renderText(json_encode($json));
+    }
+    $activityId = $request->getParameter('activityId');
+    if (!isset($activityId))
+    {
+      $json = array( 'status' => 'error', 'message' => 'Error. Activity Id is not set.');
+      return $this->renderText(json_encode($json));
+    }
+    $memberId = $this->getUser()->getMemberId();
+    $activityData = Doctrine::getTable('ActivityData')->retrieveByIdAndMemberId($activityId, $memberId);
+    if(!$activityData)
+    {
+      $json = array( 'status' => 'error', 'message' => 'Error. Your Rrquest Activity Id does not exist.',);
+      return $this->renderText(json_encode($json));
+    }
+    $activityData->delete();
+    $json = array( 'status' => 'error', 'message' => 'Your Delete Request has been succeed!' );
+    return $this->renderText(json_encode($json));
   }
 
   public function executegetCRSFToken(sfWebRequest $request)
