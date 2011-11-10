@@ -40,16 +40,21 @@ class timelineActions extends sfActions
     {
       $activityData = Doctrine::getTable('ActivityData')->findAll();
       $ac = array();
+      $i = 0;
       foreach ($activityData as $activity)
       {
         $id = $activity->getId();
-        $memberId = $activity->getMemberId(); 
+        $memberId = $activity->getMemberId();
+        $member = Doctrine::getTable('Member')->find($memberId);
+        $memberImage = $member->getImageFilename();
+        $memberScreenName = $member->getProfile('op_screen_name', true);
         $body = $activity->getBody();
         $uri = $activity->getUri();
         $source = $activity->getSource();
         $sourceUri = $activity->getSourceUri();
         $createdAt = $activity->getCreatedAt();
-        $ac[] = array( 'id' => $id, 'memberId' => $memberId, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
+        $ac[$i] = array( 'id' => $id, 'memberId' => $memberId, 'memberImage' => $memberImage, 'memberScreenName' => $memberScreenName, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
+        $i++;
       }
       $json = array( 'status' => 'success', 'data' => $ac, );
       return $this->renderText(json_encode($json));
@@ -86,13 +91,13 @@ class timelineActions extends sfActions
   public function executePost(sfWebRequest $request)
   {
     $form = new sfForm(); 
-    $token = $form->getCSRFToken($request->getParameter('secretKey'));
-    if ($token=!$request->getParemeter('CSRFtoken'))
+    $token = $form->getCSRFToken();
+    if ($token=!$request->getParameter('CSRFtoken'))
     {
       $json = array('status' => 'error', 'message' => 'Error. Invalid CSRF token Key.');
       return $this->renderText(json_encode($json));
     }
-    $activity = new Activity();
+    $activity = new ActivityData();
     $activity->setMemberId($this->getUser()->getMemberId()); 
     $activity->setBody($request->getParameter('body'));
     $inReplyToActivityId = $request->getParameter('replyId');
@@ -100,7 +105,7 @@ class timelineActions extends sfActions
     {
       $activity->setInReplyToMemberId($inReplyToActivityId);
     }
-    $foreign = $request->getParameeter('forign');
+    $foreign = $request->getParameter('forign');
     $foreignId = $request->getParameter('foreignId');
     if (isset($foreign) && isset($foreignId))
     {
@@ -108,14 +113,14 @@ class timelineActions extends sfActions
       $activity->setForeignId($foreignId);
     }
     $activity->save();
-    $json = array( 'status' => 'success', 'msg' => 'UPDATE was succeeed!', );
+    $json = array( 'status' => 'success', 'message' => 'UPDATE was succeed!', );
     return $this->renderText(json_encode($json));
   }
 
   public function executeDelete(sfWebRequest $request)
   {
     $form = new sfForm();
-    $token = $form->getCSRFToken($request->getParameter('secretKey'));
+    $token = $form->getCSRFToken();
     if ($token=!$request->getParameter('CSRFtoken'))
     {
       $json = array('status' => 'error', 'message' => 'Error. Invalid CSRF token key.', );
@@ -128,24 +133,21 @@ class timelineActions extends sfActions
       return $this->renderText(json_encode($json));
     }
     $memberId = $this->getUser()->getMemberId();
-    $activityData = Doctrine::getTable('ActivityData')->retrieveByIdAndMemberId($activityId, $memberId);
-    if(!$activityData)
+    $activityData = Doctrine::getTable('ActivityData')->findByIdAndMemberId($activityId, $memberId);
+    if (!$activityData)
     {
-      $json = array( 'status' => 'error', 'message' => 'Error. Your Rrquest Activity Id does not exist.',);
+      $json = array( 'status' => 'error', 'message' => 'Error. Your Request Activity Id does not exist.',);
       return $this->renderText(json_encode($json));
     }
     $activityData->delete();
-    $json = array( 'status' => 'error', 'message' => 'Your Delete Request has been succeed!' );
+    $json = array( 'status' => 'success', 'message' => 'Your Delete Request has been succeed!' );
     return $this->renderText(json_encode($json));
   }
 
-  public function executeGetCRSFToken(sfWebRequest $request)
+  public function executeGetCSRFToken(sfWebRequest $request)
   {
     $form = new sfForm();
-    mt_srand();
-    $secretkey = rand(10000, 999999);
-    $token = $form->getCSRFToken($secretToken);
-    return $this->renderText(json_encode(array( 'status' => 'success', 'token' => $token, 'secretKey' => $secretKey, )));
+    $token = $form->getCSRFToken($secretKey);
+    return $this->renderText(json_encode(array( 'status' => 'success', 'token' => $token, )));
   }
-
 }
