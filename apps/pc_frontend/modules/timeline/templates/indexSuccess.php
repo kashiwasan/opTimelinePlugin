@@ -6,8 +6,18 @@
       <div id="stream-util"><a href="#" id="timeline-reply" rel="${member.screenName}">Reply</a> | <a href="/op3/timeline/deleteConfirm/${member.activityId}" id="timeline-delete">Delete</a> </div>
     </div>
   </div>
-
 </script>
+<script id="timeline-error-temolate" type="text/x-jquery-tmpl">
+  <div id="error-panel" style="display: none;">
+    <span id="error">${json.message}</span>
+  </div>
+</script>
+<script id="timeline-delete-confirm-template" type="text/x-jquery-tmpl">
+  <div id="delete-confirm-panel" style="display: none;">
+   <span id="error">${json.message}</span>
+  </div>
+</script>
+
 
 <div id="timeline-container">
   <div id="timeline-post">
