@@ -38,24 +38,55 @@ class timelineActions extends sfActions
     }
     if ($mode=1)
     {
-      $activityData = Doctrine::getTable('ActivityData')->findAll();
       $ac = array();
+      $activityData = Doctrine::getTable('ActivityData')->findAll();
+      foreach ($activityData as $activity)
+      {
+        $inReplyToActivityId = $activity->getInReplyToActivityId();
+        if (!isset($inReplyToActivityId))
+        { 
+          $id = $activity->getId();
+          $memberId = $activity->getMemberId();
+          $member = Doctrine::getTable('Member')->find($memberId);
+          $memberImage = $member->getImageFileName();
+          // $memberScreenName = $member->getProfile('op_screen_name', true);
+          $memberScreenName = $member->getName();
+          $body = $activity->getBody();
+          $uri = $activity->getUri();
+          $source = $activity->getSource();
+          $sourceUri = $activity->getSourceUri();
+          $createdAt = $activity->getCreatedAt();
+          $ac[] = array( 'id' => $id, 'memberId' => $memberId, 'memberImage' => $memberImage, 'memberScreenName' => $memberScreenName, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
+        }
+      }
+      $count = count($ac); 
       $i = 0;
       foreach ($activityData as $activity)
       {
-        $id = $activity->getId();
-        $memberId = $activity->getMemberId();
-        $member = Doctrine::getTable('Member')->find($memberId);
-        $memberImage = $member->getImageFilename();
-        $memberScreenName = $member->getProfile('op_screen_name', true);
-        $body = $activity->getBody();
-        $uri = $activity->getUri();
-        $source = $activity->getSource();
-        $sourceUri = $activity->getSourceUri();
-        $createdAt = $activity->getCreatedAt();
-        $ac[$i] = array( 'id' => $id, 'memberId' => $memberId, 'memberImage' => $memberImage, 'memberScreenName' => $memberScreenName, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
+        $inReplyToActivityId = $activity->getInReplyToActivityId();
+        if (isset($inReplyToActivityId))
+        {
+          for($j=0;$j<$count;$j++)
+          {
+            if($ac[$j]['id']==$inReplyToActivityId){
+              $member = Doctrine::getTable('Member')->find($activity->getMemberId());
+              $cm = array();
+              $cm['id'] = $activity->getId();
+              $cm['memberId'] = $member->getId();
+              //$cm['memberScreenName'] = $member->getProfile('op_screen_name', true);
+              $cm['memberScreenName'] = $member->getName();
+              $cm['body'] = $activity->getBody();
+              $cm['uri'] = $activity->getUri();
+              $cm['source'] = $activity->getSource();
+              $cm['sourceUri'] = $activity->getSourceUri();
+              $cm['createdAt'] = $activity->getCreatedAt();
+              $ac[$j]['reply'][] = $cm;
+            }
+          }
+        }
         $i++;
       }
+
       $json = array( 'status' => 'success', 'data' => $ac, );
       return $this->renderText(json_encode($json));
     }

@@ -1,17 +1,19 @@
-$(function(){
-  $('#timeline-submitbutton').click(function(){
-    body = $('#timeline-textbox').val();
-    $.ajax({
-      type: "POST",
-      url: "",
-      dataType: "json",
-      data: { "body" : body},
-      success: function(json){
-        if(json.status="success")
+$(document).ready(function(){
+  $.ajax({
+    url: "/op3/timeline/list",
+    type: "GET",
+    dataType: 'json',
+    cache: false,
+    async: true,
+    success: function(data) {
+      $('#timelineTemplate').tmpl(data.data).appendTo('#streamList');
+      for(i=0;i<data.data.length;i++)
+      {
+        if(data.data[i].reply)
         {
-          $('#timeline-list-template').tmpl(json.data).appendTo('#timeline-json-list');
+          $('#timelineCommentTemplate').tmpl(data.data[i].reply).appendTo('#streamListComment'+data.data[i].id); 
         }
       }
-    })
+    }
   });
 });
