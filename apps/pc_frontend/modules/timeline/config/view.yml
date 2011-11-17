@@ -1,7 +1,16 @@
 all:
 #  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/timeline.js"]
-  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/custom-theme/timeline.css"]
+  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/custom-theme/timeline.css"]
 listSuccess:
-  has_layout:     off
+  has_layout: false
+  http_metas:
+    content-type: application/x-javascript+json
+jsSuccess:
+  has_layout: false
   http_metas:
     content-type: application/x-javascript
+timelinePluginSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/x-javascript
+
