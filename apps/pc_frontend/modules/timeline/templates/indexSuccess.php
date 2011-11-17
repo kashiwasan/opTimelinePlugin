@@ -52,6 +52,14 @@
   <div id="timeline-textbox"><textarea rows="8" cols="30" name="timeline-textarea" id="timeline-textarea"></textarea><input type="hidden" name="csrf" id="timeline-csrf" value="" /></div>
   <div id="timeline-submit"><button id="timeline-button">投稿する</button></div>
 </div>
+<div id="timeline-todo">
+◆TODO<br />
+・UIを綺麗にする(緑のボタンのデザインとか無駄)<br />
+・返信(Reply)、削除をポップアップで行う方法を辞める(回避策がわからないので暫定対処)<br />
+・スクリーンネームで表示するようにする<br />
+・下までスクロールしたら「続きを読む」みたいなのができるようにする<br />
+etc...
+</div>
   <ul id="streamList">
   </ul>
 </div>
