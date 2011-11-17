@@ -52,6 +52,10 @@
   <div id="timeline-textbox"><textarea rows="8" cols="30" name="timeline-textarea" id="timeline-textarea"></textarea><input type="hidden" name="csrf" id="timeline-csrf" value="" /></div>
   <div id="timeline-submit"><button id="timeline-button">投稿する</button></div>
 </div>
+  <ul id="streamList">
+  </ul>
+</div>
+
 <div id="timeline-todo">
 ◆TODO<br />
 ・UIを綺麗にする(緑のボタンのデザインとか無駄)<br />
@@ -60,7 +64,3 @@
 ・下までスクロールしたら「続きを読む」みたいなのができるようにする<br />
 etc...
 </div>
-  <ul id="streamList">
-  </ul>
-</div>
-
