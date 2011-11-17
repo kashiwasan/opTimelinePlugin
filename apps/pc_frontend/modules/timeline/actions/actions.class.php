@@ -41,7 +41,7 @@ class timelineActions extends sfActions
     if ($mode=1)
     {
       $ac = array();
-      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->orderBy('ad.id DESC')->limit(20)->execute();
+      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag', 1)->orderBy('ad.id DESC')->limit(20)->execute();
       foreach ($activityData as $activity)
       {
         // $inReplyToActivityId = $activity->getInReplyToActivityId();
@@ -91,7 +91,7 @@ class timelineActions extends sfActions
       }
       $count = count($ac); 
       $i = 0;
-      $commentData = Doctrine::getTable('ActivityData')->findAll();
+      $commentData = Doctrine::getTable('ActivityData')->findByPublicFlag(1);
       foreach ($commentData as $activity)
       {
         $inReplyToActivityId = $activity->getInReplyToActivityId();
@@ -184,6 +184,7 @@ class timelineActions extends sfActions
       $activity->setForeign($foreign); 
       $activity->setForeignId($foreignId);
     }
+    $activity->setPublicFlag(1);
     $activity->save();
     $json = array( 'status' => 'success', 'message' => 'UPDATE was succeed!', );
     return $this->renderText(json_encode($json));
