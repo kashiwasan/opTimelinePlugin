@@ -41,7 +41,7 @@ class timelineActions extends sfActions
     if ($mode=1)
     {
       $ac = array();
-      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag', 1)->orderBy('ad.id DESC')->limit(20)->execute();
+      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(20)->execute();
       foreach ($activityData as $activity)
       {
         // $inReplyToActivityId = $activity->getInReplyToActivityId();
