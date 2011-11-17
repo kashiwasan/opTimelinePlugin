@@ -1,0 +1,18 @@
+・opTimelinePlugin インストール鳳凰(方法)
+
+※暫定版なので仕様も暫定的にざっくりとしか書いてません。
+
+１．インストール鳳凰
+ cd ./plugins
+ git clone git://github.com/kashiwasan/opTimelinePlugin.git
+ cd ../
+ ./symfony plugin:publish-assets
+ ./symfony cc
+
+２．使い方
+ http://example.com/openpne_dir/timeline
+ にアクセスすることにより使えます。
+
+３．課題
+ http://www.besocial.jp/category/openpne/houou-openpne/ 参照。
+
