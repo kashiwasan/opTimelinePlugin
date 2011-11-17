@@ -200,7 +200,6 @@ var _readyBound = false;
 								// Replace the content
 							//	$c.html(responseText);
 								closeOverlay();
-								return false;
 							//	_refreshContent($c);
 							});
 						});
@@ -431,7 +430,6 @@ var _readyBound = false;
 								// Replace the content
 							//	$c.html(responseText);
 								closeOverlay();
-								return false;
 							//	_refreshContent($c);
 							});
 						});

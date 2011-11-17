@@ -12,13 +12,10 @@ class timelineComponents extends sfComponents
 {
   public function executeTimelineGadget(sfWebRequest $request)
   {
-    $this->getResponse()->addJavascript('/opGyoenKintaiPlugin/js/jquery-1.6.4.min.js', 'first');
-    $this->getResponse()->addJavascript('/opGyoenKintaiPlugin/js/jquery.prettyPopin.js', 'first');
-    $this->getResponse()->addJavascript('/opGyoenKintaiPlugin/js/jquery.kintai.js');
-    $this->member = $this->getUser()->getMember();
-    $this->mode = $request->getParameter('mode');
-    $this->json = $request->getParameter('json');
-    
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css', 'first');
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/prettyPopin.css', 'first');
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/timeline.css', 'first');
+    $this->baseUrl = sfConfig::get('op_base_url'); 
   }
 }
 

@@ -1,0 +1,6 @@
+timelineGadget:
+  caption:
+    ja_JP: "タイムラインガジェット"
+  description:
+    ja_JP: "SNSメンバーのタイムラインが表示されます。"
+  component: [timeline, timelineGadget]
