@@ -17,5 +17,19 @@ class timelineComponents extends sfComponents
     $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/timeline.css', 'first');
     $this->baseUrl = sfConfig::get('op_base_url'); 
   }
+
+  public function executeTimelineCommunity(sfWebRequest $request)
+  {
+
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css', 'first');
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/prettyPopin.css', 'first');
+    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/timeline.css', 'first');
+    $this->baseUrl = sfConfig::get('op_base_url'); 
+    //  $this->baseUrl = sfConfig::get('op_base_url');
+    $this->cid = $request->getParameter('id');
+    $this->foreigntable = "community";
+    $this->mode = 2;    
+
+  }
 }
 

@@ -8,7 +8,7 @@ $(document).ready(function(){
     $.ajax({
       url: "<?php echo $baseUrl; ?>/timeline/post",
       type: "POST",
-      data: "CSRFtoken="+Csrf+"&body="+Body,
+      data: "foreign=<?php echo $foreigntable; ?>&foreignId=<?php echo $cid; ?>&CSRFtoken="+Csrf+"&body="+Body,
       dataType: 'json',
       success: function(data) {
         if(data.status=="success"){
@@ -22,10 +22,8 @@ $(document).ready(function(){
   });
 });
 
-
-
 function timelineLoad() {
-  $.getJSON("<?php echo $baseUrl; ?>/timeline/list",function(json){
+  $.getJSON("<?php echo $baseUrl; ?>/timeline/list?m=<?php echo $mode; ?>&cid=<?php echo $cid; ?>",function(json){
     $("#streamList").empty();
     $("#timelineTemplate").tmpl(json.data).appendTo("#streamList");
     for(i=0;i<json.data.length;i++){

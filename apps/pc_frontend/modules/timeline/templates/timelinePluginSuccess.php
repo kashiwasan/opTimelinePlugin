@@ -1,66 +1,11 @@
-/**********************************
-** jquery.timeline functions
-** how to use : $("#elementID").timelineComment();
+/*********************************
+** jQuery timeilinePopin functions
+** how to use : $('#element').timelineReply();
 **********************************/
 
 (function($){
-/**************************************************************
-  $.fn.timelineComment = function(config){
-    var defaults = {
-      url: '<?php echo $baseUrl; ?>/timeline/post', 
-      csrf: '<?php echo $csrfToken; ?>',
-    }
-    var options = $.extend(defaults, config);
-    var $body = $(this).children();
-    var Body = $body.val();
-    var postdata = { body : Body, CSRFtoken : options.csrf, };
-    $(this).submit(function(){
-      $.post(
-        options.url,
-        postdata,
-        function(json) {
-          data = $.parseJson(json);
-          if(data.status=="success"){
-            $('input', this).val('');
-          }else{
-            alert(data.message);
-          }
-        }
-      );
-      return false;
-    });
-  };
-*************************************************************/
-
-/*********************************
-** jQuery timeilineReply functions
-** how to use : $('#elementID').timelineReply({id: "1"});
-**********************************/
-/********************************
-
-  $.fn.timelineReply = function(config){
-    if(config.id){
-      return this.each(function(){ 
-        $(this).click( function() {
-          $("#timelineReplyPopup").tmpl(config).appendTo("#Body");
-          return false;
-        });
-      });
-    }
-  };
-})(jQuery);
-*********************************/
-/* ------------------------------------------------------------------------
-	Class: prettyPopin
-	Use: Alternative to popups
-	Author: Stephane Caron (http://www.no-margin-for-errors.com)
-	Version: 1.3
-------------------------------------------------------------------------- */
-
-var _followScroll = true;
-var _readyBound = false;
-
-
+	var _followScroll = true;
+	var _readyBound = false;
 	$.fn.timelinePopin = function(settings) {
 		settings = jQuery.extend({
 			modal : false, /* true/false */
@@ -69,7 +14,7 @@ var _readyBound = false;
 			opacity: 0.5, /* value from 0 to 1 */
 			animationSpeed: 'fast', /* slow/medium/fast/integer */
 			followScroll: true, /* true/false */
-			loader_path: 'opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
+			loader_path: '<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
 			callback: function(){} /* callback called when closing the popin */
 		}, settings);
 
@@ -91,8 +36,10 @@ var _readyBound = false;
 				buildpopin();
 				var id = $(this).attr("data-activity-id"); 
                                 var screenName = $(this).attr("data-activity-memberScreenName");
+				var foreign = $(this).attr("data-activity-foreign");
+				var foreignId = $(this).attr("data-activity-foreign-id");
 				// Load the content
-					responseText = '<div id="stream-reply-popup-header"><b>@' + screenName +'に返信する</b></div><div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/post" id="stream-reply-popup-form"><textarea name="body" rows="8" cols="30" id="stream-reply-popup-text">@' + screenName + ' </textarea><br /><input type="hidden" name="replyId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="CSRFtoken" value="<?php echo $csrfToken; ?>" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
+					responseText = '<div id="stream-reply-popup-header"><b>@' + screenName +'に返信する</b></div><div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/post" id="stream-reply-popup-form"><textarea name="body" rows="8" cols="30" id="stream-reply-popup-text">' + screenName + ' </textarea><br /><input type="hidden" name="replyId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="foreign" value="' + foreign +'" /><input type="hidden" name="foreignId" value="'+ foreignId  +'" /><input type="hidden" name="CSRFtoken" value="<?php echo $csrfToken; ?>" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
 					$(".prettyPopin .prettyContent .prettyContent-container").html(responseText);
 					$("#stream-reply-popup-text").focus();
 			        	// responseText = $(elementId).text();
@@ -278,17 +225,6 @@ var _readyBound = false;
 		};
 	};
 
-/* ------------------------------------------------------------------------
-	Class: prettyPopin
-	Use: Alternative to popups
-	Author: Stephane Caron (http://www.no-margin-for-errors.com)
-	Version: 1.3
-------------------------------------------------------------------------- */
-
-var _followScroll = true;
-var _readyBound = false;
-
-
 	$.fn.timelineDelete = function(settings) {
 		settings = jQuery.extend({
 			modal : false, /* true/false */
@@ -297,7 +233,7 @@ var _readyBound = false;
 			opacity: 0.5, /* value from 0 to 1 */
 			animationSpeed: 'fast', /* slow/medium/fast/integer */
 			followScroll: true, /* true/false */
-			loader_path: 'opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
+			loader_path: '<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
 			callback: function(){} /* callback called when closing the popin */
 		}, settings);
 

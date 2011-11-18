@@ -1,0 +1,8 @@
+homeSuccess:
+  customize:
+    timelineCommunity:
+      template: [timeline, timelineCommunity]
+      parts: [communityHome]
+      target: [after]
+      is_component: true
+ 
