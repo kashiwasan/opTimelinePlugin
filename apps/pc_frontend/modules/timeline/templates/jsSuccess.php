@@ -13,7 +13,7 @@ $(document).ready(function(){
       success: function(data) {
         if(data.status=="success"){
           $('#timeline-textarea').val('');
-          // timelineLoad();
+          timelineLoad();
         }else{
           alert(data.message);
         }
@@ -21,6 +21,9 @@ $(document).ready(function(){
     });
   });
 });
+
+
+
 function timelineLoad() {
   $.getJSON("<?php echo $baseUrl; ?>/timeline/list",function(json){
     $("#streamList").empty();
@@ -30,7 +33,7 @@ function timelineLoad() {
     for(i=0;i<json.data.length;i++){
       if(json.data[i].reply)
       {
-        $("#timelineCommentTemplate").tmpl(json.data[i].reply).appendTo("#srreamListComment"+json.data[i].id);
+        $("#timelineCommentTemplate").tmpl(json.data[i].reply).appendTo("#streamListComment"+json.data[i].id);
       }
     }
   });

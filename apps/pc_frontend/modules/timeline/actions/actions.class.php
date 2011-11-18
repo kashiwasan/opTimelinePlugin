@@ -91,7 +91,7 @@ class timelineActions extends sfActions
       }
       $count = count($ac); 
       $i = 0;
-      $commentData = Doctrine::getTable('ActivityData')->findByPublicFlag(1);
+      $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.public_flag = ?', 1)->execute();
       foreach ($commentData as $activity)
       {
         $inReplyToActivityId = $activity->getInReplyToActivityId();
