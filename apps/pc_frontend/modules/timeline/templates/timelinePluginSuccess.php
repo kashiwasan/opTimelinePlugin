@@ -4,6 +4,7 @@
 **********************************/
 
 (function($){
+/**************************************************************
   $.fn.timelineComment = function(config){
     var defaults = {
       url: '<?php echo $baseUrl; ?>/timeline/post', 
@@ -29,7 +30,7 @@
       return false;
     });
   };
-
+*************************************************************/
 
 /*********************************
 ** jQuery timeilineReply functions
