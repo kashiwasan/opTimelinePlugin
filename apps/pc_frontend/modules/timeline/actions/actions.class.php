@@ -61,7 +61,7 @@ class timelineActions extends sfActions
             $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $memberName = $member->getName();
-          $memberScreenName = $member->getProfile('op_screen_name') ? $member->getProfile('op_screen_name')->getValue() : $member->getValue();
+          $memberScreenName = $this->getUser()->getMember()->getConfig('op_screen_name') ? $this->getUser()->getMember()->getConfig('op_screen_name') : $memberName;
           $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
           $uri = $activity->getUri();
           $source = $activity->getSource();
@@ -109,7 +109,7 @@ class timelineActions extends sfActions
               $cm['id'] = $activity->getId();
               $cm['memberId'] = $member->getId();
               $cm['memberName'] = $member->getName();
-              $cm['memberScreenName'] = $member->getProfile('op_screen_name') ? $member->getProfile('op_screen_name', true)->getValue() : $cm['memberName'];
+              $cm['memberScreenName'] = $this->getUser()->getMember()->getConfig('op_screen_name') ? $this->getUser()->getMember()->getConfig('op_screen_name') : $cm['memberName'];
               $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
               if ($cm['memberId']==$this->getUser()->getMember()->getId())
               {
