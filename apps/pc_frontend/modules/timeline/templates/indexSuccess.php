@@ -45,6 +45,8 @@
   </div>
 </script>
 
+<a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
+
 <div id="timeline-container">
 <div id="timeline-post">
   <div id="timeline-textbox"><textarea rows="8" cols="30" name="timeline-textarea" id="timeline-textarea"></textarea><input type="hidden" name="csrf" id="timeline-csrf" value="" /></div>
