@@ -32,7 +32,7 @@ class timelineActions extends sfActions
 
   public function executeList(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Tag', 'Asset', 'Partial', 'Cache', 'I18N', 'opParts', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'Tag', 'Asset', 'Partial', 'Cache', 'I18N', 'opParts', 'sfImage', 'opUtil', 'opActivity',));
     $mode = $request->getParameter('mode'); 
     if (!$mode)
     {
@@ -84,7 +84,7 @@ class timelineActions extends sfActions
             'uri' => $uri, 
             'source' => $source, 
             'sourceUri' => $sourceUri, 
-            'createdAt' => $createdAt, 
+            'createdAt' => op_format_activity_time(strtotime($createdAt)), 
             'baseUrl' => sfConfig::get('op_base_url'),
           ); 
         // }
@@ -119,7 +119,7 @@ class timelineActions extends sfActions
               $cm['uri'] = $activity->getUri();
               $cm['source'] = $activity->getSource();
               $cm['sourceUri'] = $activity->getSourceUri();
-              $cm['createdAt'] = $activity->getCreatedAt();
+              $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
               $cm['baseUrl'] = sfConfig::get('op_base_url');
               $ac[$j]['reply'][] = $cm;
             }
@@ -151,7 +151,7 @@ class timelineActions extends sfActions
           $uri = $activity->getUri();
           $source = $activity->getSource();
           $sourceUri = $activity->getSource();
-          $createdAt = $activity->getCreatedAt();
+          $createdAt = op_format_activity_time(strtotime($activity->getCreatedAt()));
           $ac[] = array('id' => $id, 'memberId' => $memberId, 'body' => $body, 'uri' => $uri, 'source' => $source, 'sourceUri' => $sourceUri, 'createdAt' => $createdAt, ); 
         }
         $json = array('status' => 'success', 'data' => $ac);
