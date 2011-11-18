@@ -95,14 +95,15 @@ li.stream-body .stream-right .stream-text {
   z-index: 128;
   position: relative;
   min-height: 48px;
+  margin-top: 5px;
   display: block;
 }
 
 li.stream-body .stream-right .stream-text .stream-util {
-  padding: 0 10px;
+  padding: 0 5px;
   display: block;
   text-align: left;
-  font-size: 8px;
+  margin-top: 5px;
 }
 
 li.stream-comment-body {
@@ -150,4 +151,8 @@ li.stream-comment-body {
  float: right;
 }
 
+span.small {
+  font-size: 80%;
+  color: 222222;
+}
 

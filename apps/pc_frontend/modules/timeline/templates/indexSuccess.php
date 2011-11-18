@@ -4,15 +4,13 @@
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/timeline/timelinePlugin"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/timeline/js"></script>
 
-<script id="timelineCommentJquery" type="text/javascript">
-</script>
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
   <li class="stream-body">
     <div class="stream-image"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}"><img src="${memberImage}" alt="${memberScreenName}" width="36" height="36" /></a></div>
     <div class="stream-right">
-      <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a></div>
-      <div class="stream-text">${body}
-      <div id="stream-util"><a href="#" data-activity-id="${id}" rel="prettyPopin" class="timelineReplyLink">Reply</a> | <span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a data-activity-id="${id}" data-activity-body="${body}" data-activity-memberScreenName="${memberScreenName}" rel="timelineDelete" href="#" id="delete-timeline">削除する</a></span> (${createdAt})</div>
+      <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a><span class="small">(${memberName})</small></div>
+      <div class="stream-text">{{html body}}
+      <div class="stream-util"><span class="small"><a href="#" data-activity-id="${id}" data-activity-memberScreenName="${memberScreenName}" rel="prettyPopin" class="timelineReplyLink">コメントする</a> | <span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" rel="timelineDelete" href="#" id="delete-timeline">削除する</a></span> (${createdAt})</span></div>
       <ul id="streamListComment${id}" class="commentList"></ul>
       </div>
     </div>
@@ -21,9 +19,9 @@
 
 <script id="timelineCommentTemplate" type="text/x-jquery-tmpl">
   <li class="stream-comment-body">
-    <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a></div>
-    <div class="stream-text">${body}
-      <div id="stream-util"><span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a rel="timelineDelete" href="#" data-activity-id="${id}" data-activity-body="${body}" data-activity-memberScreenName="${memberScreenName}" id="detete-timeline">削除する</a></span> (${createdAt})</div>
+    <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a><span class="small">(${memberName})</span></div>
+    <div class="stream-text">{{html body}}
+      <div class="stream-util"><span class="small"><span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a rel="timelineDelete" href="#" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" id="detete-timeline">削除する</a></span> (${createdAt})</span></div>
     </div>
   </li>
 </script>

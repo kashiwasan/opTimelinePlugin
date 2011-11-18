@@ -32,8 +32,9 @@ class timelineActions extends sfActions
 
   public function executeList(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'Tag', 'Asset', 'Partial', 'Cache', 'I18N', 'opParts', 'sfImage', 'opUtil', 'opActivity',));
-    $mode = $request->getParameter('mode'); 
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    $mode = $request->getParameter('mode');
+    $baseUrl = sfConfig::get('op_base_url');
     if (!$mode)
     {
       $mode = 1;      
@@ -52,20 +53,21 @@ class timelineActions extends sfActions
           $member = Doctrine::getTable('Member')->find($memberId);
           if (!$member->getImageFileName())
           {
-            $memberImage = sfConfig::get('op_base_url') . '/images/no_image.gif';
+            $memberImage = $baseUrl . '/images/no_image.gif';
           }
           else
           {
             $memberImageFile = $member->getImageFileName();
             $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
-          // $memberScreenName = $member->getProfile('op_screen_name', true);
-          $memberScreenName = $member->getName();
-          $body = $activity->getBody();
+          $memberScreenName = $member->getProfile('op_screen_name')->getValue();
+          $memberName = $member->getName();
+          $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
           $uri = $activity->getUri();
           $source = $activity->getSource();
           $sourceUri = $activity->getSourceUri();
           $createdAt = $activity->getCreatedAt();
+          
           if ($memberId==$this->getUser()->getMember()->getId())
           {
             $deleteLink = 'show';
@@ -79,6 +81,7 @@ class timelineActions extends sfActions
             'memberId' => $memberId, 
             'memberImage' => $memberImage, 
             'memberScreenName' => $memberScreenName, 
+            'memberName' => $memberName,
             'body' => $body,  
             'deleteLink' => $deleteLink,
             'uri' => $uri, 
@@ -105,9 +108,9 @@ class timelineActions extends sfActions
               $cm = array();
               $cm['id'] = $activity->getId();
               $cm['memberId'] = $member->getId();
-              //$cm['memberScreenName'] = $member->getProfile('op_screen_name', true);
-              $cm['memberScreenName'] = $member->getName();
-              $cm['body'] = $activity->getBody();
+              $cm['memberScreenName'] = $member->getProfile('op_screen_name', true)->getValue();
+              $cm['memberName'] = $member->getName();
+              $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
               if ($cm['memberId']==$this->getUser()->getMember()->getId())
               {
                 $cm['deleteLink'] = 'show';
@@ -171,7 +174,7 @@ class timelineActions extends sfActions
     }
     $activity = new ActivityData();
     $activity->setMemberId($this->getUser()->getMemberId()); 
-    $activity->setBody($request->getParameter('body'));
+    $activity->setBody(htmlspecialchars($request->getParameter('body'), ENT_QUOTES));
     $inReplyToActivityId = $request->getParameter('replyId');
     if (isset($inReplyToActivityId) && is_numeric($inReplyToActivityId))
     {
@@ -241,4 +244,5 @@ class timelineActions extends sfActions
     $this->csrfToken = $form->getCSRFToken();
     return sfView::SUCCESS;
   }
+
 }
