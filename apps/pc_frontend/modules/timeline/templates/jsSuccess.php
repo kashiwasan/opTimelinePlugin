@@ -1,6 +1,6 @@
 $(document).ready(function(){
   timelineLoad();
-  timerID = setInterval("timelineLoad()", 3000);
+  timerID = setInterval("timelineLoad()", 20000);
 
   $('#timeline-button').click( function() {
     var Body = $('#timeline-textarea').val();
@@ -32,8 +32,8 @@ function timelineLoad() {
         $("#timelineCommentTemplate").tmpl(json.data[i].reply).appendTo("#streamListComment"+json.data[i].id);
       }
     }
-    $("a[rel^='prettyPopin']").timelinePopin();
-    $("a[rel^='timelineDelete']").timelineDelete();
+    $("a[rel^='prettyPopin']").timelinePopin({ callback: "timelineLoad()", });
+    $("a[rel^='timelineDelete']").timelineDelete({ callback: "timelineLoad()", });
   });
 }
 
