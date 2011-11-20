@@ -27,6 +27,8 @@ class timelineActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken($secretKey);
     return sfView::SUCCESS;
   }
 
