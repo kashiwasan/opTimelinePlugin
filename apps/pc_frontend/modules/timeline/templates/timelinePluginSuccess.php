@@ -1,7 +1,8 @@
-/*********************************
+/**********************************************
 ** jQuery timeilinePopin functions
-** how to use : $('#element').timelineReply();
-**********************************/
+** how to use : $('#element').timelinePopin();
+**              $('#element').timelineDelete();
+***********************************************/
 
 (function($){
 	var _followScroll = true;
@@ -41,9 +42,7 @@
 				// Load the content
 					responseText = '<div id="stream-reply-popup-header"><b>' + screenName +'に返信する</b></div><div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/post" id="stream-reply-popup-form"><textarea name="body" rows="8" cols="30" id="stream-reply-popup-text"></textarea><br /><input type="hidden" name="replyId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="foreign" value="' + foreign +'" /><input type="hidden" name="foreignId" value="'+ foreignId  +'" /><input type="hidden" name="CSRFtoken" value="<?php echo $csrfToken; ?>" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
 					$(".prettyPopin .prettyContent .prettyContent-container").html(responseText);
-					$("#stream-reply-popup-text").focus();
-			        	// responseText = $(elementId).text();
-					//$('.prettyPopin .prettyContent .prettyContent-container').html(responseText);
+					$(".prettyPopin .prettyContent .prettyContent-container textarea#stream-reply-popup-text").focus();
 
 					// This block of code is used to calculate the width/height of the popin
 					popinWidth = settings.width || $('.prettyPopin .prettyContent .prettyContent-container').width() + parseFloat($('.prettyPopin .prettyContent .prettyContent-container').css('padding-left')) + parseFloat($('.prettyPopin .prettyContent .prettyContent-container').css('padding-right'));
@@ -261,9 +260,6 @@
 					responseText = '<div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/delete" id="stream-reply-popup-form">本当にこのタイムラインを削除しますか？<br />'+memberScreenName+': 「'+body+'」<br /><input type="hidden" name="activityId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="CSRFtoken" value="<?php echo $csrfToken; ?>" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
 					$(".prettyPopin .prettyContent .prettyContent-container").html(responseText);
 					
-			        	// responseText = $(elementId).text();
-					//$('.prettyPopin .prettyContent .prettyContent-container').html(responseText);
-
 					// This block of code is used to calculate the width/height of the popin
 					popinWidth = settings.width || $('.prettyPopin .prettyContent .prettyContent-container').width() + parseFloat($('.prettyPopin .prettyContent .prettyContent-container').css('padding-left')) + parseFloat($('.prettyPopin .prettyContent .prettyContent-container').css('padding-right'));
 					$('.prettyPopin').width(popinWidth);
