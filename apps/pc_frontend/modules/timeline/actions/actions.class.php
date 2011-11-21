@@ -36,189 +36,190 @@ class timelineActions extends sfActions
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
     $baseUrl = sfConfig::get('op_base_url');
-    if ($request->getParameter('m')=="")
+    $ac = array();
+    $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(20)->execute();
+    foreach ($activityData as $activity)
     {
-      $ac = array();
-      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(20)->execute();
-      foreach ($activityData as $activity)
+      $id = $activity->getId();
+      $memberId = $activity->getMemberId();
+      $member = Doctrine::getTable('Member')->find($memberId);
+      if (!$member->getImageFileName())
       {
-        $id = $activity->getId();
-        $memberId = $activity->getMemberId();
-        $member = Doctrine::getTable('Member')->find($memberId);
-        if (!$member->getImageFileName())
-        {
-          $memberImage = $baseUrl . '/images/no_image.gif';
-        }
-        else
-        {
-          $memberImageFile = $member->getImageFileName();
-          $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
-        }
-        $memberName = $member->getName();
-        $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-        $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
-        $uri = $activity->getUri();
-        $source = $activity->getSource();
-        $sourceUri = $activity->getSourceUri();
-        $createdAt = $activity->getCreatedAt();
-          
-        if ($memberId==$this->getUser()->getMember()->getId())
-        {
-          $deleteLink = 'show';
-        }
-        else
-        {
-          $deleteLink = 'none';
-        }
-        $ac[] = array( 
-          'id' => $id, 
-          'memberId' => $memberId, 
-          'memberImage' => $memberImage, 
-          'memberScreenName' => $memberScreenName, 
-          'memberName' => $memberName,
-          'body' => $body,  
-          'deleteLink' => $deleteLink,
-          'uri' => $uri, 
-          'source' => $source, 
-          'sourceUri' => $sourceUri, 
-          'createdAt' => op_format_activity_time(strtotime($createdAt)), 
-          'baseUrl' => sfConfig::get('op_base_url'),
-        ); 
+        $memberImage = $baseUrl . '/images/no_image.gif';
       }
-      $count = count($ac);
-      $i = 0;
-      $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->execute();
-      foreach ($commentData as $activity)
+      else
       {
-        $inReplyToActivityId = $activity->getInReplyToActivityId();
-        for ($j=0;$j<$count;$j++)
-        {
-          if ($ac[$j]['id']==$inReplyToActivityId)
-          {
-            $member = Doctrine::getTable('Member')->find($activity->getMemberId());
-            $cm = array();
-            $cm['id'] = $activity->getId();
-            $cm['memberId'] = $member->getId();
-            $cm['memberName'] = $member->getName();
-            $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-            $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
-            if ($cm['memberId']==$this->getUser()->getMember()->getId())
-            {
-              $cm['deleteLink'] = 'show';
-            }
-            else
-            {
-              $cm['deleteLink'] = 'none';
-            }
-            $cm['uri'] = $activity->getUri();
-            $cm['source'] = $activity->getSource();
-            $cm['sourceUri'] = $activity->getSourceUri();
-            $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
-            $cm['baseUrl'] = sfConfig::get('op_base_url');
-            $ac[$j]['reply'][] = $cm;
-          }
-        }
-        $i++;
+        $memberImageFile = $member->getImageFileName();
+        $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
       }
-
-      $json = array( 'status' => 'success', 'data' => $ac, );
-      return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
-
+      $memberName = $member->getName();
+      $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
+      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $uri = $activity->getUri();
+      $source = $activity->getSource();
+      $sourceUri = $activity->getSourceUri();
+      $createdAt = $activity->getCreatedAt();
+  
+      if ($memberId==$this->getUser()->getMember()->getId())
+      {
+        $deleteLink = 'show';
+      }
+      else
+      {
+        $deleteLink = 'none';
+      }
+      $ac[] = array( 
+        'id' => $id, 
+        'memberId' => $memberId, 
+        'memberImage' => $memberImage, 
+        'memberScreenName' => $memberScreenName, 
+        'memberName' => $memberName,
+        'body' => $body,  
+        'deleteLink' => $deleteLink,
+        'uri' => $uri, 
+        'source' => $source, 
+        'sourceUri' => $sourceUri, 
+        'createdAt' => op_format_activity_time(strtotime($createdAt)), 
+        'baseUrl' => sfConfig::get('op_base_url'),
+      ); 
     }
-    elseif ($request->getParameter('m')=="2")
-    {
-      $cid = $request->getParameter('cid');
-      if (!is_numeric($cid))
-      {
-        $json = array('status' => 'error', 'message' => 'your request id is not numeric.',);
-        return $this->renderText(json_encode($json));
-      }
-      $ac = array();
-      $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag = ?', 1)->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $cid)->orderBy('ad.id DESC')->limit(20)->execute();
-      foreach ($activityData as $activity)
-      {
-        $id = $activity->getId();
-        $memberId = $activity->getMemberId();
-        $member = Doctrine::getTable('Member')->find($memberId);
-        if (!$member->getImageFileName())
-        {
-          $memberImage = $baseUrl . '/images/no_image.gif';
-        }
-        else
-        {
-          $memberImageFile = $member->getImageFileName();
-          $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
-        }
-        $memberName = $member->getName();
-        $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-        $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
-        $uri = $activity->getUri();
-        $source = $activity->getSource();
-        $sourceUri = $activity->getSourceUri();
-        $createdAt = $activity->getCreatedAt();
 
-        if ($memberId==$this->getUser()->getMember()->getId())
-        {
-          $deleteLink = 'show';
-        }
-        else
-        {
-          $deleteLink = 'none';
-        }
-        $ac[] = array( 
-          'id' => $id, 
-          'memberId' => $memberId, 
-          'memberImage' => $memberImage, 
-          'memberScreenName' => $memberScreenName, 
-          'memberName' => $memberName,
-          'body' => $body,  
-          'deleteLink' => $deleteLink,
-          'uri' => $uri, 
-          'source' => $source, 
-          'sourceUri' => $sourceUri, 
-          'createdAt' => op_format_activity_time(strtotime($createdAt)), 
-          'baseUrl' => sfConfig::get('op_base_url'),
-        ); 
-      }
-      $count = count($ac); 
-      $i = 0;
-      $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $cid)->andWhere('ad.public_flag = ?', 1)->execute();
-      foreach ($commentData as $activity)
+    $count = count($ac);
+    $i = 0;
+    $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->execute();
+    foreach ($commentData as $activity)
+    {
+      $inReplyToActivityId = $activity->getInReplyToActivityId();
+      for ($j=0;$j<$count;$j++)
       {
-        for ($j=0;$j<$count;$j++)
+        if ($ac[$j]['id']==$inReplyToActivityId)
         {
-          if ($ac[$j]['id']==$inReplyToActivityId)
+          $member = Doctrine::getTable('Member')->find($activity->getMemberId());
+          $cm = array();
+          $cm['id'] = $activity->getId();
+          $cm['memberId'] = $member->getId();
+          $cm['memberName'] = $member->getName();
+          $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
+          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
-            $member = Doctrine::getTable('Member')->find($activity->getMemberId());
-            $cm = array();
-            $cm['id'] = $activity->getId();
-            $cm['memberId'] = $member->getId();
-            $cm['memberName'] = $member->getName();
-            $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-            $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
-            if ($cm['memberId']==$this->getUser()->getMember()->getId())
-            {
-              $cm['deleteLink'] = 'show';
-            }
-            else
-            {
-              $cm['deleteLink'] = 'none';
-            }
-            $cm['uri'] = $activity->getUri();
-            $cm['source'] = $activity->getSource();
-            $cm['sourceUri'] = $activity->getSourceUri();
-            $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
-            $cm['baseUrl'] = sfConfig::get('op_base_url');
-            $ac[$j]['reply'][] = $cm;
+            $cm['deleteLink'] = 'show';
           }
+          else
+          {
+            $cm['deleteLink'] = 'none';
+          }
+          $cm['uri'] = $activity->getUri();
+          $cm['source'] = $activity->getSource();
+          $cm['sourceUri'] = $activity->getSourceUri();
+          $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
+          $cm['baseUrl'] = sfConfig::get('op_base_url');
+          $ac[$j]['reply'][] = $cm;
         }
       }
       $i++;
-
-      $json = array( 'status' => 'success', 'data' => $ac, );
-      return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
     }
+
+    $json = array( 'status' => 'success', 'data' => $ac, );
+    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
   }
+
+  public function executeListCommunity(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    $baseUrl = sfConfig::get('op_base_url');
+    $cid = $request->getParameter('id');
+    if (!is_numeric($cid))
+    {
+      $json = array('status' => 'error', 'message' => 'your request id is not numeric.',);
+      return $this->renderText(json_encode($json));
+    }
+    $ac = array();
+    $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag = ?', 1)->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $cid)->orderBy('ad.id DESC')->limit(20)->execute();
+    foreach ($activityData as $activity)
+    {
+      $id = $activity->getId();
+      $memberId = $activity->getMemberId();
+      $member = Doctrine::getTable('Member')->find($memberId);
+      if (!$member->getImageFileName())
+      {
+        $memberImage = $baseUrl . '/images/no_image.gif';
+      }
+      else
+      {
+        $memberImageFile = $member->getImageFileName();
+        $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
+      }
+      $memberName = $member->getName();
+      $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
+      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $uri = $activity->getUri();
+      $source = $activity->getSource();
+      $sourceUri = $activity->getSourceUri();
+      $createdAt = $activity->getCreatedAt();
+
+      if ($memberId==$this->getUser()->getMember()->getId())
+      {
+        $deleteLink = 'show';
+      }
+      else
+      {
+        $deleteLink = 'none';
+      }
+      $ac[] = array( 
+        'id' => $id, 
+        'memberId' => $memberId, 
+        'memberImage' => $memberImage, 
+        'memberScreenName' => $memberScreenName, 
+        'memberName' => $memberName,
+        'body' => $body,  
+        'deleteLink' => $deleteLink,
+        'uri' => $uri, 
+        'source' => $source, 
+        'sourceUri' => $sourceUri, 
+        'createdAt' => op_format_activity_time(strtotime($createdAt)), 
+        'baseUrl' => sfConfig::get('op_base_url'),
+      ); 
+    }
+    $count = count($ac); 
+    $i = 0;
+    $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $cid)->andWhere('ad.public_flag = ?', 1)->execute();
+    foreach ($commentData as $activity)
+    {
+      for ($j=0;$j<$count;$j++)
+      {
+        if ($ac[$j]['id']==$inReplyToActivityId)
+        {
+          $member = Doctrine::getTable('Member')->find($activity->getMemberId());
+          $cm = array();
+          $cm['id'] = $activity->getId();
+          $cm['memberId'] = $member->getId();
+          $cm['memberName'] = $member->getName();
+          $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
+          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          if ($cm['memberId']==$this->getUser()->getMember()->getId())
+          {
+            $cm['deleteLink'] = 'show';
+          }
+          else
+          {
+            $cm['deleteLink'] = 'none';
+          }
+          $cm['uri'] = $activity->getUri();
+          $cm['source'] = $activity->getSource();
+          $cm['sourceUri'] = $activity->getSourceUri();
+          $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
+          $cm['baseUrl'] = sfConfig::get('op_base_url');
+          $ac[$j]['reply'][] = $cm;
+        }
+      }
+    }
+    $i++;
+
+    $json = array( 'status' => 'success', 'data' => $ac, );
+    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+  }
+
 
   public function executePost(sfWebRequest $request)
   {
