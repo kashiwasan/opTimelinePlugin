@@ -220,6 +220,68 @@ class timelineActions extends sfActions
     return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
   }
 
+  public function executeListMention(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    $baseUrl = sfConfig::get('op_base_url');
+    $memberId = $this->getUser()->getMember()->getId();
+    $mines = Doctrine::getTable('ActivityData')->findByMemberId($memberId);
+    $replyId = array();
+    foreach ($mines as $mine)
+    {
+      $replyId[] = $mine->getId();
+    }
+ 
+    $activityData = Doctrine_Query::create()->from('ActivityData ad')->whereIn('ad.in_reply_to_activity_data', $replyId)->execute();
+    foreach($activityData as $activity)
+    {
+      $id = $activity->getId();
+      $memberId = $activity->getMemberId();
+      $member = Doctrine::getTable('Member')->find($memberId);
+      if (!$member->getImageFileName())
+      {
+        $memberImage = $baseUrl . '/images/no_image.gif';
+      }
+      else
+      {
+        $memberImageFile = $member->getImageFileName();
+        $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
+      }
+      $memberName = $member->getName();
+      $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
+      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $uri = $activity->getUri();
+      $source = $activity->getSource();
+      $sourceUri = $activity->getSourceUri();
+      $createdAt = $activity->getCreatedAt();
+
+      if ($memberId==$this->getUser()->getMember()->getId())
+      {
+        $deleteLink = 'show';
+      }
+      else
+      {
+        $deleteLink = 'none';
+      }
+      
+      $ac[] = array( 
+        'id' => $id, 
+        'memberId' => $memberId, 
+        'memberImage' => $memberImage, 
+        'memberScreenName' => $memberScreenName, 
+        'memberName' => $memberName,
+        'body' => $body,  
+        'deleteLink' => $deleteLink,
+        'uri' => $uri, 
+        'source' => $source, 
+        'sourceUri' => $sourceUri, 
+        'createdAt' => op_format_activity_time(strtotime($createdAt)), 
+        'baseUrl' => sfConfig::get('op_base_url'),
+      ); 
+    }
+    $json = array( 'status' => 'success', 'data' => $ac, );
+    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+  }
 
   public function executePost(sfWebRequest $request)
   {
