@@ -4,11 +4,12 @@ $(document).ready(function(){
 
   $('#timeline-button').click( function() {
     var Body = $('#timeline-textarea').val();
-    var Csrf = "<?php echo $csrfToken; ?>";
+    var Csrf = $(this).attr("data-post-csrftoken");
+    var baseUrl = $(this).attr("data-post-baseurl");
     $.ajax({
-      url: "<?php echo $baseUrl; ?>/timeline/post",
+      url: baseUrl + "/timeline/post",
       type: "POST",
-      data: "foreign=<?php echo $foreigntable; ?>&foreignId=<?php echo $cid; ?>&CSRFtoken="+Csrf+"&body="+Body,
+      data: "CSRFtoken=" + Csrf + "&body="+Body,
       dataType: 'json',
       success: function(data) {
         if(data.status=="success"){
@@ -23,7 +24,8 @@ $(document).ready(function(){
 });
 
 function timelineLoad() {
-  $.getJSON("<?php echo $baseUrl; ?>/timeline/list?m=<?php echo $mode; ?>&cid=<?php echo $cid; ?>",function(json){
+  var baseUrl = $(location).attr('href');
+  $.getJSON( baseUrl +"/list",function(json){
     $("#streamList").empty();
     $("#timelineTemplate").tmpl(json.data).appendTo("#streamList");
     for(i=0;i<json.data.length;i++){

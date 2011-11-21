@@ -305,6 +305,28 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
+/************
+  public function executeListDifference(sfWebRequest $request)
+  {
+    $lastId = $request->getRequest('lastId');
+    $m = $request->getParameter('m');
+    if (is_null($m))
+    {
+      if (!is_null($lasiId) && is_numeric($lastId))
+      {
+        Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag = ?', 1)->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id' = ?)->orderBy('ad.id DESC')->limit(20)->execute();
+      }
+    }
+    elseif($m="community")
+    {
+      if (!is_null($lastid) && is_numeric($lastId))
+      {
+        Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.public_flag = ?' 1)->andWhere('ad.foreign_table IS NULL')->execute();
+      }
+    }
+  }
+***********/
+
   public function executeTimelinePlugin(sfWebRequest $request)
   {
     $this->baseUrl = sfConfig::get('op_base_url');

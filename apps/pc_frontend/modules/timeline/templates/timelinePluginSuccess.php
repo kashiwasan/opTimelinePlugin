@@ -15,7 +15,7 @@
 			opacity: 0.5, /* value from 0 to 1 */
 			animationSpeed: 'fast', /* slow/medium/fast/integer */
 			followScroll: true, /* true/false */
-			loader_path: '<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
+			loader_path: '', /* path to your loading image */
 			callback: function(){} /* callback called when closing the popin */
 		}, settings);
 
@@ -33,6 +33,8 @@
 			var $c;
 
 			$(this).click(function(){
+				var baseUrl = $(this).attr("location-url");
+				settings.loader_path = baseUrl + '/opTimelinePlugin/css/images/prettyPopin/loader.gif';
 				buildoverlay();
 				buildpopin();
 				var id = $(this).attr("data-activity-id"); 
@@ -41,7 +43,7 @@
 				var foreignId = $(this).attr("data-activity-foreign-id");
 				var csrfToken = $(this).attr("data-activity-csrftoken");
 				// Load the content
-					responseText = '<div id="stream-reply-popup-header"><b>' + screenName +'に返信する</b></div><div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/post" id="stream-reply-popup-form"><textarea name="body" rows="8" cols="30" id="stream-reply-popup-text"></textarea><br /><input type="hidden" name="replyId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="foreign" value="' + foreign +'" /><input type="hidden" name="foreignId" value="'+ foreignId  +'" /><input type="hidden" name="CSRFtoken" value="' + csrfToken  +'" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
+					responseText = '<div id="stream-reply-popup-header"><b>' + screenName +'に返信する</b></div><div id="stream-reply-popup-body"><form action="' + baseUrl  + '/timeline/post" id="stream-reply-popup-form"><textarea name="body" rows="8" cols="30" id="stream-reply-popup-text"></textarea><br /><input type="hidden" name="replyId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="foreign" value="' + foreign +'" /><input type="hidden" name="foreignId" value="'+ foreignId  +'" /><input type="hidden" name="CSRFtoken" value="' + csrfToken  +'" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
 					$(".prettyPopin .prettyContent .prettyContent-container").html(responseText);
 					$(".prettyPopin .prettyContent .prettyContent-container textarea#stream-reply-popup-text").focus();
 
@@ -233,7 +235,7 @@
 			opacity: 0.5, /* value from 0 to 1 */
 			animationSpeed: 'fast', /* slow/medium/fast/integer */
 			followScroll: true, /* true/false */
-			loader_path: '<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/prettyPopin/loader.gif', /* path to your loading image */
+			loader_path: '', /* path to your loading image */
 			callback: function(){} /* callback called when closing the popin */
 		}, settings);
 
@@ -251,6 +253,8 @@
 			var $c;
 
 			$(this).click(function(){
+				var baseUrl = $(this).attr("location-url");
+				settings.loader_path = baseUrl + '/opTimelinePlugin/css/images/prettyPopin/loader.gif';
 				buildoverlay();
 				buildpopin();
 				var id = $(this).attr("data-activity-id"); 
@@ -258,7 +262,7 @@
 				var memberScreenName = $(this).attr("data-activity-memberScreenName");
 				var csrfToken = $(this).attr("data-activity-csrftoken");
 				// Load the content
-					responseText = '<div id="stream-reply-popup-body"><form action="<?php echo $baseUrl; ?>/timeline/delete" id="stream-reply-popup-form">本当にこのタイムラインを削除しますか？<br />'+memberScreenName+': 「'+body+'」<br /><input type="hidden" name="activityId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="CSRFtoken" value="' + csrfToken + '" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
+					responseText = '<div id="stream-reply-popup-body"><form action="' + baseUrl + '/timeline/delete" id="stream-reply-popup-form">本当にこのタイムラインを削除しますか？<br />'+memberScreenName+': 「'+body+'」<br /><input type="hidden" name="activityId" value="'+id+'" id="stream-reply-replyId" /><input type="hidden" name="CSRFtoken" value="' + csrfToken + '" /><input type="submit" name="stream-reply-popup-submit" value="送信する" id="stream-reply-popup-submit" /></form></div>';
 					$(".prettyPopin .prettyContent .prettyContent-container").html(responseText);
 					
 					// This block of code is used to calculate the width/height of the popin
