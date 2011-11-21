@@ -32,6 +32,14 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
+  public function executeMentions(sfWebRequest $request)
+  {
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    return sfView::SUCCESS;
+  }
+
   public function executeList(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
