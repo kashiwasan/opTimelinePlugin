@@ -240,7 +240,7 @@ class timelineActions extends sfActions
       $replyId[] = $mine->getId();
     }
  
-    $activityData = Doctrine_Query::create()->from('ActivityData ad')->whereIn('ad.in_reply_to_activity_data', $replyId)->execute();
+    $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.template = ?', 'mention_member_id')->andWhere('ad.template_param LIKE ?', '%|' . $memberId . '|%')->execute();
     foreach($activityData as $activity)
     {
       $id = $activity->getId();
@@ -308,6 +308,12 @@ class timelineActions extends sfActions
     $activity = new ActivityData();
     $activity->setMemberId($this->getUser()->getMemberId()); 
     $activity->setBody(htmlspecialchars($request->getParameter('body'), ENT_QUOTES));
+    $mentions = opTimelinePluginUtil::hasScreenName($request->getParameter('body'));
+    if (!is_null($mentions))
+    {
+      $activity->setTemplate('mention_member_id');
+      $activity->setTemplateParam($mentions);
+    }
     $inReplyToActivityId = $request->getParameter('replyId');
     if (isset($inReplyToActivityId) && is_numeric($inReplyToActivityId))
     {

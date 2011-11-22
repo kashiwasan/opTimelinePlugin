@@ -5,9 +5,9 @@ class opTimelinePluginUtil
   public function screenNameReplace($body, $baseUrl, $options = array())
   {
     preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
-    $i = 0;
     if ($matches)
     {
+      $i = 0;
       foreach ($matches[2] as $screenName)
       {
         $member = Doctrine::getTable('MemberConfig')->findOneByNameAndValue('op_screen_name', $screenName);
@@ -26,4 +26,26 @@ class opTimelinePluginUtil
     return $body;
   }
 
+  public function hasScreenName($body)
+  {
+    preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
+    if($matches)
+    {
+      $memberIds = array();
+      foreach ($matches[2] as $screenName)
+      {
+        $member = Doctrine::getTable('MemberConfig')->findOneByNameAndValue('op_screen_name', $screenName);
+        if ($member)
+        {
+          $memberIds[] = $member->getMemberId();
+        }
+      }
+      $memberId = implode("|", $memberIds);
+      return '|' . $memberId . '|';
+    }
+    else
+    {
+      return null;
+    }
+  }
 }
