@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  var timerID;
   timelineLoad();
   timerID = setInterval('timelineLoad()', 20000);
 
@@ -21,6 +22,7 @@ $(document).ready(function(){
       }
     });
   });
+
 });
 
 function timelineLoad() {
@@ -37,6 +39,12 @@ function timelineLoad() {
     $("a[rel^='prettyPopin']").timelinePopin();
     $("a[rel^='timelineDelete']").timelineDelete();
   });
+    $('#stream-reply-text').focus(function(){
+      clearInterval(timerID);
+    });
+    $('#stream-reply-text').blur(function(){
+      timerID = setInterval('timelineLoad()', 20000);
+    });
 }
 
 function convertTag(str) {

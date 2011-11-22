@@ -6,6 +6,7 @@
       <div class="stream-text">{{html body}}
       <div class="stream-util"><span class="small"><a href="#" location-url="<?php echo $baseUrl; ?>" data-activity-id="${id}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>" rel="prettyPopin" class="timelineReplyLink">コメントする</a> | <span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>" rel="timelineDelete" href="#" id="delete-timeline">削除する</a></span> (${createdAt})</span></div>
       <ul id="streamListComment${id}" class="commentList"></ul>
+      <div id="stream-comment"><input type="text" name="body" value="" id="stream-reply-text" /></div>
       </div>
     </div>
   </li>

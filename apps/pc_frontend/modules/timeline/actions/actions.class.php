@@ -131,7 +131,7 @@ class timelineActions extends sfActions
       $i++;
     }
 
-    $tls = Doctrine_Query::create()->from('TimelineLike tl')->whereIn('tl.activity_id', $activityIds)->orderBy('tl.id DESC')->execute();
+    $tls = Doctrine_Query::create()->from('TimelineLike tl')->whereIn('tl.activity_data_id', $activityIds)->orderBy('tl.id DESC')->execute();
     foreach ($tls as $tl)
     {
       $activityDataId = $tl->getActivityDataId();
@@ -364,6 +364,28 @@ class timelineActions extends sfActions
     return $this->renderText(json_encode($json));
   }
 
+  public function executeAddLike(sfWebRequest $request)
+  {
+    $form = new sfForm();
+    $token = $form->getCSRFToken();
+    if ($token!=$request->getParameter('CSRFtoken'))
+    {
+      $json = array('status' => 'error', 'message' => 'Error. CSRF token is invalid.');
+      return $this->renderText(json_encode($json));
+    }
+    if(is_null($request->getParameter('id')))
+    {
+      $json = array('status' => 'error', 'message' => 'Error. request Id is not set.');
+      return $this->renderText(json_encode($json));
+    }
+    $timelineLike = new TimelineLike();
+    $timelineLike->setActivityDataId($request->getParameter('id'));
+    $timelineLike->setMemberId($this->getUser()->getMemberId());
+    $timelineLike->save();
+    $json = array('status' => 'success', 'message' => 'added Like.');
+    return $this->renderText(json_encode($json));
+  }
+
   public function executeDelete(sfWebRequest $request)
   {
     $form = new sfForm();
@@ -391,13 +413,6 @@ class timelineActions extends sfActions
     $activityData->delete();
     $json = array( 'status' => 'success', 'message' => 'Your Delete Request has been succeed!' );
     return $this->renderText(json_encode($json));
-  }
-
-  public function executeGetCSRFToken(sfWebRequest $request)
-  {
-    $form = new sfForm();
-    $token = $form->getCSRFToken($secretKey);
-    return $this->renderText(json_encode(array( 'status' => 'success', 'token' => $token, )));
   }
 
   public function executeJs(sfWebRequest $request)
