@@ -1,7 +1,14 @@
-$(document).ready(function(){
+$(function(){
   var timerID;
   timelineLoad();
   timerID = setInterval('timelineLoad()', 20000);
+
+    $('input#stream-reply-text').focus(function(){
+      clearInterval(timerID);
+    });
+    $('input#stream-reply-text').blur(function(){
+      timerID = setInterval('timelineLoad()', 20000);
+    });
 
   $('#timeline-button').click( function() {
     var Body = $('#timeline-textarea').val();
@@ -39,12 +46,6 @@ function timelineLoad() {
     $("a[rel^='prettyPopin']").timelinePopin();
     $("a[rel^='timelineDelete']").timelineDelete();
   });
-    $('#stream-reply-text').focus(function(){
-      clearInterval(timerID);
-    });
-    $('#stream-reply-text').blur(function(){
-      timerID = setInterval('timelineLoad()', 20000);
-    });
 }
 
 function convertTag(str) {
