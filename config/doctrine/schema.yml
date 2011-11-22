@@ -1,0 +1,18 @@
+options:
+  charset: utf8
+
+TimelineLike:
+  actAs: [Timestampable]
+  columns:
+    id:
+      type: integer(11)
+      primary: true
+      autoincrement: true
+    activity_data_id: integer(11)
+    member_id: integer(4)
+    foreign_table: string(100)
+    foreign_id: integer(11)
+  relations:
+    Member: { foreign: id, onDelete: cascade }
+    ActivityData: {foreign: id, onDelete: cascade }
+
