@@ -14,5 +14,3 @@ TimelineLike:
     foreign_id: integer(11)
   relations:
     Member: { foreign: id, onDelete: cascade }
-    ActivityData: { foreign: id, onDelete: cascade }
-

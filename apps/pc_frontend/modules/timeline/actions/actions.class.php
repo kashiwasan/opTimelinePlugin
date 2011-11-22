@@ -45,6 +45,7 @@ class timelineActions extends sfActions
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
     $baseUrl = sfConfig::get('op_base_url');
     $ac = array();
+    $activityIds = array();
     $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(20)->execute();
     foreach ($activityData as $activity)
     {
@@ -90,6 +91,7 @@ class timelineActions extends sfActions
         'createdAt' => op_format_activity_time(strtotime($createdAt)), 
         'baseUrl' => sfConfig::get('op_base_url'),
       ); 
+      $activityIds[] = $id;
     }
 
     $count = count($ac);
@@ -123,9 +125,38 @@ class timelineActions extends sfActions
           $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
           $cm['baseUrl'] = sfConfig::get('op_base_url');
           $ac[$j]['reply'][] = $cm;
+          $activityIds[] = $cm['id'];
         }
       }
       $i++;
+    }
+
+    $tls = Doctrine_Query::create()->from('TimelineLike tl')->whereIn('tl.activity_id', $activityIds)->orderBy('tl.id DESC')->execute();
+    foreach ($tls as $tl)
+    {
+      $activityDataId = $tl->getActivityDataId();
+      if ($ac[$activityDataId])
+      {
+        $ac[$activityDataId]['like'] = array(
+          'id' => $tl->getId(),
+          'memberId' => $tl->getMemberId(),
+          'memberScreenName' => $this->getScreenName($tl->getMemberId()),
+          'creeatedAt' => $tl->getCreatedAt(),
+        );
+      }
+
+      for ($i=0;$i<$count;$i++)
+      {
+        if($ac[$i]['reply'][$activityDataId])
+        {
+          $ac[$i]['reply'][$activityDataId]['like'] = array(
+            'id' => $tl->getId(),
+            'memberId' =>  $tl->getMemberId(),
+            'memberScreenName' => $this->getScreenName($tl->getMemberId()),
+            'createdAt' => $tl->getCreatedAt(),
+          );
+        }
+      }
     }
 
     $json = array( 'status' => 'success', 'data' => $ac, );
@@ -222,6 +253,7 @@ class timelineActions extends sfActions
         }
       }
     }
+
     $i++;
 
     $json = array( 'status' => 'success', 'data' => $ac, );
