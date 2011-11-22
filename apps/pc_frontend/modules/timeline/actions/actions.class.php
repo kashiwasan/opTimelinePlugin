@@ -28,7 +28,7 @@ class timelineActions extends sfActions
   {
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
-    $this->token = $form->getCSRFToken($secretKey);
+    $this->token = $form->getCSRFToken();
     return sfView::SUCCESS;
   }
 
