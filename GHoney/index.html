@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="   js">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>${title}</title>
+<meta charset="utf-8">
+<link href="main.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  $(document).ready(function(){      
+    $("textarea").focus(function(){
+       $(this).addClass("expand");
+    }).blur(function(){
+       $(this).removeClass("expand");
+    });
+  }); 
+</script>
+<div class="main-content" style="min-height: 500px; ">
+  <div class="page-header">
+    <div id="main-gorgon-box">
+      <div class="gorgon-box">
+        <form>
+          <textarea class="gorgon-textarea" >今なにしてる？</textarea>
+          <button class="gorgon-button button" >投稿</button>
+        </form>
+      </div>
+    </div>
+    <div class="gorgon-list">
+      <div class="gorgon-img"> <img height="48" width="48" src="${imageurl}" alt="${screenname}"> </div>
+      <div class="gorgon">
+        <div class="gorgon-row">
+          <div class="gorgon-text"><a class="gorgon-screenname" href="#">@${screenname}</a> ${gorgon} </div>
+        </div>
+        <div class="gorgon-row"> <a href="#" class="timestamp"><span class="_timestamp">${post-time}</span></a></div>
+      </div>
+      <div class="comment-list">
+        <div class="comment-img"><img src="${imageurl}" width="32" height="32" alt="comment-image"></div>
+        <div class="comment">
+          <div class="comment-row">
+            <div class="comment-text"><a class="comment-screenname">@${screenname}</a> ${comment}</div>
+          </div>
+          <div class="comment-row"> <a href="#" class="timestamp"><span class="_timestamp">${post-time}</span> - Like!</a> </div>
+        </div>
+        <div class="comment-img"><img src="${imageurl}" width="32" height="32" alt="comment-image"></div>
+        <div class="comment">
+          <div class="comment-row">
+            <div class="comment-text"><a class="comment-screenname">@${screenname}</a> ${comment}</div>
+          </div>
+          <div class="comment-row"> <a href="#" class="timestamp"><span class="_timestamp">${post-time}</span> - Like!</a> </div>
+        </div>
+        <form action="">
+          <textarea class="comment-textarea">コメントする</textarea>
+          <button class="comment-button button" >投稿</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
