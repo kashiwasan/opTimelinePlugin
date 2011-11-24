@@ -1,24 +1,43 @@
+<script type="text/javascript">
+  $(document).ready(function(){      
+    $("textarea").focus(function(){
+       $(this).addClass("expand");
+       if($(this).val()=="今なにしてる？")
+       {
+         $(this).val("");
+       }
+    }).blur(function(){
+       $(this).removeClass("expand");
+       if($(this).val()=="")
+       {
+         $(this).val("今なにしてる？");
+       }
+    });
+  }); 
+</script>
+
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
-  <li class="stream-body">
-    <div class="stream-image"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}"><img src="${memberImage}" alt="${memberScreenName}" width="36" height="36" /></a></div>
-    <div class="stream-right">
-      <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a><span class="small">(${memberName})</small></div>
-      <div class="stream-text">{{html body}}
-      <div class="stream-util"><span class="small"><a href="#" location-url="<?php echo $baseUrl; ?>" data-activity-id="${id}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>" rel="prettyPopin" class="timelineReplyLink">コメントする</a> | <span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>" rel="timelineDelete" href="#" id="delete-timeline">削除する</a></span> (${createdAt})</span></div>
-      <ul id="streamListComment${id}" class="commentList"></ul>
-      <div id="stream-comment"><input type="text" name="body" value="" id="stream-reply-text" /></div>
+    <div class="gorgon-list">
+      <div class="gorgon-img"> <img height="48" width="48" src="${memberImage}" alt="${memberScreenName}"> </div>
+      <div class="gorgon">
+        <div class="gorgon-row">
+          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo $baseUrl; ?>/member/${memberId}">${memberScreenName}</a> {{html body}} </div>
+        </div>
+        <div class="gorgon-row"> <a href="#" class="timestamp"><span class="_timestamp">${createdAt}</span></a> <div class="delteLink" style="display: ${deleteLink}"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">Delete</a></div></div>
+      </div>
+      <div class="comment-list" id="commentlist-${id}">
       </div>
     </div>
-  </li>
 </script>
 
 <script id="timelineCommentTemplate" type="text/x-jquery-tmpl">
-  <li class="stream-comment-body">
-    <div class="stream-membername"><a href="<?php echo $baseUrl; ?>/member/${memberId}" title="${memberScreenName}">${memberScreenName}</a><span class="small">(${memberName})</span></div>
-    <div class="stream-text">{{html body}}
-      <div class="stream-util"><span class="small"><span id="timeline-delete-link-${id}" style="display: ${deleteLink};"><a rel="timelineDelete" href="#" location-url="<?php echo $baseUrl; ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>" id="detete-timeline">削除する</a></span> (${createdAt})</span></div>
-    </div>
-  </li>
+        <div class="comment-img"><img src="${memberImage}" width="32" height="32" alt="${memberScreenName}-comment-image"></div>
+        <div class="comment">
+          <div class="comment-row">
+            <div class="comment-text"><a class="comment-screenname">${memberScreenName}</a> {{html body}}</div>
+          </div>
+          <div class="comment-row"> <a href="#" class="timestamp"><span class="_timestamp">${createdAt}</span> - Like!</a> <div class="delteLink" style="display: ${deleteLink}"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">Delete</a></div></div>
+        </div>
 </script>
 
 <script id="timeline-error-template" type="text/x-jquery-tmpl">
@@ -34,13 +53,17 @@
 
 <a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
 
-<div id="timeline-container">
-<div id="timeline-post">
-  <div id="timeline-textbox"><textarea rows="8" cols="30" name="timeline-textarea" id="timeline-textarea"></textarea><input type="hidden" name="csrf" id="timeline-csrf" value="" /></div>
-  <div id="timeline-submit"><button id="timeline-button" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>">投稿する</button></div>
-</div>
-  <ul id="streamList">
-  </ul>
+<div class="main-content" style="min-height: 500px; ">
+  <div class="page-header">
+    <div id="main-gorgon-box">
+      <div class="gorgon-box">
+          <textarea class="gorgon-textarea" id="gorgon-textarea-body">今なにしてる？</textarea>
+          <button class="gorgon-button button" id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>">投稿</button>
+      </div>
+    </div>
+    <div id="timeline-list">
+    </div>
+  </div>
 </div>
 
 <div id="timeline-todo">

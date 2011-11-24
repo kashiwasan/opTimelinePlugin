@@ -7,6 +7,38 @@
 (function($){
 	var _followScroll = true;
 	var _readyBound = false;
+        $.fn.timelineComment = function(settings){
+		settings = jQuery.extend({
+			loader_path: '',
+			callback: function(){},
+		});
+		return this.each(function(){
+			$(this).click(function(){
+				var baseUrl = $(this).attr("data-post-baseurl");
+				settings.loader_path = baseUrl + '/opTimelinePlugin/css/images/prettyPopin/loader.gif';
+				var id = $(this).attr("data-timeline-id");
+				var foreign = $(this).attr('data-activity-foreign');
+				var foreignId = $(this).attr('data-activity-foreign-id');
+				var csrfToken = $(this).attr('data-post-csrftoken');
+				var Body = $('#comment-textarea-'+id).val();
+				$.ajax({
+ 					url: baseUrl + '/timeline/post',
+					type: 'POST',
+      					data: 'CSRFtoken=' + csrfToken + '&body=' + Body + '&replyId=' + id + '&foreign=' + foreign + '&foreignId=' +foreignId,
+      					dataType: 'json',
+      					success: function(data) {
+        					if(data.status=='success'){
+          						$('#comment-textarea-'+id).val('');
+          						timelineAllLoad();
+        					}else{
+          						alert(data.message);
+        					}
+      					}
+				});
+				return false;
+			});
+		});
+        };
 	$.fn.timelinePopin = function(settings) {
 		settings = jQuery.extend({
 			modal : false, /* true/false */
@@ -404,7 +436,7 @@
 		
 			var closeOverlay = function() {
 				$('#overlay').fadeOut(settings.animationSpeed,function(){ $(this).remove(); });
-				$('.prettyPopin').fadeOut(settings.animationSpeed,function(){ $(this).remove(); timelineLoad(); });
+				$('.prettyPopin').fadeOut(settings.animationSpeed,function(){ $(this).remove(); timelineAllLoad(); });
 			};
 		});
 	

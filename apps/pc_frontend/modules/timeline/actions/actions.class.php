@@ -109,6 +109,15 @@ class timelineActions extends sfActions
           $cm['id'] = $activity->getId();
           $cm['memberId'] = $member->getId();
           $cm['memberName'] = $member->getName();
+          if (!$member->getImageFileName())
+          {
+            $cm['memberImage'] = $baseUrl . '/images/no_image.gif';
+          }
+          else
+          {
+            $memberImageFile = $member->getImageFileName();
+            $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
+          }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
           $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
@@ -141,7 +150,7 @@ class timelineActions extends sfActions
           'id' => $tl->getId(),
           'memberId' => $tl->getMemberId(),
           'memberScreenName' => $this->getScreenName($tl->getMemberId()),
-          'creeatedAt' => $tl->getCreatedAt(),
+          'createdAt' => $tl->getCreatedAt(),
         );
       }
 
