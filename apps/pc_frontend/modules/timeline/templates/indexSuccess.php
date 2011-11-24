@@ -7,9 +7,9 @@
          $(this).val("");
        }
     }).blur(function(){
-       $(this).removeClass("expand");
        if($(this).val()=="")
        {
+         $(this).removeClass("expand");
          $(this).val("今なにしてる？");
        }
     });
