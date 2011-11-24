@@ -71,7 +71,7 @@ class timelineActions extends sfActions
   
       if ($memberId==$this->getUser()->getMember()->getId())
       {
-        $deleteLink = 'show';
+        $deleteLink = 'inline';
       }
       else
       {
@@ -122,7 +122,7 @@ class timelineActions extends sfActions
           $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
-            $cm['deleteLink'] = 'show';
+            $cm['deleteLink'] = 'inline';
           }
           else
           {
