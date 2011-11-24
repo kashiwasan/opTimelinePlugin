@@ -16,7 +16,7 @@ $(function(){
       success: function(data) {
         if(data.status=='success'){
           $('#gorgon-textarea-body').val('');
-          timelineLoad();
+          timelineAllLoad();
         }else{
           alert(data.message);
         }
