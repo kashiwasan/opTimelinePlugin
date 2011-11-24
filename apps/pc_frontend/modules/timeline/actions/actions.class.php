@@ -139,7 +139,7 @@ class timelineActions extends sfActions
       }
       $i++;
     }
-
+    /*************
     $tls = Doctrine_Query::create()->from('TimelineLike tl')->whereIn('tl.activity_data_id', $activityIds)->orderBy('tl.id DESC')->execute();
     foreach ($tls as $tl)
     {
@@ -167,6 +167,7 @@ class timelineActions extends sfActions
         }
       }
     }
+    ****************/
 
     $json = array( 'status' => 'success', 'data' => $ac, );
     return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
@@ -375,6 +376,7 @@ class timelineActions extends sfActions
 
   public function executeAddLike(sfWebRequest $request)
   {
+    /**************
     $form = new sfForm();
     $token = $form->getCSRFToken();
     if ($token!=$request->getParameter('CSRFtoken'))
@@ -393,6 +395,7 @@ class timelineActions extends sfActions
     $timelineLike->save();
     $json = array('status' => 'success', 'message' => 'added Like.');
     return $this->renderText(json_encode($json));
+    ****************/
   }
 
   public function executeDelete(sfWebRequest $request)
