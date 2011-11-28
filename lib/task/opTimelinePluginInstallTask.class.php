@@ -31,6 +31,10 @@ EOF;
  
   protected function execute($arguments = array(), $options = array())
   {
+    // execute ./symfony doctrine:data-load
+    $sfDoctrineDataLoadTask = new sfDoctrineDataLoadTask($this->dispatcher, $this->formatter); 
+    $sfDoctrineDataLoadTask->run($arguments = array('./plugins/opTimelinePlugin/data/fuxtures/'), $options = array());
+
     // execute ./symfony plugin:publish-assets
     $sfPluginPublishAssetsTask = new sfPluginPublishAssetsTask($this->dispatcher, $this->formatter);
     $sfPluginPublishAssetsTask->run();
