@@ -51,7 +51,8 @@ function renderJSON(json) {
     {
       textdata[json.data[i].id] = '';
     }
-    $('#commentlist-'+json.data[i].id).append('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '">' + textdata[json.data[i].id] + '</textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
+    $('#commentlist-'+json.data[i].id).append('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
+    $('#comment-textarea-' + json.data[i].id).val(textdata[json.data[i].id]);
   }
   $('button.comment-button').timelineComment();
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
