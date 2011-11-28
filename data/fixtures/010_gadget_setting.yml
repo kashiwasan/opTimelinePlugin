@@ -1,0 +1,7 @@
+Gadget:
+  timeline_all:
+    type: "contents"
+    name: "timelineAll"
+    sort_order: 120
+
+
