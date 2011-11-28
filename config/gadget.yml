@@ -1,3 +1,10 @@
+timelineAll:
+  caption:
+    ja_JP: "SNSメンバーのタイムライン"
+  description:
+    ja_JP: "SNSメンバー全員のタイムラインが表示されます。"
+  component: [timeline, timelineAll]
+
 timelineGadget:
   caption:
     ja_JP: "タイムラインガジェット"
