@@ -96,7 +96,7 @@ class timelineActions extends sfActions
 
     $count = count($ac);
     $i = 0;
-    $commentData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NOT NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->execute();
+    $commentData = Doctrine_Query::create()->from('ActivityData ad')->whereIn('ad.in_reply_to_activity_id', $activityIds)->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->execute();
     foreach ($commentData as $activity)
     {
       $inReplyToActivityId = $activity->getInReplyToActivityId();
@@ -134,7 +134,6 @@ class timelineActions extends sfActions
           $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
           $cm['baseUrl'] = sfConfig::get('op_base_url');
           $ac[$j]['reply'][] = $cm;
-          $activityIds[] = $cm['id'];
         }
       }
       $i++;
