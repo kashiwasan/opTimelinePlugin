@@ -26,8 +26,8 @@ $(function(){
 });
 
 function timelineAllLoad() {
-  var baseUrl = window.location.pathname;
-  $.getJSON( baseUrl + '/list', renderJSON);
+  var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
+  $.getJSON( baseUrl + '/timeline/list', renderJSON);
 }
 
 function renderJSON(json) {
