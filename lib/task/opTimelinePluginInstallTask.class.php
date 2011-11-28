@@ -33,7 +33,7 @@ EOF;
   {
     // execute ./symfony doctrine:data-load
     $sfDoctrineDataLoadTask = new sfDoctrineDataLoadTask($this->dispatcher, $this->formatter); 
-    $sfDoctrineDataLoadTask->run($arguments = array('./plugins/opTimelinePlugin/data/fixtures/010_gadget_setting.yml'), $options = array());
+    $sfDoctrineDataLoadTask->run($arguments = array('./plugins/opTimelinePlugin/data/fixtures/010_gadget_setting.yml'), $options = array('append'));
 
     // execute ./symfony plugin:publish-assets
     $sfPluginPublishAssetsTask = new sfPluginPublishAssetsTask($this->dispatcher, $this->formatter);
