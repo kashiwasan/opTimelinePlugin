@@ -5,9 +5,9 @@ timelineAll:
     ja_JP: "SNSメンバー全員のタイムラインが表示されます。"
   component: [timeline, timelineAll]
 
-timelineGadget:
+timelineMentions:
   caption:
-    ja_JP: "タイムラインガジェット"
+    ja_JP: "自分宛のタイムライン"
   description:
-    ja_JP: "SNSメンバーのタイムラインが表示されます。"
-  component: [timeline, timelineGadget]
+    ja_JP: "自分宛のタイムラインが表示されます。"
+  component: [timeline, timelineMentions]

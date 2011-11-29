@@ -28,26 +28,37 @@ class timelineComponents extends sfComponents
     return sfView::SUCCESS;
   }
 
-  public function executeTimelineGadget(sfWebRequest $request)
+  public function executeTimelineProfile(sfWebRequest $request)
   {
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css', 'first');
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/prettyPopin.css', 'first');
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/timeline.css', 'first');
-    $this->baseUrl = sfConfig::get('op_base_url'); 
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/prettyPopin.css');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
+    $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
+    $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
+    // $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon.js');
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    $this->memberId = $request->getParameter('id');
+    return sfView::SUCCESS;
   }
 
   public function executeTimelineCommunity(sfWebRequest $request)
   {
-
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css', 'first');
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/prettyPopin.css', 'first');
-    $this->getResponse()->addStylesheet('/opTimelinePlugin/css/custom-theme/timeline.css', 'first');
-    $this->baseUrl = sfConfig::get('op_base_url'); 
-    //  $this->baseUrl = sfConfig::get('op_base_url');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/prettyPopin.css');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
+    $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
+    $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
+    // $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon.js');
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
     $this->cid = $request->getParameter('id');
     $this->foreigntable = "community";
-    $this->mode = 2;    
-
+    $this->mode = 2;
   }
 }
 

@@ -1,0 +1,7 @@
+timelineProfile:
+  caption:
+    ja_JP: "メンバーのタイムライン"
+  description:
+    ja_JP: "メンバーのタイムラインが表示されます。"
+  component: [timeline, timelineProfile]
+
