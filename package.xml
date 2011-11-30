@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>opTimelinePlugin</name>
+ <channel>plugins.openpne.jp</channel>
+ <summary>アクティビティをさらに進化させたプラグインです。</summary>
+ <description>OpenPNE3のデフォルトに入っている「アクティビティ」の機能をさらに強化させたものです。
+・つぶやきにコメントをつけることができる
+・３０秒毎に自動でリロードがかかる
+・スクリーンネームを設定することができる
+・コミュニティ内でつぶやくことができる(コミュニティアクティビティ)
+・インストールが簡単(後述)
+
+【インストール方法】
+$ cd $OPENPNE_DIR
+$ cd plugins
+$ git clone git://github.com/kashiwasan/opTimelinePlugin
+$ cd ..
+$ ./symfony opTimelinePlugin:install
+
+インストール作業はたったこれだけです。./symfony opPlugin:install とか ./symfony openpne:migrate とかを実行する必要がありません！</description>
+ <lead>
+  <name>kashiwasan</name>
+  <user>kashiwasan</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <date>2011-11-30</date>
+ <time>20:32:35</time>
+ <version>
+  <release>0.8.0</release>
+  <api>0.8.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license>Apache</license>
+ <notes>
+First beta release.
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="5e308835886fa1bfa60e72a92591def2" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
+   <file baseinstalldir="/" md5sum="21003f45900fce86911194026d9721e2" name="apps/pc_frontend/modules/timeline/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="7b87df9edeecd5961875759b57e200b8" name="apps/pc_frontend/modules/timeline/actions/components.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="1bd4f1eae9da08c1fccba0da02306355" name="apps/pc_frontend/modules/timeline/config/security.yml" role="data" />
+   <file baseinstalldir="/" md5sum="4f804952608f0f5e11499d3a7d25f690" name="apps/pc_frontend/modules/timeline/config/view.yml" role="data" />
+   <file baseinstalldir="/" md5sum="72db077f8b3c27b6662b530b79d5fcd4" name="apps/pc_frontend/modules/timeline/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="1dc6d2779c2ea290483b033e5cd734ad" name="apps/pc_frontend/modules/timeline/templates/indexSuccess.php.bkup" role="data" />
+   <file baseinstalldir="/" md5sum="28511e0b6e3af65f8278ad9c22c0627c" name="apps/pc_frontend/modules/timeline/templates/jsSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="41cdcf1b226f4679ad1d03a7b100e5e5" name="apps/pc_frontend/modules/timeline/templates/mentionsSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="e06a7917d4b3d30cb72c616c30ed8a8a" name="apps/pc_frontend/modules/timeline/templates/timelinePluginSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="9cbd2a6be9a001fe2641f99a479214a1" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data" />
+   <file baseinstalldir="/" md5sum="8ea7d6c44bf11bf3e53b1e983bca9e6a" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data" />
+   <file baseinstalldir="/" md5sum="01169120927a3d463b25fb2bab696b1f" name="apps/pc_frontend/modules/timeline/templates/_timelineGadget.php" role="data" />
+   <file baseinstalldir="/" md5sum="0dbf6938d9365c0c0964462049cfb968" name="apps/pc_frontend/modules/timeline/templates/_timelineMentions.php" role="data" />
+   <file baseinstalldir="/" md5sum="a5ba3cc418b75d605d93bf968bb1536f" name="apps/pc_frontend/modules/timeline/templates/_timelineProfile.php" role="data" />
+   <file baseinstalldir="/" md5sum="af4e7c524743f6581fab47dc7f0a00b3" name="config/gadget.yml" role="data" />
+   <file baseinstalldir="/" md5sum="a1ce65a51d56f06d45b12ec986ccf3c4" name="config/member_config.yml" role="data" />
+   <file baseinstalldir="/" md5sum="7a4c6ea8e3b3ebc87aefbbbe355cbd2c" name="config/profile_gadget.yml" role="data" />
+   <file baseinstalldir="/" md5sum="e44a77f324527086e02101fa552403fc" name="config/doctrine/schema.yml" role="data" />
+   <file baseinstalldir="/" md5sum="205f5a9682726430e58ccd3c3751db6d" name="data/fixtures/000_revision.yml" role="data" />
+   <file baseinstalldir="/" md5sum="f40f57495ba4d318b1fc07b0e49d6fdd" name="data/fixtures/010_gadget_setting.yml" role="data" />
+   <file baseinstalldir="/" md5sum="8814077947f9402b6cd511e4e881e8cb" name="GHoney/${imageurl}" role="data" />
+   <file baseinstalldir="/" md5sum="f79f556f6af847c068f1fc0ccbb77084" name="GHoney/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="7b01f3106f1db6cfa90dd6f4fdb05ef4" name="GHoney/main.css" role="data" />
+   <file baseinstalldir="/" md5sum="42d7ea195d13e03ca2e5225ec2d8ea9a" name="lib/filter/doctrine/PluginTimelineLikeFormFilter.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="fbcd343ab8f073e5b6b4b27e215a17b2" name="lib/form/MemberConfigTimelineScreenNameForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="80ba81a6b7da4877fd27c0af1986f20b" name="lib/form/doctrine/PluginTimelineLikeForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="fef2f9a07168d8d25d7006425a9da4e4" name="lib/helper/opTimelineHelper.php" role="data" />
+   <file baseinstalldir="/" md5sum="b047c6c26195197fb8f5128dd14c3654" name="lib/model/doctrine/PluginTimelineLike.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="9c58065b1407ba46fce65e6e9ea28d9e" name="lib/model/doctrine/PluginTimelineLikeTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="7cec2d08abea342962b56ef1b8001fa8" name="lib/task/opTimelinePluginInstallTask.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="c3c127e004c97f7118c13178cf26a379" name="lib/util/opTimelinePluginUtil.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="25b04d5e2306bbc79824f120dc88d181" name="test/bootstrap/database.php" role="data" />
+   <file baseinstalldir="/" md5sum="2089e76b9d0ae0fd4d222ee37ea68cb5" name="test/bootstrap/functional.php" role="data" />
+   <file baseinstalldir="/" md5sum="4bfa4b596e946c8a283410a2e2ba4315" name="test/bootstrap/unit.php" role="data" />
+   <file baseinstalldir="/" md5sum="8471fade12b0760fab6715ffb8b8f9e4" name="test/fixtures/test_data.yml" role="data" />
+   <file baseinstalldir="/" md5sum="8a98cacfcc151f2808c399543fd52679" name="test/functional/mobile_frontend/skeletonActionsTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="1faa199e87c1ce270e86edee706b37fd" name="test/functional/pc_frontend/skeletonActionsTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="52440ab0abcc01c98551283f1e9942e1" name="test/unit/model/SkeletonTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="4d9a03f0441d6b8c077c9af3a6a2dbe1" name="web/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="3eca94232bc831162d4c752349daa7cd" name="web/css/gorgon-home.css" role="data" />
+   <file baseinstalldir="/" md5sum="a351b21c466820364c9a7f57cd80303e" name="web/css/gorgon.css" role="data" />
+   <file baseinstalldir="/" md5sum="59fbd9e74ac8da19cd7d4e38baf7a7db" name="web/css/prettyPopin.css" role="data" />
+   <file baseinstalldir="/" md5sum="36cd82c345ff0a9b1c5eddf7d3f54e6e" name="web/css/custom-theme/jquery-ui-1.8.16.custom.css" role="data" />
+   <file baseinstalldir="/" md5sum="92a2f22016219c01098491c2820a254a" name="web/css/custom-theme/navi-back-1.jpg" role="data" />
+   <file baseinstalldir="/" md5sum="279f1b50c9206643e524becdd23db154" name="web/css/custom-theme/timeline.css" role="data" />
+   <file baseinstalldir="/" md5sum="41757953fbbffd240db5ed3685907ce4" name="web/css/custom-theme/images/screen-bg.png" role="data" />
+   <file baseinstalldir="/" md5sum="2a44fbdb7360c60122bcf6dcef0387d8" name="web/css/custom-theme/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="8692e6efddf882acbff144c38ea7dfdf" name="web/css/custom-theme/images/ui-bg_flat_75_ffffff_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="f8f4558e0b92ff2cd6136781533902ec" name="web/css/custom-theme/images/ui-bg_glass_55_fbf9ee_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="1851835619d918592d64edd4a1f85c0d" name="web/css/custom-theme/images/ui-bg_glass_65_000000_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="a22725c66ab2c9b78408c65a3cd5badf" name="web/css/custom-theme/images/ui-bg_glass_75_000000_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="f4254356c2a8c9a383205ef2c4de22c4" name="web/css/custom-theme/images/ui-bg_glass_75_e6e6e6_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="2b05bf1b80855848447824e5ba68c209" name="web/css/custom-theme/images/ui-bg_highlight-soft_75_000000_1x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="61cef242cc2b5e1118607c302b87cbc9" name="web/css/custom-theme/images/ui-bg_inset-soft_95_fef1ec_1x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="2b99a5e48d3c3957d03027d36a25e8bb" name="web/css/custom-theme/images/ui-icons_2e83ff_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="ebe6b6902a408fbf9cac6379a1477525" name="web/css/custom-theme/images/ui-icons_222222_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="119dd0c2e94ad689de873ef39fd43e6e" name="web/css/custom-theme/images/ui-icons_454545_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="9c46d7cab43e22a14bad26d2d4806d80" name="web/css/custom-theme/images/ui-icons_888888_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="3e450c2a2c66328d9498e7001ad7197c" name="web/css/custom-theme/images/ui-icons_cd0a0a_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="0d0e492a1ea86cfd33e2a655dd54260b" name="web/css/images/clock.png" role="data" />
+   <file baseinstalldir="/" md5sum="47d2a5d43afb3669ed89f9274d07fcff" name="web/css/images/trash_can.png" role="data" />
+   <file baseinstalldir="/" md5sum="8500d55d530b57b31375625d1ca99059" name="web/css/images/prettyPopin/b_close.gif" role="data" />
+   <file baseinstalldir="/" md5sum="df46993044576f83f2c2cc1a64e18f31" name="web/css/images/prettyPopin/loader.gif" role="data" />
+   <file baseinstalldir="/" md5sum="18b0e9aadffb94c7031a2ce27e1100fc" name="web/css/images/prettyPopin/popinLeft.gif" role="data" />
+   <file baseinstalldir="/" md5sum="c0f0dade94d6415cfce7804f6a520b12" name="web/css/images/prettyPopin/popinRight.gif" role="data" />
+   <file baseinstalldir="/" md5sum="062b09043331627683f6b91b0e99daeb" name="web/development-bundle/AUTHORS.txt" role="data" />
+   <file baseinstalldir="/" md5sum="2c1778696d3ba68569a0352e709ae6b7" name="web/development-bundle/GPL-LICENSE.txt" role="data" />
+   <file baseinstalldir="/" md5sum="12840be281cca027968c56e19ebdf6ec" name="web/development-bundle/jquery-1.6.2.js" role="data" />
+   <file baseinstalldir="/" md5sum="3bfdcedf29a9d55a2e8fc58f5c835d1d" name="web/development-bundle/MIT-LICENSE.txt" role="data" />
+   <file baseinstalldir="/" md5sum="73cb60620f564bb76cc26a770a8afcec" name="web/development-bundle/version.txt" role="data" />
+   <file baseinstalldir="/" md5sum="2e2ec04700af4ac5681a956cfe405c47" name="web/development-bundle/demos/demos.css" role="data" />
+   <file baseinstalldir="/" md5sum="98d0010e6d9f42e8b3d2116d8e7233bd" name="web/development-bundle/demos/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="9ce8dd99abd47942aa2b54cf85735a43" name="web/development-bundle/demos/dialog/animated.html" role="data" />
+   <file baseinstalldir="/" md5sum="db60b5c4089dcbd1d4e7a7472c3db185" name="web/development-bundle/demos/dialog/default.html" role="data" />
+   <file baseinstalldir="/" md5sum="4a31f0abc839c3845490e68c300f8075" name="web/development-bundle/demos/dialog/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="6a0de0c23dbe82624609d1f44477dcb9" name="web/development-bundle/demos/dialog/modal-confirmation.html" role="data" />
+   <file baseinstalldir="/" md5sum="c56d9c15a8300766aef8e1642881185a" name="web/development-bundle/demos/dialog/modal-form.html" role="data" />
+   <file baseinstalldir="/" md5sum="d12f0c1c6d0bed43862ebdcb7330079b" name="web/development-bundle/demos/dialog/modal-message.html" role="data" />
+   <file baseinstalldir="/" md5sum="39bdc2e42a06e76df73a8f76bba86877" name="web/development-bundle/demos/dialog/modal.html" role="data" />
+   <file baseinstalldir="/" md5sum="6a0a26469f3ea7406335a2eeee435af1" name="web/development-bundle/demos/images/calendar.gif" role="data" />
+   <file baseinstalldir="/" md5sum="e0a84343291c7b3f43bd71b727988ac3" name="web/development-bundle/demos/images/demo-config-on-tile.gif" role="data" />
+   <file baseinstalldir="/" md5sum="7e0d28db7c29ca91f04798048bc7f25e" name="web/development-bundle/demos/images/demo-config-on.gif" role="data" />
+   <file baseinstalldir="/" md5sum="66b393f76fed80dcab47ba8c62e9b2a3" name="web/development-bundle/demos/images/demo-spindown-closed.gif" role="data" />
+   <file baseinstalldir="/" md5sum="93925f58911c5bed07dc81cfbf5948ad" name="web/development-bundle/demos/images/demo-spindown-open.gif" role="data" />
+   <file baseinstalldir="/" md5sum="787e8416ae98906a911876b18107a2f3" name="web/development-bundle/demos/images/icon-docs-info.gif" role="data" />
+   <file baseinstalldir="/" md5sum="01ecf91547d85d738cbe64c2ff7a2f6f" name="web/development-bundle/demos/images/pbar-ani.gif" role="data" />
+   <file baseinstalldir="/" md5sum="af589bec1e6d6acb71326c4afbd77f7c" name="web/development-bundle/demos/position/cycler.html" role="data" />
+   <file baseinstalldir="/" md5sum="88d621bb37115c538991a3328231e625" name="web/development-bundle/demos/position/default.html" role="data" />
+   <file baseinstalldir="/" md5sum="279e78b148a9eb165a4603e2262c326e" name="web/development-bundle/demos/position/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="395089f94fede66211bf8ea4b07e8172" name="web/development-bundle/demos/position/images/earth.jpg" role="data" />
+   <file baseinstalldir="/" md5sum="fd03e28ef372a10ad7b73aa826bbbc53" name="web/development-bundle/demos/position/images/flight.jpg" role="data" />
+   <file baseinstalldir="/" md5sum="49a0410c411783dedd67a1cf68f32fc5" name="web/development-bundle/demos/position/images/rocket.jpg" role="data" />
+   <file baseinstalldir="/" md5sum="22887453d4a318ce1176ed9124075fad" name="web/development-bundle/demos/tabs/ajax.html" role="data" />
+   <file baseinstalldir="/" md5sum="7036600f3f660894627997439fbdc05c" name="web/development-bundle/demos/tabs/bottom.html" role="data" />
+   <file baseinstalldir="/" md5sum="ebed1dbc62ff0bb6b85c28d414ce0b83" name="web/development-bundle/demos/tabs/collapsible.html" role="data" />
+   <file baseinstalldir="/" md5sum="1e96bbd3e06a0bf7a9e7e367c381f464" name="web/development-bundle/demos/tabs/cookie.html" role="data" />
+   <file baseinstalldir="/" md5sum="6dffeaf93a3bb36a0445675bca2539e8" name="web/development-bundle/demos/tabs/default.html" role="data" />
+   <file baseinstalldir="/" md5sum="122773994b926db74f4534f5d2061c7f" name="web/development-bundle/demos/tabs/index.html" role="data" />
+   <file baseinstalldir="/" md5sum="c870b0207e069105a12d9068ef57a1af" name="web/development-bundle/demos/tabs/manipulation.html" role="data" />
+   <file baseinstalldir="/" md5sum="d368209d7d7ad38ee5acb471b2ac7c56" name="web/development-bundle/demos/tabs/mouseover.html" role="data" />
+   <file baseinstalldir="/" md5sum="7885abd8f1c76737cc43fbd1d98f4793" name="web/development-bundle/demos/tabs/sortable.html" role="data" />
+   <file baseinstalldir="/" md5sum="12eefb8539b09a711a92ad58b62173a5" name="web/development-bundle/demos/tabs/vertical.html" role="data" />
+   <file baseinstalldir="/" md5sum="a057a52c505c537a9db040a84d25e640" name="web/development-bundle/demos/tabs/ajax/content1.html" role="data" />
+   <file baseinstalldir="/" md5sum="1289bb96e74c38ed0f6c68507a41aec6" name="web/development-bundle/demos/tabs/ajax/content2.html" role="data" />
+   <file baseinstalldir="/" md5sum="1184ec5ad3b1bf81eb5f19cb6a233daa" name="web/development-bundle/demos/tabs/ajax/content3-slow.php" role="data" />
+   <file baseinstalldir="/" md5sum="feb9562749e8ae1d0408c257ca44b6e5" name="web/development-bundle/demos/tabs/ajax/content4-broken.php" role="data" />
+   <file baseinstalldir="/" md5sum="83a1d891fabf752d2a78b74f43da055d" name="web/development-bundle/docs/dialog.html" role="data" />
+   <file baseinstalldir="/" md5sum="2d06f2cf4f1ef4330b123a63cb99ec43" name="web/development-bundle/docs/position.html" role="data" />
+   <file baseinstalldir="/" md5sum="d806440e797dfe7e04a4b17830ffe22a" name="web/development-bundle/docs/tabs.html" role="data" />
+   <file baseinstalldir="/" md5sum="e048a77b314095a4cb774cdac380eb8c" name="web/development-bundle/external/jquery.bgiframe-2.1.2.js" role="data" />
+   <file baseinstalldir="/" md5sum="20a0023596a032da17c48c7ffe08087a" name="web/development-bundle/external/jquery.cookie.js" role="data" />
+   <file baseinstalldir="/" md5sum="1910e4f6f1a0c7ce784a2e7d13c3765c" name="web/development-bundle/external/jquery.metadata.js" role="data" />
+   <file baseinstalldir="/" md5sum="b85435039aca5d7d928b6d2c137181a6" name="web/development-bundle/external/qunit.css" role="data" />
+   <file baseinstalldir="/" md5sum="2ad519e4b708a1993ff1183e7254e49b" name="web/development-bundle/external/qunit.js" role="data" />
+   <file baseinstalldir="/" md5sum="b70bfa0744d08b813dd25089843fb300" name="web/development-bundle/themes/base/jquery.ui.all.css" role="data" />
+   <file baseinstalldir="/" md5sum="e993ebde2a53584e8f2678942a504619" name="web/development-bundle/themes/base/jquery.ui.base.css" role="data" />
+   <file baseinstalldir="/" md5sum="9ed97a8ec0df2f8aadba33e969b85078" name="web/development-bundle/themes/base/jquery.ui.core.css" role="data" />
+   <file baseinstalldir="/" md5sum="6c6a74eed05c92d260c27817d0699420" name="web/development-bundle/themes/base/jquery.ui.dialog.css" role="data" />
+   <file baseinstalldir="/" md5sum="890b68d4189b6dd4e7ca649947d2cf9f" name="web/development-bundle/themes/base/jquery.ui.tabs.css" role="data" />
+   <file baseinstalldir="/" md5sum="ea2ba6eb3a73349c6f0ae4ba0e28e364" name="web/development-bundle/themes/base/jquery.ui.theme.css" role="data" />
+   <file baseinstalldir="/" md5sum="2a44fbdb7360c60122bcf6dcef0387d8" name="web/development-bundle/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="8692e6efddf882acbff144c38ea7dfdf" name="web/development-bundle/themes/base/images/ui-bg_flat_75_ffffff_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="f8f4558e0b92ff2cd6136781533902ec" name="web/development-bundle/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="e5a8f32e28fd5c27bf0fed33c8a8b9b5" name="web/development-bundle/themes/base/images/ui-bg_glass_65_ffffff_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="c12c6510dad3ebfa64c8a30e959a2469" name="web/development-bundle/themes/base/images/ui-bg_glass_75_dadada_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="f4254356c2a8c9a383205ef2c4de22c4" name="web/development-bundle/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="5a3be2d8fff8324d59aec3df7b0a0c83" name="web/development-bundle/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="72c593d16e998952cd8d798fee33c6f3" name="web/development-bundle/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="25162bf857a8eb83ea932a58436e1049" name="web/development-bundle/themes/base/images/ui-icons_2e83ff_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="9129e086dc488d8bcaf808510bc646ba" name="web/development-bundle/themes/base/images/ui-icons_222222_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="771099482bdc1571ece41073b1752596" name="web/development-bundle/themes/base/images/ui-icons_454545_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="faf6f5dc44e713178784c1fb053990aa" name="web/development-bundle/themes/base/images/ui-icons_888888_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="5d8808d43cefca6f6781a5316d176632" name="web/development-bundle/themes/base/images/ui-icons_cd0a0a_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="7417051b67772c3ff4787a014c6448df" name="web/development-bundle/themes/custom-theme/jquery-ui-1.8.16.custom.css" role="data" />
+   <file baseinstalldir="/" md5sum="b70bfa0744d08b813dd25089843fb300" name="web/development-bundle/themes/custom-theme/jquery.ui.all.css" role="data" />
+   <file baseinstalldir="/" md5sum="e993ebde2a53584e8f2678942a504619" name="web/development-bundle/themes/custom-theme/jquery.ui.base.css" role="data" />
+   <file baseinstalldir="/" md5sum="9ed97a8ec0df2f8aadba33e969b85078" name="web/development-bundle/themes/custom-theme/jquery.ui.core.css" role="data" />
+   <file baseinstalldir="/" md5sum="6c6a74eed05c92d260c27817d0699420" name="web/development-bundle/themes/custom-theme/jquery.ui.dialog.css" role="data" />
+   <file baseinstalldir="/" md5sum="890b68d4189b6dd4e7ca649947d2cf9f" name="web/development-bundle/themes/custom-theme/jquery.ui.tabs.css" role="data" />
+   <file baseinstalldir="/" md5sum="b6ecb0b663305c05c3da3a7955c27f95" name="web/development-bundle/themes/custom-theme/jquery.ui.theme.css" role="data" />
+   <file baseinstalldir="/" md5sum="2a44fbdb7360c60122bcf6dcef0387d8" name="web/development-bundle/themes/custom-theme/images/ui-bg_flat_0_aaaaaa_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="8692e6efddf882acbff144c38ea7dfdf" name="web/development-bundle/themes/custom-theme/images/ui-bg_flat_75_ffffff_40x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="f8f4558e0b92ff2cd6136781533902ec" name="web/development-bundle/themes/custom-theme/images/ui-bg_glass_55_fbf9ee_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="1851835619d918592d64edd4a1f85c0d" name="web/development-bundle/themes/custom-theme/images/ui-bg_glass_65_000000_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="a22725c66ab2c9b78408c65a3cd5badf" name="web/development-bundle/themes/custom-theme/images/ui-bg_glass_75_000000_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="f4254356c2a8c9a383205ef2c4de22c4" name="web/development-bundle/themes/custom-theme/images/ui-bg_glass_75_e6e6e6_1x400.png" role="data" />
+   <file baseinstalldir="/" md5sum="2b05bf1b80855848447824e5ba68c209" name="web/development-bundle/themes/custom-theme/images/ui-bg_highlight-soft_75_000000_1x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="61cef242cc2b5e1118607c302b87cbc9" name="web/development-bundle/themes/custom-theme/images/ui-bg_inset-soft_95_fef1ec_1x100.png" role="data" />
+   <file baseinstalldir="/" md5sum="2b99a5e48d3c3957d03027d36a25e8bb" name="web/development-bundle/themes/custom-theme/images/ui-icons_2e83ff_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="ebe6b6902a408fbf9cac6379a1477525" name="web/development-bundle/themes/custom-theme/images/ui-icons_222222_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="119dd0c2e94ad689de873ef39fd43e6e" name="web/development-bundle/themes/custom-theme/images/ui-icons_454545_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="9c46d7cab43e22a14bad26d2d4806d80" name="web/development-bundle/themes/custom-theme/images/ui-icons_888888_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="3e450c2a2c66328d9498e7001ad7197c" name="web/development-bundle/themes/custom-theme/images/ui-icons_cd0a0a_256x240.png" role="data" />
+   <file baseinstalldir="/" md5sum="1c2ffc7e76d7fd7fe37d5551154c0dad" name="web/development-bundle/ui/jquery-ui-1.8.16.custom.js" role="data" />
+   <file baseinstalldir="/" md5sum="189cd62c716f904d0e27c9728084c84f" name="web/development-bundle/ui/jquery.ui.core.js" role="data" />
+   <file baseinstalldir="/" md5sum="fa2d52ae401f1b33df0f1e30cd7bf532" name="web/development-bundle/ui/jquery.ui.dialog.js" role="data" />
+   <file baseinstalldir="/" md5sum="bc7e0d8a6f64a03565abc5537c5db9da" name="web/development-bundle/ui/jquery.ui.position.js" role="data" />
+   <file baseinstalldir="/" md5sum="6563f8e28b9f69ee1b2958e14bc0b3bf" name="web/development-bundle/ui/jquery.ui.tabs.js" role="data" />
+   <file baseinstalldir="/" md5sum="c150db5fa5a64fb6be9889f568ddc7ef" name="web/development-bundle/ui/jquery.ui.widget.js" role="data" />
+   <file baseinstalldir="/" md5sum="35c8345d40fba7cc538b677eef8ec850" name="web/development-bundle/ui/minified/jquery.ui.core.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="cedbf30a51c03d9ea72743da1cea9402" name="web/development-bundle/ui/minified/jquery.ui.dialog.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="ce593c703df82b3e1785156376ef1a11" name="web/development-bundle/ui/minified/jquery.ui.position.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="67beffac9e06139da85198dadac7e62c" name="web/development-bundle/ui/minified/jquery.ui.tabs.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="0b4c5afffc6ba25e76716562a9c40a75" name="web/development-bundle/ui/minified/jquery.ui.widget.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="2b8160834012aa22e67c171f90ddbab1" name="web/js/gorgon.js" role="data" />
+   <file baseinstalldir="/" md5sum="a1a8cb16a060f6280a767187fd22e037" name="web/js/jquery-1.6.2.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="29fa1fe66ad3e353b9fdc04663018b71" name="web/js/jquery-ui-1.8.16.custom.min.js" role="data" />
+   <file baseinstalldir="/" md5sum="cdaf4e3b128a804277f7cfeed58ff1fd" name="web/js/jquery.center.js" role="data" />
+   <file baseinstalldir="/" md5sum="31e61878afccc3598decc703d24283e6" name="web/js/jquery.timeline.js" role="data" />
+   <file baseinstalldir="/" md5sum="381e01ff92413b8f17e473952d6c69ff" name="web/js/timeline.js" role="data" />
+   <file baseinstalldir="/" md5sum="110aebfb9e1fa952801e51c9fdd085d4" name="web/js/timeline.mentions.js" role="data" />
+   <file baseinstalldir="/" md5sum="617856c3fb2b7177fe7fffa8a1ddd1a1" name="dependencies.yml.sample" role="data" />
+   <file baseinstalldir="/" md5sum="f34dd7a47996e29f48fe9629cc0dcbd1" name="README" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.8.0</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-11-30</date>
+   <license>Apache</license>
+   <notes>
+First beta release.
+   </notes>
+  </release>
+ </changelog>
+</package>
