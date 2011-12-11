@@ -35,4 +35,65 @@ class timelineActions extends opApiActions
 
     $this->getResponse()->setContentType('application/json');
   }
+
+  public function executePost(sfWebRequest $request)
+  {
+    $this->getResponse()->setContentType('application/json');
+    if ($token=!$request->getParameter('body'))
+    {
+      $this->status = 'error';
+      $this->message = 'Error. Body is null.';
+      return sfView::SUCCESS;
+    }
+    $activity = new ActivityData();
+    $activity->setMemberId($this->getMember()->getId()); 
+    $activity->setBody(htmlspecialchars($request->getParameter('body'), ENT_QUOTES));
+    $mentions = opTimelinePluginUtil::hasScreenName($request->getParameter('body'));
+    if (!is_null($mentions))
+    {
+      $activity->setTemplate('mention_member_id');
+      $activity->setTemplateParam($mentions);
+    }
+    $inReplyToActivityId = $request->getParameter('replyId');
+    if (isset($inReplyToActivityId) && is_numeric($inReplyToActivityId))
+    {
+      $activity->setInReplyToActivityId($inReplyToActivityId);
+    }
+    $foreign = $request->getParameter('foreign');
+    $foreignId = $request->getParameter('foreignId');
+    if (isset($foreign) && isset($foreignId) && is_numeric($foreignId))
+    {
+      $activity->setForeignTable($foreign); 
+      $activity->setForeignId($foreignId);
+    }
+    $activity->setPublicFlag(1);
+    $activity->save();
+    $this->status = 'success';
+    $this->message = "Update request was suceed!";
+    return sfView::SUCCESS;
+  }
+
+  public function executeDelete(sfWebRequest $request)
+  {
+    $activityId = $request->getParameter('activityId');
+    if (!isset($activityId) || !is_numeric($activityId))
+    {
+      $this->status = 'error';
+      $this->message = 'Error. Activity Id is not set.';
+      return sfVIew::SUCCESS;
+    }
+    $memberId = $this->getUser()->getMemberId();
+    $activityData = Doctrine::getTable('ActivityData')->findByIdAndMemberId($activityId, $memberId);
+    if (!$activityData)
+    {
+      $this->status = 'error';
+      $this->message = 'Error . Your Request Activity Id is not exist.';
+      return sfView::SUCCESS;
+    }
+    $activityData->delete();
+    $this->status = 'success';
+    $this->message = 'Your Delete Request has been succeed!';
+    return sfView::SUCCESS;
+  }
+  
 }

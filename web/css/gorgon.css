@@ -31,9 +31,9 @@ color: #606060; border: solid 1px #b7b7b7; background: #fff; background: -webkit
 .gorgon-screenname { font-weight:bold; color:#000 !important; }
 .gorgon-text { padding:0; font-family:Arial, "Helvetica Neue", sans-serif; line-height:19px; word-wrap:break-word; }
 .timestamp { color:#999!important; font-size:11px; }
-a { color:#2D76B9; text-decoration:none; }
-a:focus { outline:1px dotted; }
-a:hover { text-decoration:underline; }
+.main-content a { color:#2D76B9; text-decoration:none; }
+.main-content a:focus { outline:1px dotted; }
+.main-content a:hover { text-decoration:underline; }
 /* body { background-color: #333333; } */
 /* body { font:13px/1.5 Helvetica Neue, Arial, Helvetica, 'Liberation Sans', FreeSans, sans-serif; } */
 /* body { position:relative; } */
