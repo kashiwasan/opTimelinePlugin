@@ -26,6 +26,20 @@ class timelineActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    if ($this->isSmt())
+    {
+      return $this->executeSmtIndex($request);
+    }
+
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    return sfView::SUCCESS;
+  }
+
+  public function executeSmtIndex(sfWebRequest $request)
+  {
+    $this->setLayout('smtLayoutHome');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
@@ -817,4 +831,8 @@ class timelineActions extends sfActions
     }
   }
 
+  private function isSmt()
+  {
+    return (preg_match('/iPhone/', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Android/', $_SERVER['HTTP_USER_AGENT']));
+  }
 }
