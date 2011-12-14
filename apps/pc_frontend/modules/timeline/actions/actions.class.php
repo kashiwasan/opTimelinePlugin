@@ -77,7 +77,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = fOutputEscaper::escape(sfConfig::get('sf_escaping_method'), pTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -133,7 +133,7 @@ class timelineActions extends sfActions
             $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';
@@ -184,7 +184,7 @@ class timelineActions extends sfActions
 
     $json = array( 'status' => 'success', 'data' => $ac, );
  
-    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+    return $this->renderText(json_encode($json));
   }
 
   public function executeListMore(sfwebRequest $request)
@@ -223,7 +223,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -331,7 +331,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -387,7 +387,7 @@ class timelineActions extends sfActions
             $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';
@@ -407,7 +407,7 @@ class timelineActions extends sfActions
       $i++;
     }
     $json = array( 'status' => 'success', 'data' => $ac, );
-    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+    return $this->renderText(json_encode($json));
   }
 
 
@@ -440,7 +440,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -496,7 +496,7 @@ class timelineActions extends sfActions
             $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';
@@ -516,7 +516,7 @@ class timelineActions extends sfActions
       $i++;
     }
     $json = array( 'status' => 'success', 'data' => $ac, );
-    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+    return $this->renderText(json_encode($json));
   }
 
   public function executeListCommunity(sfWebRequest $request)
@@ -548,7 +548,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -594,7 +594,7 @@ class timelineActions extends sfActions
           $cm['memberId'] = $member->getId();
           $cm['memberName'] = $member->getName();
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+          $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'show';
@@ -614,7 +614,7 @@ class timelineActions extends sfActions
     }
     $i++;
     $json = array( 'status' => 'success', 'data' => $ac, );
-    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+    return $this->renderText(json_encode($json));
   }
 
   public function executeListMention(sfWebRequest $request)
@@ -646,7 +646,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl);
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -677,7 +677,7 @@ class timelineActions extends sfActions
       ); 
     }
     $json = array( 'status' => 'success', 'data' => $ac, );
-    return $this->renderText(json_encode($json, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_QUOT));
+    return $this->renderText(json_encode($json));
   }
 
   public function executePost(sfWebRequest $request)
