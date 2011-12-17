@@ -46,6 +46,15 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
+  public function executeMember(sfWebRequest $request)
+  {
+    $this->memberId = $request->getParameter('id', $this->getUser()->getMember()->getName());
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    return sfView::SUCCESS;
+  }
+
   public function executeMentions(sfWebRequest $request)
   {
     $this->baseUrl = sfConfig::get('op_base_url');
@@ -56,7 +65,7 @@ class timelineActions extends sfActions
 
   public function executeList(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $baseUrl = sfConfig::get('op_base_url');
     $ac = array();
     $activityIds = array();
@@ -77,7 +86,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = fOutputEscaper::escape(sfConfig::get('sf_escaping_method'), pTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -189,7 +198,7 @@ class timelineActions extends sfActions
 
   public function executeListMore(sfwebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $lastId = $request->getParameter('id');
     if (is_null($lastId) && !is_numeric($lastId))
     {
@@ -305,7 +314,7 @@ class timelineActions extends sfActions
 
   public function executeListDifference(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $lastId = $request->getParameter('id');
     if (is_null($lastId) && !is_numeric($lastId))
     {
@@ -314,7 +323,7 @@ class timelineActions extends sfActions
     }
     $ac = array();
     $activityIds = array();
-    $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(20)->offset($lastId)->execute();
+    $activityData = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.id > ?', $lastId)->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->execute();
     foreach ($activityData as $activity)
     {
       $id = $activity->getId();
@@ -413,7 +422,7 @@ class timelineActions extends sfActions
 
   public function executeListMember(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $baseUrl = sfConfig::get('op_base_url');
     $memberId = $request->getParameter('id');
     if (is_null($memberId) || !is_numeric($memberId))
@@ -521,7 +530,7 @@ class timelineActions extends sfActions
 
   public function executeListCommunity(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $baseUrl = sfConfig::get('op_base_url');
     $cid = $request->getParameter('id');
     if (!is_numeric($cid))
@@ -619,7 +628,7 @@ class timelineActions extends sfActions
 
   public function executeListMention(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil',));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $baseUrl = sfConfig::get('op_base_url');
     $memberId = $this->getUser()->getMember()->getId();
     $mines = Doctrine::getTable('ActivityData')->findByMemberId($memberId);
