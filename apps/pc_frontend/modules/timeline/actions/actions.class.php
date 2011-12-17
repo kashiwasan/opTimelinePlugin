@@ -48,11 +48,28 @@ class timelineActions extends sfActions
 
   public function executeMember(sfWebRequest $request)
   {
+    if ($this->isSmt())
+    {
+      return $this->executeSmtMember($request);
+    }
     $this->memberId = $request->getParameter('id', $this->getUser()->getMember()->getName());
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
     return sfView::SUCCESS;
+  }
+
+  public function executeSmtMember($request)
+  {
+    $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getName());
+    $this->member = Doctrine::getTable('Member')->find($this->memberId);
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    $this->setLayout('smtLayoutMember');
+    $this->getResponse()->setDisplayMember($this->member);  
+    $this->setTemplate('smtMember');
+    return sfVIew::SUCCESS;
   }
 
   public function executeMentions(sfWebRequest $request)
@@ -200,10 +217,11 @@ class timelineActions extends sfActions
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $lastId = $request->getParameter('id');
+    $baseUrl = sfConfig::get('op_base_url');
     if (is_null($lastId) && !is_numeric($lastId))
     {
       $json = array('status' => 'error', 'message' => 'Your request last-id is INVALID.');
-      return $thid->renderText(json_encode($json));
+      return $this->renderText(json_encode($json));
     }
     if ($request->getParameter('count') && is_numeric($request->getParameter('count')))
     {
@@ -308,7 +326,7 @@ class timelineActions extends sfActions
       $i++;
     }
     $json = array('status' => 'success', 'data' => $ac);
-    return $this->renderText(json_encde($json));
+    return $this->renderText(json_encode($json));
 
   }
 

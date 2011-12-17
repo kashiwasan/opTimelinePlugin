@@ -50,7 +50,6 @@
    <span id="error">${json.message}</span>
   </div>
 </script>
-
 <a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
 
 <div class="main-content" style="min-height: 500px; ">
@@ -61,8 +60,9 @@
           <button class="gorgon-button button" id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>">投稿</button>
       </div>
     </div>
-    <div id="timeline-list">
+    <div id="timeline-list" data-post-baseurl="<?php echo $baseUrl; ?>" data-last-id="" data-loadmore-id="">
     </div>
+    <button class="gorgon-button button" id="gorgon-loadmore">もっと読む</button>
   </div>
 </div>
 
@@ -75,3 +75,4 @@
 ・PublicFlag(公開範囲)を設定できるようにする。<br />
 etc...
 </div>
+

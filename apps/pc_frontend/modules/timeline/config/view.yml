@@ -10,6 +10,10 @@ memberSuccess:
   javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
   stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css"]
 
+smtMemberSuccess:
+  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
+  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css"]
+
 mentionsSuccess:
   javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js", "/opTimelinePlugin/js/timeline.mentions.js"]
   stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/custom-theme/timeline.css"]

@@ -2,7 +2,7 @@ $(function(){
   var timerID;
   var timerArray = new Array();
   timelineAllLoad();
-  timerID = setInterval('timelineDifferenceLoad()', 30000));
+  timerID = setInterval('timelineDifferenceLoad()', 3000);
  
   $('#gorgon-submit').click( function() {
     var Body = $('#gorgon-textarea-body').val();
@@ -23,6 +23,10 @@ $(function(){
       }
     });
   });
+
+  $('#gorgon-loadmore').click( function() {
+    timelineLoadmore();
+  });
 });
 
 function timelineAllLoad() {
@@ -41,6 +45,16 @@ function renderJSON(json) {
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $('#timeline-list').empty();
   $('#timelineTemplate').tmpl(json.data).appendTo('#timeline-list');
+  if(json.data[0])
+  {
+    $('#timeline-list').attr('data-last-id', json.data[0].id);
+  }
+  var max = json.data.length - 1;
+  if (json.data[max])
+  {
+    $('#timeline-list').attr('data-loadmore-id', json.data[max].id);
+  }
+  if(json.data)
   for(i=0;i<json.data.length;i++)
   {
     if(json.data[i].reply)
@@ -59,22 +73,56 @@ function renderJSON(json) {
 }
 
 function timelineDifferenceLoad() {
-  var baseUrl = $('#gorgon').attr('data-post-baseurl');
-  var lastId = $('#gorgon').attr('data-last-id');
+  var baseUrl = $('#timeline-list').attr('data-post-baseurl');
+  var lastId = $('#timeline-list').attr('data-last-id');
+  var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $.getJSON( baseUrl + '/timeline/listDifference?id=' + lastId, function (json) {
-    $('#timelineTemplate').tmpl(json.data).before('#timeline-list');
-    for(i=0;i<json.data.length;$i++)
+    if (json.data[0])
+    {
+      $('#timeline-list').attr('data-last-id', json.data[0].id);
+    }
+    $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('#timeline-list').before($timelineData);
+    for(i=0;i<json.data.length;i++)
     {
       if(json.data[i].reply)
       {
         $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
       }
-      $('#commentlist-'+json.data[i].id).append('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
+      $('#commentlist-'+json.data[i].id).html('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
     $('button.comment-button').timelineComment();
     $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
     }
   });
-  
+}
+
+function timelineLoadmore() {
+  var baseUrl = $('#timeline-list').attr('data-post-baseurl');
+  var loadmoreId = $('#timeline-list').attr('data-loadmore-id');
+  var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
+  $.getJSON( baseUrl + '/timeline/listMore?id=' + loadmoreId, function (json) {
+    var max = json.data.length - 1;
+    if (max < 0) 
+    {
+      max = 0;
+    }
+    if (json.data[max])
+    {
+      $('#timeline-list').attr('data-loadmore-id', json.data[max].id);
+    }
+    $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('#timeline-list').after($timelineData);
+    for(i=0;i<json.data.length;i++)
+    {   
+      if(json.data[i].reply)
+      {   
+        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
+      }   
+      $('#commentlist-'+json.data[i].id).html('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
+    $('button.comment-button').timelineComment();
+    $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
+    }   
+  }); 
 
 }
 
