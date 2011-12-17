@@ -705,7 +705,7 @@ class timelineActions extends sfActions
     }
     $activity = new ActivityData();
     $activity->setMemberId($this->getUser()->getMemberId()); 
-    $activity->setBody(htmlspecialchars($request->getParameter('body'), ENT_QUOTES));
+    $activity->setBody($request->getParameter('body'));
     $mentions = opTimelinePluginUtil::hasScreenName($request->getParameter('body'));
     if (!is_null($mentions))
     {
