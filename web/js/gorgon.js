@@ -2,7 +2,7 @@ $(function(){
   var timerID;
   var timerArray = new Array();
   timelineAllLoad();
-  timerArray.push(setInterval('timelineAllLoad()', 30000));
+  timerID = setInterval('timelineDifferenceLoad()', 30000));
  
   $('#gorgon-submit').click( function() {
     var Body = $('#gorgon-textarea-body').val();
@@ -56,6 +56,26 @@ function renderJSON(json) {
   }
   $('button.comment-button').timelineComment();
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
+}
+
+function timelineDifferenceLoad() {
+  var baseUrl = $('#gorgon').attr('data-post-baseurl');
+  var lastId = $('#gorgon').attr('data-last-id');
+  $.getJSON( baseUrl + '/timeline/listDifference?id=' + lastId, function (json) {
+    $('#timelineTemplate').tmpl(json.data).before('#timeline-list');
+    for(i=0;i<json.data.length;$i++)
+    {
+      if(json.data[i].reply)
+      {
+        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
+      }
+      $('#commentlist-'+json.data[i].id).append('<form><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" class="comment-textarea" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="comment-button button">投稿</button></form>');
+    $('button.comment-button').timelineComment();
+    $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
+    }
+  });
+  
+
 }
 
 function timelineLoad() {

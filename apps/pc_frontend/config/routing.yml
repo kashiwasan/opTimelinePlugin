@@ -1,0 +1,4 @@
+member_timeline:
+  url: /member/:id/timeline
+  param: { module: timeline, action: member }
+  requirements: { id: \d+ }
