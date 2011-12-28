@@ -1,6 +1,5 @@
 $(function(){
   var timerID;
-  var timerArray = new Array();
   timelineAllLoad();
   timerID = setInterval('timelineDifferenceLoad()', 15000);
  
@@ -25,13 +24,25 @@ $(function(){
   });
 
   $('#gorgon-loadmore').click( function() {
+    $('#timeline-list-loader').show();
+    $('#gorgon-loadmore').hide();
     timelineLoadmore();
+    $('#timeline-list-loader').hide();
+    $('#gorgon-loadmore').show();
   });
+
 });
 
 function timelineAllLoad() {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
-  $.getJSON( baseUrl + '/timeline/list', renderJSON);
+  if (gorgon)
+  {
+    $.getJSON( baseUrl + '/timeline/get', gorgon, renderJSON);
+  }
+  else
+  {
+    $.getJSON( baseUrl + '/timeline/get?mode=all', renderJSON);
+  }
 }
 
 function renderJSON(json) {
@@ -65,18 +76,20 @@ function renderJSON(json) {
     {
       textdata[json.data[i].id] = '';
     }
-    $('#commentlist-'+json.data[i].id).append('<form style="margin-bottom: 0px;"><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" style="height: 35px; width: 440px;" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="btn primary small timeline-comment-button" style="height: 20px; width: 450px; padding: 1px;">投稿</button></form>');
     $('#comment-textarea-' + json.data[i].id).val(textdata[json.data[i].id]);
   }
   $('button.timeline-comment-button').timelineComment();
+  $('.timeline-now-comment-button').timelineCommentSmtToggle();
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
+  $('#timeline-list-loader').hide();
+  $('#timeline-list').show();
 }
 
 function timelineDifferenceLoad() {
   var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var lastId = $('#timeline-list').attr('data-last-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
-  $.getJSON( baseUrl + '/timeline/listDifference?id=' + lastId, function (json) {
+  $.getJSON( baseUrl + '/timeline/get?list=check&lastId=' + lastId, gorgon, function (json) {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -89,10 +102,8 @@ function timelineDifferenceLoad() {
       {
         $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
       }
-      $('#commentlist-'+json.data[i].id).append('<form style="margin-bottom: 0px;"><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" style="height: 35px; width: 440px;" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="btn primary small timeline-comment-button" style="height: 20px; width: 450px; padding: 1px;">投稿</button></form>');
-      $('button.timeline-comment-button').timelineComment();
-      $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
     }
+    $('.timeline-now-comment-button').timelineCommentSmtToggle();
   });
 }
 
@@ -100,7 +111,13 @@ function timelineLoadmore() {
   var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var loadmoreId = $('#timeline-list').attr('data-loadmore-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
-  $.getJSON( baseUrl + '/timeline/listMore?id=' + loadmoreId, function (json) {
+
+  $('#timeline-list-loader').css('display', 'show');
+  $('#gorgon-loadmore').css('display', 'none');
+
+  $.getJSON( baseUrl + '/timeline/get?list=more&moreId=' + loadmoreId, gorgon, function (json) {
+    $('#timeline-list-loader').css('dispaly', 'show');
+    $('#gorgon-loadmore').css('display', 'none');
     var max = json.data.length - 1;
     if (max < 0) 
     {
@@ -118,12 +135,12 @@ function timelineLoadmore() {
       {   
         $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
       }
-      $('#commentlist-'+json.data[i].id).append('<form style="margin-bottom: 0px;"><textarea data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" style="height: 35px; width: 440px;" id="comment-textarea-' + json.data[i].id  + '"></textarea><button data-timeline-id="' + json.data[i].id  + '" data-post-csrftoken="' + commentCSRF + '" data-post-baseurl="' + baseUrl + '" class="btn primary small timeline-comment-button" style="height: 20px; width: 450px; padding: 1px;">投稿</button></form>');
-      $('button.timeline-comment-button').timelineComment();
-      $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
-    }   
-  }); 
-
+    }
+    $('button.timeline-comment-button').timelineComment();
+    $('.timeline-now-comment-button').timelineCommentSmtToggle();
+    $('#timeline-list-loader').css('display', 'none');
+    $('#gorgon-loadmore').css('display', 'show');
+  });
 }
 
 function timelineLoad() {

@@ -2,7 +2,7 @@
 
 class opTimelinePluginUtil
 {
-  public function screenNameReplace($body, $baseUrl, $options = array())
+  public static function screenNameReplace($body, $baseUrl, $options = array())
   {
     preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
     if ($matches)
@@ -26,10 +26,10 @@ class opTimelinePluginUtil
     return $body;
   }
 
-  public function hasScreenName($body)
+  public static function hasScreenName($body)
   {
     preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
-    if($matches)
+    if($matches[2])
     {
       $memberIds = array();
       foreach ($matches[2] as $screenName)

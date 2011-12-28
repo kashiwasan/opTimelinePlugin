@@ -80,9 +80,186 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
+  public function executeGet(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'I18N', 'sfImage', 'Url', 'Tag', 'opUtil','Escaping', 'opTimeline'));
+    $ac = array();
+    $activityIds = array();
+    $mode = $request->getParameter('mode');
+    $list = $request->getParameter('list');
+    $memberId = (int) $request->getParameter('memberId');
+    $lastId = (int) $request->getParameter('lastId'); 
+    $moreId = (int) $request->getParameter('moreId');
+    $limit = (int) $request->getParameter('limit', 20);
+    $communityId = (int) $request->getParameter('communityId');
+    $activityData = Doctrine_Query::create()->from('ActivityData ad');
+
+    switch ($list)
+    {
+      case 'all':
+        $activityData = $activityData->where('ad.in_reply_to_activity_id IS NULL');
+        break;
+
+      case 'more':
+        if (!is_numeric($moreId))
+        {
+          $this->jsonError('Request parameter \'count\' must be numeric.');
+          exit;
+        }
+        $activityData = $activityData->where('ad.id < ?', $moreId)
+                                     ->andWhere('ad.in_reply_to_activity_id IS NULL');
+        break;
+
+      case 'check':
+        if (!is_numeric($lastId))
+        {
+          $this->jsonError('Request parameter \'lastId\' must be numeric.');
+          exit;
+        }
+        $activityData = $activityData->where('ad.in_reply_to_activity_id IS NULL')
+                                     ->andWhere('ad.id > ?', $lastId);
+        break;
+      default:
+        $activityData = $activityData->where('ad.in_reply_to_activity_id IS NULL');
+    }
+
+    switch ($mode)
+    {
+      case 'member':
+        if (!is_numeric($memberId))
+        {
+          $this->jsonError('Request parameter \'memberId\' must be numeric.');
+          exit;
+        }
+        $activityData = $activityData->andWhere('ad.member_id = ?', $memberId)
+                                     ->andWhere('ad.foreign_table IS NULL')
+                                     ->andWhere('ad.foreign_id IS NULL')
+                                     ->andWhere('ad.public_flag = ?', 1)
+                                     ->orderBy('ad.id DESC');
+        break;
+      case 'community':
+        if (!is_numeric($communityId))
+        {
+          $this->jsonError('Request parameter \'communityId\' must be numeric.'); 
+        }
+        $activityData = $activityData->andWhere('ad.foreign_table = ?', 'community')
+                                     ->andWhere('ad.foreign_id = ?', $communityId)
+                                     ->orderBy('ad.id DESC');
+        break;
+      default:
+        $activityData = $activityData->andWhere('ad.foreign_table IS NULL')
+                                     ->andWhere('ad.foreign_id IS NULL')
+                                     ->andWhere('ad.public_flag = ?', 1);
+        $activityData = $activityData->orderBy('ad.id DESC');
+    }
+    $activityData = $activityData->limit($limit);
+    $activityData = $activityData->execute();
+
+    foreach ($activityData as $activity)
+    {
+      $id = $activity->getId();
+      $memberId = $activity->getMemberId();
+      $member = Doctrine::getTable('Member')->find($memberId);
+      if (!$member->getImageFileName())
+      {
+        $memberImage = url_for('@homepage') . 'images/no_image.gif';
+      }
+      else
+      {
+        $memberImageFile = $member->getImageFileName();
+        $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
+      }
+      $memberName = $member->getName();
+      $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage')));
+      $body = op_timeline_plugin_body_filter($activity, $body);
+      $uri = $activity->getUri();
+      $source = $activity->getSource();
+      $sourceUri = $activity->getSourceUri();
+      $createdAt = $activity->getCreatedAt();
+  
+      if ($memberId==$this->getUser()->getMember()->getId())
+      {
+        $deleteLink = 'inline';
+      }
+      else
+      {
+        $deleteLink = 'none';
+      }
+      $ac[] = array( 
+        'id' => $id, 
+        'memberId' => $memberId, 
+        'memberImage' => $memberImage, 
+        'memberScreenName' => $memberScreenName, 
+        'memberName' => $memberName,
+        'body' => $body,  
+        'deleteLink' => $deleteLink,
+        'uri' => $uri, 
+        'source' => $source, 
+        'sourceUri' => $sourceUri, 
+        'createdAt' => op_format_activity_time(strtotime($createdAt)),
+      ); 
+      $activityIds[] = $id;
+    }
+
+    $count = count($ac);
+    $i = 0;
+
+    $commentData = Doctrine_Query::create()->from('ActivityData ad')->whereIn('ad.in_reply_to_activity_id', $activityIds)->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->execute();
+    foreach ($commentData as $activity)
+    {
+      $inReplyToActivityId = $activity->getInReplyToActivityId();
+      for ($j=0;$j<$count;$j++)
+      {
+        if ($ac[$j]['id']==$inReplyToActivityId)
+        {
+          $member = Doctrine::getTable('Member')->find($activity->getMemberId());
+          $cm = array();
+          $cm['id'] = $activity->getId();
+          $cm['memberId'] = $member->getId();
+          $cm['memberName'] = $member->getName();
+          if (!$member->getImageFileName())
+          {
+            $cm['memberImage'] = url_for('@homepage') . 'images/no_image.gif';
+          }
+          else
+          {
+            $memberImageFile = $member->getImageFileName();
+            $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
+          }
+          $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
+          $cm['body'] = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), $baseUrl);
+          if ($cm['memberId']==$this->getUser()->getMember()->getId())
+          {
+            $cm['deleteLink'] = 'inline';
+          }
+          else
+          {
+            $cm['deleteLink'] = 'none';
+          }
+          $cm['uri'] = $activity->getUri();
+          $cm['source'] = $activity->getSource();
+          $cm['sourceUri'] = $activity->getSourceUri();
+          $cm['createdAt'] = op_format_activity_time(strtotime($activity->getCreatedAt()));
+          $ac[$j]['reply'][] = $cm;
+        }
+      }
+      $i++;
+    }
+    $json = array( 'status' => 'success', 'data' => $ac, );
+ 
+    return $this->renderText(json_encode($json));
+  }
+
+  private function jsonError($message)
+  {
+    $json = array('status' => 'error', 'message' => $message);
+    return $this->renderText(json_encode($json));
+  }
+
   public function executeList(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'I18N', 'sfImage', 'Url', 'Tag', 'opUtil','Escaping', 'opTimeline'));
     $baseUrl = sfConfig::get('op_base_url');
     $ac = array();
     $activityIds = array();
@@ -104,6 +281,7 @@ class timelineActions extends sfActions
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
       $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
+      $body = op_timeline_plugin_body_filter($activity, $body);
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -159,7 +337,8 @@ class timelineActions extends sfActions
             $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
+          // $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
+          $cm['body'] = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), $baseUrl);
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';
@@ -178,36 +357,6 @@ class timelineActions extends sfActions
       }
       $i++;
     }
-    /*************
-    $tls = Doctrine_Query::create()->from('TimelineLike tl')->whereIn('tl.activity_data_id', $activityIds)->orderBy('tl.id DESC')->execute();
-    foreach ($tls as $tl)
-    {
-      $activityDataId = $tl->getActivityDataId();
-      if ($ac[$activityDataId])
-      {
-        $ac[$activityDataId]['like'] = array(
-          'id' => $tl->getId(),
-          'memberId' => $tl->getMemberId(),
-          'memberScreenName' => $this->getScreenName($tl->getMemberId()),
-          'createdAt' => $tl->getCreatedAt(),
-        );
-      }
-
-      for ($i=0;$i<$count;$i++)
-      {
-        if($ac[$i]['reply'][$activityDataId])
-        {
-          $ac[$i]['reply'][$activityDataId]['like'] = array(
-            'id' => $tl->getId(),
-            'memberId' =>  $tl->getMemberId(),
-            'memberScreenName' => $this->getScreenName($tl->getMemberId()),
-            'createdAt' => $tl->getCreatedAt(),
-          );
-        }
-      }
-    }
-    ****************/
-
     $json = array( 'status' => 'success', 'data' => $ac, );
  
     return $this->renderText(json_encode($json));
@@ -716,7 +865,7 @@ class timelineActions extends sfActions
       $json = array('status' => 'error', 'message' => 'Error. Invalid CSRF token Key.');
       return $this->renderText(json_encode($json));
     }
-    if ($token=!$request->getParameter('body'))
+    if (!$request->getParameter('body'))
     {
       $json = array('status' => 'error', 'message' => 'Error. Body is null.',);
       return $this->renderText(json_encode($json));

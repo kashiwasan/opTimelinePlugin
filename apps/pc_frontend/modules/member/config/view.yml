@@ -1,0 +1,16 @@
+smtHomeSuccess:
+  customize:
+    smtTimelineHome:
+      template: [timeline, smtTimeline]
+      parts: [smtHomeBox]
+      target: [after]
+      is_component: true
+
+smtProfileSuccess:
+  customize:
+    smtTimelineProfile1:
+      template: [timeline, smtMemberTimelineBy1]
+      parts: [smtProfileTop]
+      target: [after]
+      is_component: true
+

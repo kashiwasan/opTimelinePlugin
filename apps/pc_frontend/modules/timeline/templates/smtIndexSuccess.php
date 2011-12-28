@@ -17,13 +17,13 @@
 </script>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
-<div class="timeline font10 row" id="commentlist-${id}">
+<div class="timeline font10 row">
   <div class="span2"><a href="<?php echo url_for('@homepage'); ?>"><img src="${memberImage}" class="rad6" width="46" height="46"> </a></div>
   <div class="span10">
     {{html body}}
   </div>
+  <div id="commentlist-${id}"></div>
 </div>
-
 </script>
 
 <script id="timelineCommentTemplate" type="text/x-jquery-tmpl">
@@ -55,8 +55,11 @@
 
 <a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
 
-<div id="timeline-list">
+<div id="timeline-list" data-post-baseurl="<?php echo $baseUrl; ?>" data-last-id="" data-loadmore-id="">
 
 </div>
-<div id="gorgon-submit" data-post-baseurl="<?php echo $baseUrl ?>"></div>
+<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>"></div>
+<div class="row">
+  <button class="span12 btn small" id="gorgon-loadmore">Load more...</button>
+</div>
 
