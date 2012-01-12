@@ -5,8 +5,8 @@ var gorgon = {
     };
 //]]>
 </script>
-<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
-<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/gorgon-smt.js"></script>
+<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
+<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/gorgon-smt.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){      
     $("textarea").focus(function(){
@@ -51,7 +51,7 @@ var gorgon = {
   <div class="span10">
     <div class="row">
       <hr class="toumei2">
-      <div class="span1"><a href="<?php echo url_for('@homepage'); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="23" height="23" /></a></div>
+      <div class="span1"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="23" height="23" /></a></div>
       <div class="span9">{{html body}}</div>
     </div>
   </div>
@@ -73,14 +73,12 @@ var gorgon = {
   <div class="gadget_header span12">SNS全体のタイムライン</div>
 </div>
 
-<a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
-
-<div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo $baseUrl; ?>" data-last-id="" data-loadmore-id="">
+<div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id="" data-loadmore-id="">
 </div>
 <div id="timeline-list-loader" class="row span12 center show">
-<img src="<?php echo url_for('@homepage'); ?>images/ajax-loader.gif" alt="Now loading..." />
+<img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/ajax-loader.gif" alt="Now loading..." />
 </div>
-<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>"></div>
+<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>"></div>
 <div class="row">
   <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>
 </div>
