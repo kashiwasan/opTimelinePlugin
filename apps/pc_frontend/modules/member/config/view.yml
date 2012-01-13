@@ -1,8 +1,0 @@
-smtProfileSuccess:
-  customize:
-    smtTimelineProfile1:
-      template: [timeline, smtMemberTimelineBy1]
-      parts: [smtProfileTop]
-      target: [after]
-      is_component: true
-
