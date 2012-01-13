@@ -1,0 +1,6 @@
+smtTimelineMemberBy1:
+  caption:
+    ja_JP: "メンバーのタイムライン(1行表示)"
+  description:
+    ja_JP: "メンバーのタイムラインが1行だけ表示されます。"
+  component: [timeline, smtMemberTimelineBy1]
