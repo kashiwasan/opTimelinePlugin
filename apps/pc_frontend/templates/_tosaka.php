@@ -6,6 +6,12 @@ $(document).ready(function(){
     $(".postform").toggle();
   });
 });
+$(document).ready(function(){
+  $("#menubutton").click(function(){
+    $(".menuform.template").toggle();
+  }); 
+});
+
 </script>
 
 <div id="tosaka" class="row">
@@ -49,7 +55,7 @@ $(document).ready(function(){
 <?php $form = new sfForm(); ?>
 <?php $csrfToken = $form->getCSRFToken(); ?>
   <div class="row">
-    <button class="span12 btn small primary"  id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>">POST</button>
+    <button class="span12 btn small primary" id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>">POST</button>
   </div>
 <hr class="toumei100">
 <hr class="toumei100">
