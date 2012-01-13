@@ -6,7 +6,7 @@ var gorgon = {
     };
 //]]>
 </script>
-<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
+<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
 <script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/gorgon-smt.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){      
