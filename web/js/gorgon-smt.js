@@ -95,7 +95,7 @@ function timelineDifferenceLoad() {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
-    $('#timeline-list').before($timelineData);
+    $('#timeline-list').prepend($timelineData);
     for(i=0;i<json.data.length;i++)
     {
       if(json.data[i].reply)
