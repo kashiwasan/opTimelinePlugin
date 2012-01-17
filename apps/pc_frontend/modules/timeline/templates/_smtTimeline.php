@@ -27,10 +27,10 @@ var gorgon = {
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
 <div class="timeline font14 row">
-  <div class="span2"><a href="<?php echo url_for('@homepage'); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="46" height="46" /></a></div>
+  <div class="span2"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="46" height="46" /></a></div>
   <div class="span10">
     <div id="timelinebody-${id}" style="min-height: 48px;">
-    <b><a href="<?php echo url_for('@homepage'); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
+    <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
     {{html body}}
     </div>
     <div id="commentlist-${id}"></div>
@@ -42,7 +42,7 @@ var gorgon = {
 <div class="row hide" id="timeline-comment-form-${id}">
   <form class="span10 offset2" style="margin-bottom: 0px;">
     <textarea class="span10" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px;" id="comment-textarea-${id}"></textarea>
-    <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>" class="btn primary small timeline-comment-button center span10" style="height: 20px; padding: 1px; text-align: center;">投稿</button>
+    <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn primary small timeline-comment-button center span10" style="height: 20px; padding: 1px; text-align: center;">投稿</button>
   </form>
 </div>
 </script>
@@ -53,7 +53,7 @@ var gorgon = {
     <div class="row">
       <div class="span1"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="23" height="23" /></a></div>
       <div class="span9">
-        <b><a href="<?php echo url_for('@homepage'); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
+        <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
         {{html body}}
       </div>
     </div>
