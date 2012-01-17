@@ -26,17 +26,18 @@ var gorgon = {
 </script>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
-<div class="timeline font10 row">
+<div class="timeline font14 row">
   <div class="span2"><a href="<?php echo url_for('@homepage'); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="46" height="46" /></a></div>
   <div class="span10">
     <div id="timelinebody-${id}" style="min-height: 48px;">
+    <b><a href="<?php echo url_for('@homepage'); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
     {{html body}}
     </div>
     <div id="commentlist-${id}"></div>
   </div>
 </div>
 <div class="row span10" id="timeline-now-comment-${id}" style="margin-left: 50px;">
-  <button class="timeline-now-comment-button commentbutton btn span10 small" style="height: 20px;  padding-top: 2px; padding-bottom: 2px; margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px;">コメントする</button>
+  <button class="timeline-now-comment-button commentbutton btn span10 small" style="height: 25px;  padding-top: 2px; padding-bottom: 2px; margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px;">コメントする</button>
 </div>
 <div class="row hide" id="timeline-comment-form-${id}">
   <form class="span10 offset2" style="margin-bottom: 0px;">
@@ -47,15 +48,18 @@ var gorgon = {
 </script>
 
 <script id="timelineCommentTemplate" type="text/x-jquery-tmpl">
-<div class="comment font10 row">
+<div class="comment font12 row">
   <div class="span10">
     <div class="row">
-      <hr class="toumei2">
       <div class="span1"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="23" height="23" /></a></div>
-      <div class="span9">{{html body}}</div>
+      <div class="span9">
+        <b><a href="<?php echo url_for('@homepage'); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
+        {{html body}}
+      </div>
     </div>
   </div>
 </div>
+<hr class="toumei">
 </script>
 
 <script id="timeline-error-template" type="text/x-jquery-tmpl">
@@ -79,6 +83,7 @@ var gorgon = {
 <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/ajax-loader.gif" alt="Now loading..." />
 </div>
 <div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>"></div>
+<hr class="toumei">
 <div class="row">
   <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>
 </div>
