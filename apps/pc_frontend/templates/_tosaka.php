@@ -20,15 +20,15 @@ $(document).ready(function(){
   <?php endif; ?>
 </div>
 <div class="postform hide" style="padding-bottom: 100px;">
-  <div class="post_margin row" style="height: 12px;">
+  <div class="post_margin row" style="height: 12px; background: #555;">
     <div class="span12">
-      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/POST_MARGIN.png" width="320" alt="" />
+      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/images/RIGHT_MARGIN.png" width="320" alt="" />
     </div>
   </div>
   <div id="face" class="row">
     <div class="span2"><?php echo op_image_tag_sf_image($sf_user->getMember()->getImageFileName(), array('size' => '48x48')) ?></div>
     <div class="span3">
-      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/post_icon.png" alt="" />
+      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/images/post_icon.png" alt="" />
     </div>
     <?php if ($this->getModuleName()=='community'): ?>
     <div class="span5">
