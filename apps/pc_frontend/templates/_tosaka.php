@@ -11,9 +11,7 @@ $(document).ready(function(){
     $(".menuform.template").toggle();
   }); 
 });
-
 </script>
-
 <div id="tosaka" class="row">
   <div class="span4"><?php echo link_to(op_image_tag('LOGO.png', array('height' => '32')), '@homepage'); ?></div>
   <?php if (opToolkit::isSecurePage()): ?>
@@ -21,17 +19,16 @@ $(document).ready(function(){
   <div class="span3 offset1 center"><a href="#" class="postbutton" id="postbutton"><?php echo op_image_tag('POST.png', array('height' => '32')) ?></a></div>
   <?php endif; ?>
 </div>
-
-<div class="postform hide">
+<div class="postform hide" style="padding-bottom: 100px;">
   <div class="post_margin row" style="height: 12px;">
     <div class="span12">
-      <img src="<?php echo url_for('@homepage'); ?>images/POST_MARGIN.png" width="320" alt="" />
+      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/POST_MARGIN.png" width="320" alt="" />
     </div>
   </div>
   <div id="face" class="row">
     <div class="span2"><?php echo op_image_tag_sf_image($sf_user->getMember()->getImageFileName(), array('size' => '48x48')) ?></div>
     <div class="span3">
-      <img src="<?php echo url_for('@homepage'); ?>images/post_icon.png" alt="" />
+      <img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/post_icon.png" alt="" />
     </div>
     <?php if ($this->getModuleName()=='community'): ?>
     <div class="span5">
@@ -55,10 +52,6 @@ $(document).ready(function(){
 <?php $form = new sfForm(); ?>
 <?php $csrfToken = $form->getCSRFToken(); ?>
   <div class="row">
-    <button class="span12 btn small primary" id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>">POST</button>
+    <button class="span12 btn small primary" id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">POST</button>
   </div>
-<hr class="toumei100">
-<hr class="toumei100">
-<hr class="toumei100">
-<hr class="toumei100">
 </div>
