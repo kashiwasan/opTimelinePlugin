@@ -29,10 +29,8 @@ var gorgon = {
 <div class="timeline font14 row">
   <div class="span2"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="46" height="46" /></a></div>
   <div class="span10">
-    <div id="timelinebody-${id}" style="min-height: 48px;">
-    <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
-    {{html body}}
-    </div>
+    <div id="timelinebody-${id}" class="span10" style="min-height: 48px; max-width: 230px;">
+    <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b><br />{{html body}}</div>
     <div id="commentlist-${id}"></div>
   </div>
 </div>
