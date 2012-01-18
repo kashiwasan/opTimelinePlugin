@@ -31,7 +31,7 @@ $(function(){
 
 function timelineAllLoad() {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
-  $.getJSON( baseUrl + '/timeline/list', renderJSON);
+  $.getJSON( baseUrl + '/timeline/get?mode=all&limit=20', renderJSON);
 }
 
 function renderJSON(json) {
