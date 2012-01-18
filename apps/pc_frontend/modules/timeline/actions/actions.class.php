@@ -765,11 +765,21 @@ class timelineActions extends sfActions
         if ($ac[$j]['id']==$inReplyToActivityId)
         { 
           $member = Doctrine::getTable('Member')->find($activity->getMemberId());
+          if (!$member->getImageFileName())
+          {
+            $memberImage = $baseUrl . '/images/no_image.gif';
+          }
+          else
+          {
+            $memberImageFile = $member->getImageFileName();
+            $memberImage = sf_image_path($memberImageFile, array('size' => '48x48',));
+          }
           $cm = array();
           $cm['id'] = $activity->getId();
           $cm['memberId'] = $member->getId();
           $cm['memberName'] = $member->getName();
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
+          $cm['memberImage'] = $memberImage;
           $cm['body'] = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), $baseUrl));
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
