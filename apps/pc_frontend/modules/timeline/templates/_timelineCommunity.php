@@ -49,7 +49,7 @@ $(function(){
 
 function timelineAllLoad() {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
-  $.getJSON( baseUrl + '/timeline/listCommunity?id=<?php echo $cid; ?>', renderJSON);
+  $.getJSON( baseUrl + '/timeline/get?mode=community&list=all&communityId=<?php echo $cid; ?>', renderJSON);
 }
 
 function renderJSON(json) {
