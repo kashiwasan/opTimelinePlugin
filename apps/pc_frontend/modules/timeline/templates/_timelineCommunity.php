@@ -96,9 +96,9 @@ function convertTag(str) {
       <div class="gorgon-img"> <img height="48" width="48" src="${memberImage}" alt="${memberScreenName}"> </div>
       <div class="gorgon">
         <div class="gorgon-row">
-          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo $baseUrl; ?>/member/${memberId}">${memberScreenName}</a> {{html body}} </div>
+          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo url_for('@homegape', array('absolute' => true)); ?>/member/${memberId}">${memberScreenName}</a> {{html body}} </div>
         </div>
-        <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
+        <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px; dislpay: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homegape', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
       </div>
       <div class="comment-list" id="commentlist-${id}">
       </div>
@@ -111,7 +111,7 @@ function convertTag(str) {
           <div class="comment-row">
             <div class="comment-text"><a class="comment-screenname">${memberScreenName}</a> {{html body}}</div>
           </div>
-          <div class="comment-row"> <div class="_reply-link" style="margin-right: 15px;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span> - Like!</a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo $baseUrl ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo $baseUrl; ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
+          <div class="comment-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span> - Like!</a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homegape', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
         </div>
 </script>
 
@@ -126,14 +126,14 @@ function convertTag(str) {
   </div>
 </script>
 
-<a href="<?php echo $baseUrl; ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
+<a href="<?php echo url_for('@homegape', array('absolute' => true)); ?>member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
 
 <div class="main-content" style="min-height: 500px; ">
   <div class="page-header">
     <div id="main-gorgon-box">
       <div class="gorgon-box">
           <textarea class="gorgon-textarea" id="gorgon-textarea-body">今なにしてる？</textarea>
-          <button class="gorgon-button button" id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo $baseUrl; ?>">投稿</button>
+          <button class="gorgon-button button" id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homegape', array('absolute' => true)); ?>">投稿</button>
       </div>
     </div>
     <div id="timeline-list">
