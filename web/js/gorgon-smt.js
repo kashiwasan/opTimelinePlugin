@@ -41,7 +41,7 @@ function timelineAllLoad() {
   }
   else
   {
-    $.getJSON( baseUrl + '/timeline/get?mode=all', renderJSON);
+    $.getJSON( baseUrl + '/timeline/get?mode=all&limit=20', renderJSON);
   }
 }
 
@@ -89,7 +89,7 @@ function timelineDifferenceLoad() {
   var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var lastId = $('#timeline-list').attr('data-last-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
-  $.getJSON( baseUrl + '/timeline/get?list=check&lastId=' + lastId, gorgon, function (json) {
+  $.getJSON( baseUrl + '/timeline/get?list=check&limit=20&lastId=' + lastId, gorgon, function (json) {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -114,7 +114,7 @@ function timelineLoadmore() {
   $('#timeline-list-loader').css('display', 'show');
   $('#gorgon-loadmore').css('display', 'none');
 
-  $.getJSON( baseUrl + '/timeline/get?list=more&moreId=' + loadmoreId, gorgon, function (json) {
+  $.getJSON( baseUrl + '/timeline/get?list=more&limit=20&moreId=' + loadmoreId, gorgon, function (json) {
     $('#timeline-list-loader').css('dispaly', 'show');
     $('#gorgon-loadmore').css('display', 'none');
     var max = json.data.length - 1;
