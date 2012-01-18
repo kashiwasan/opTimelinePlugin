@@ -63,46 +63,7 @@ $(document).ready(function(){
 </div>
 <!-- NCFORM TMPL -->
 
-
-<!-- MENUFORM TMPL -->
-<div class="menuform hide toggle1">
-  <hr class="toumei">
-  <div class="row">
-    <div class="span10 offset1 center white font14 toggle1_close">
-      MENU
-      <hr class="toumei">
-    </div>
-    <div class="span1">
-      <img class="toggle1_close" src="./UPARROW.png">
-      <?php echo op_image_tag('UPARROW', array('class' => 'toggle1_close')) ?>
-    </div>
-  </div>
-
-
-  <hr class="toumei">
-
-  <div class="menu-middle row">
-    <div class="span11 offset1">
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Community</a>
-      <a class="btn">Community</a>
-      <a class="btn">Logout</a>
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Logout</a>
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Community</a>
-      <a class="btn">Logout</a>
-    </div>
-  </div>
-  <hr class="toumei">
-  <hr class="toumei">
-  <?php echo op_image_tag('SEPALATOR.png', array('height' => '6', 'width' => '320')) ?>
-</div>
-<!-- MENUFORM TMPL -->
-
+<?php include_partial('default/smtMenu') ?>
 
 <!-- POSTFORM TMPL -->
 <div class="postform hide toggle1">
@@ -146,7 +107,7 @@ $(document).ready(function(){
   <div class="row">
     <div class="span12">
       <div class="row">
-        <div class="span4"><?php echo link_to(op_image_tag('LOGO.png', array('height' => '32', )), '@homepage'); ?></div>
+        <div class="span4"><?php echo op_image_tag('LOGO.png', array('height' => '32', 'class' => 'menubutton' )); ?></div>
         <?php if (opToolkit::isSecurePage()): ?>
         <div class="span4 center"><?php echo op_image_tag('NOTIFY_CENTER.png', array('height' => '32', 'class' => 'ncbutton')) ?></div>
         <div class="span3 offset1 center"><?php echo op_image_tag('POST.png', array('height' => '32', 'class' => 'postbutton')) ?></div>
