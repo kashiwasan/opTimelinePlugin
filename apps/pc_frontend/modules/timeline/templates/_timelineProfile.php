@@ -26,7 +26,7 @@ $(function(){
 });
 
 function timelineAllLoad() {
-  var baseUrl = '<?php echo url_for('@homegape', array('absolute' => true)); ?>';
+  var baseUrl = '<?php echo url_for('@homepage', array('absolute' => true)); ?>';
   $.getJSON( baseUrl + 'timeline/get?mode=member&list=all&memberId=<?php echo $memberId; ?>', renderJSON);
 }
 
@@ -37,7 +37,7 @@ function renderJSON(json) {
     var textValue = $(this).val();
     textdata[elementId] = textValue;
   });
-  var baseUrl = '<?php echo url_for('@homegape', array('absolute' => true)); ?>';
+  var baseUrl = '<?php echo url_for('@homepage', array('absolute' => true)); ?>';
   var commentCSRF = '<?php echo $token; ?>';
   $('#timeline-list').empty();
   $('#timelineTemplate').tmpl(json.data).appendTo('#timeline-list');
@@ -74,9 +74,9 @@ function convertTag(str) {
       <div class="gorgon-img"> <img height="48" width="48" src="${memberImage}" alt="${memberScreenName}"> </div>
       <div class="gorgon">
         <div class="gorgon-row">
-          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo url_for('@homegape', array('absolute' => true)); ?>member/${memberId}">${memberScreenName}</a> {{html body}} </div>
+          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">${memberScreenName}</a> {{html body}} </div>
         </div>
-        <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homegape', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
+        <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
       </div>
       <div class="comment-list" id="commentlist-${id}">
       </div>
@@ -89,7 +89,7 @@ function convertTag(str) {
           <div class="comment-row">
             <div class="comment-text"><a class="comment-screenname">${memberScreenName}</a> {{html body}}</div>
           </div>
-          <div class="comment-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span> - Like!</a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homegape', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homegape', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
+          <div class="comment-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span> - Like!</a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
         </div>
 </script>
 
