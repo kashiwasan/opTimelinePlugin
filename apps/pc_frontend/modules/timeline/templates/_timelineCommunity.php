@@ -29,6 +29,8 @@ var gorgon = {
   }); 
 </script>
 
+<?php use_javascript('/optimelineplugin/js/gorgon-gadget.js'); ?>
+
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
     <div class="gorgon-list">
       <div class="gorgon-img"> <img height="48" width="48" src="${memberImage}" alt="${memberScreenName}"> </div>
