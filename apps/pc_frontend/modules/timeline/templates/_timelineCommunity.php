@@ -29,7 +29,7 @@ var gorgon = {
   }); 
 </script>
 
-<?php use_javascript('/optimelineplugin/js/gorgon-gadget.js'); ?>
+<?php use_javascript('/opTimelinePlugin/js/gorgon-gadget.js'); ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
     <div class="gorgon-list">
