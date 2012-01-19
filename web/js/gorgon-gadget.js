@@ -4,6 +4,9 @@ $(function(){
   timelineAllLoad();
   timerID = setInterval('timelineDifferenceLoad()', 15000);
  
+  $('button.timeline-comment-button').timelineComment();
+  $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
+
   $('#gorgon-submit').click( function() {
     var Body = $('#gorgon-textarea-body').val();
     var Csrf = $(this).attr('data-post-csrftoken');
@@ -44,7 +47,9 @@ function renderJSON(json) {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $('#timeline-list').empty();
-  $('#timelineTemplate').tmpl(json.data).appendTo('#timeline-list');
+  $timelineData = $('#timelineTemplate').tmpl(json.data);
+  $('button.timeline-comment-button', $timelineData).timelineComment();
+  $timelineData.appendTo('#timeline-list');
   if(json.data[0])
   {
     $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -67,8 +72,7 @@ function renderJSON(json) {
     }
     $('#comment-textarea-' + json.data[i].id).val(textdata[json.data[i].id]);
   }
-  $('button.timeline-comment-button').timelineComment();
-  $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
+  $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
 }
 
 function timelineDifferenceLoad() {
@@ -80,15 +84,16 @@ function timelineDifferenceLoad() {
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
     }
-    $('#timeline-list').prepend($('#timelineTemplate').tmpl(json.data));
+    $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('button.timeline-comment-button', $timelineData).timelineComment();
+    $('#timeline-list').prepend($timelineData);
     for(i=0;i<json.data.length;i++)
     {
       if(json.data[i].reply)
       {
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).prependTo('#comment-list-' + json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].reply).prependTo('#commentlist-' +json.data[i].id);
       }
     }
-    $('button.timeline-comment-button').timelineComment();
     $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
   });
 }
@@ -108,16 +113,16 @@ function timelineLoadmore() {
       $('#timeline-list').attr('data-loadmore-id', json.data[max].id);
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('button.timeline-comment-button', $timelineData).timelineComment();
     $('#timeline-list').after($timelineData);
     for(i=0;i<json.data.length;i++)
-    {   
+    {
       if(json.data[i].reply)
-      {   
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).prependTo('#comment-list-' + json.data[i].id);
+      {
+        $('#timelineCommentTemplate').tmpl(json.data[i].reply).prependTo('#commentlist-' +json.data[i].id);
       }
-      $('button.timeline-comment-button').timelineComment();
-      $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
-    }   
+    }
+    $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
   }); 
 
 }
