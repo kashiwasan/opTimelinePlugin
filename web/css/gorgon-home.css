@@ -30,7 +30,7 @@ color: #606060; border: solid 1px #b7b7b7; background: #fff; background: -webkit
 .gorgon-row { display:block; position:relative; line-height:18px; }
 .gorgon-screenname { font-weight:bold; color:#000 !important; }
 .gorgon-text { padding:0; font-family:Arial, "Helvetica Neue", sans-serif; line-height:19px; word-wrap:break-word; }
-.timestamp { color:#999!important; font-size:11px; margin-left: 18px;}
+.timestamp { color:#999!important; font-size:11px; margin-left: 12px;}
 .reply-link{ background: url(images/clock.png) no-repeat; }
 .delete-link { background: url(images/trash_can.png) no-repeat; }
 a { color:#2D76B9; text-decoration:none; }

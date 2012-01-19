@@ -28,7 +28,9 @@ $(function(){
   });
 
   $('#gorgon-loadmore').click( function() {
+    $(this).hide();
     timelineLoadmore();
+    $(this).show();
   });
 });
 
@@ -73,6 +75,7 @@ function renderJSON(json) {
     $('#comment-textarea-' + json.data[i].id).val(textdata[json.data[i].id]);
   }
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
+  $('#timeline-loading').hide();
 }
 
 function timelineDifferenceLoad() {
@@ -102,6 +105,7 @@ function timelineLoadmore() {
   var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var loadmoreId = $('#timeline-list').attr('data-loadmore-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
+  $('#loadmore-loading').show();
   $.getJSON( baseUrl + '/timeline/get?list=more&moreId=' + loadmoreId, function (json) {
     var max = json.data.length - 1;
     if (max < 0) 
@@ -124,7 +128,7 @@ function timelineLoadmore() {
     }
     $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
   }); 
-
+  $('#loadmore-loading').hide();
 }
 
 function timelineLoad() {
