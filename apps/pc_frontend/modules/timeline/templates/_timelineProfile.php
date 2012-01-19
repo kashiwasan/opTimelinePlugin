@@ -2,7 +2,7 @@
 //<![CDATA[
 var gorgon = {
       'mode': 'member',
-      'memberId': '2',
+      'memberId': '<?php echo $member->getId(); ?>',
       'limit': '20',
       'post': {
 
