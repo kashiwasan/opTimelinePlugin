@@ -11,10 +11,18 @@ $(function(){
     var Body = $('#gorgon-textarea-body').val();
     var Csrf = $(this).attr('data-post-csrftoken');
     var baseUrl = $(this).attr('data-post-baseurl');
+    if (gorgon)
+    {
+      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body + '&foreign=' + gorgon.post.foreign + '&foreignId=' + gorgon.post.foreignId;
+    }
+    else
+    {
+      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body;
+    }
     $.ajax({
       url: baseUrl + '/timeline/post',
       type: 'POST',
-      data: 'CSRFtoken=' + Csrf + '&body=' + Body,
+      data: Data,
       dataType: 'json',
       success: function(data) {
         if(data.status=='success'){
@@ -36,7 +44,14 @@ $(function(){
 
 function timelineAllLoad() {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
-  $.getJSON( baseUrl + '/timeline/get?mode=all&limit=20', renderJSON);
+  if (gorgon)
+  {
+    $.getJSON( baseUrl + '/timeline/get', gorgon, renderJSON);
+  }
+  else
+  {
+    $.getJSON( baseUrl + '/timeline/get?mode=all&limit=20', renderJSON);
+  }
 }
 
 function renderJSON(json) {
@@ -82,7 +97,7 @@ function timelineDifferenceLoad() {
   var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var lastId = $('#timeline-list').attr('data-last-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
-  $.getJSON( baseUrl + '/timeline/get?list=check&lastId=' + lastId, function (json) {
+  $.getJSON( baseUrl + '/timeline/get?list=check&lastId=' + lastId, gorgon, function (json) {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -106,7 +121,7 @@ function timelineLoadmore() {
   var loadmoreId = $('#timeline-list').attr('data-loadmore-id');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $('#loadmore-loading').show();
-  $.getJSON( baseUrl + '/timeline/get?list=more&moreId=' + loadmoreId, function (json) {
+  $.getJSON( baseUrl + '/timeline/get?list=more&moreId=' + loadmoreId, gorgon, function (json) {
     var max = json.data.length - 1;
     if (max < 0) 
     {

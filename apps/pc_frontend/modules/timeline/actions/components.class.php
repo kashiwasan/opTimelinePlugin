@@ -36,7 +36,7 @@ class timelineComponents extends sfComponents
     $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
     $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
-    // $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon.js');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon-gadget.js');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
@@ -52,7 +52,7 @@ class timelineComponents extends sfComponents
     $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
     $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
-    // $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon.js');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/gorgon-gadget.js');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();

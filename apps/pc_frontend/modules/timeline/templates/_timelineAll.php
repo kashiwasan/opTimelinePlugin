@@ -1,4 +1,15 @@
 <script type="text/javascript">
+//<![CDATA[
+var gorgon = {
+      'limit': '20',
+      'post': {
+
+      }
+    };
+//]]>
+</script>
+
+<script type="text/javascript">
   $(document).ready(function(){      
     $("textarea").focus(function(){
        $(this).addClass("expand");
@@ -63,7 +74,7 @@
       </div>
     </div>
     <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
-    <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">
+    <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id="" data-loadmore-id="">
     </div>
     <button class="gorgon-button button" id="gorgon-loadmore" style="width: 410px;">もっと読む</button>
   </div>
