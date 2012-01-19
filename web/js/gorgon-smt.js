@@ -55,7 +55,10 @@ function renderJSON(json) {
   var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
   var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $('#timeline-list').empty();
-  $('#timelineTemplate').tmpl(json.data).appendTo('#timeline-list');
+  $timelineData = $('#timelineTemplate').tmpl(json.data);
+  $('button.timeline-comment-button', $timelineData).timelineComment();
+  $('.timeline-now-comment-button', $timelineData).timelineCommentSmtToggle();
+  $timelineData.appendTo('#timeline-list');
   if(json.data[0])
   {
     $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -78,8 +81,6 @@ function renderJSON(json) {
     }
     $('#comment-textarea-' + json.data[i].id).val(textdata[json.data[i].id]);
   }
-  $('button.timeline-comment-button').timelineComment();
-  $('.timeline-now-comment-button').timelineCommentSmtToggle();
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
   $('#timeline-list-loader').hide();
   $('#timeline-list').show();
@@ -94,7 +95,10 @@ function timelineDifferenceLoad() {
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
     }
-    $('#timeline-list').prepend($('#timelineTemplate').tmpl(json.data));
+    $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('button.timeline-comment-button', $timelineData).timelineComment();
+    $('.timeline-now-comment-button', $timelineData).timelineCommentSmtToggle();
+    $('#timeline-list').prepend($timelineData);
     for(i=0;i<json.data.length;i++)
     {
       if(json.data[i].reply)
@@ -102,7 +106,6 @@ function timelineDifferenceLoad() {
         $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
       }
     }
-    $('.timeline-now-comment-button').timelineCommentSmtToggle();
   });
 }
 
@@ -127,6 +130,8 @@ function timelineLoadmore() {
       $('#timeline-list').attr('data-loadmore-id', json.data[max].id);
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
+    $('button.timeline-comment-button', $timelineData).timelineComment();
+    $('.timeline-now-comment-button', $timelineData).timelineCommentSmtToggle();
     $('#timeline-list').after($timelineData);
     for(i=0;i<json.data.length;i++)
     {   
@@ -135,8 +140,6 @@ function timelineLoadmore() {
         $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
       }
     }
-    $('button.timeline-comment-button').timelineComment();
-    $('.timeline-now-comment-button').timelineCommentSmtToggle();
     $('#timeline-list-loader').css('display', 'none');
     $('#gorgon-loadmore').css('display', 'show');
   });
