@@ -38,7 +38,14 @@ class timelineComponents extends sfComponents
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
-    $this->memberId = $request->getParameter('id');
+    if ($request->hasParameter('id'))
+    {
+      $this->memberId = $request->getParameter('id');
+    }
+    else
+    {
+      $this->memberId = $this->getUser()->getMember()->getId();
+    }
     return sfView::SUCCESS;
   }
 
