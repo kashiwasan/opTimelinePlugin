@@ -80,4 +80,4 @@ var gorgon = {
   </div>
 </div>
 <div id="loadmore-loading" style="text-align: center; display: none;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
-<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>"></div>
+<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => 'true')); ?>"></div>
