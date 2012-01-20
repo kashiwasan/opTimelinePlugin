@@ -128,7 +128,7 @@ class timelineActions extends opApiActions
       $member = Doctrine::getTable('Member')->find($memberId);
       if (!$member->getImageFileName())
       {
-        $memberImage = url_for('@homepage') . '/images/no_image.gif';
+        $memberImage = url_for('@homepage', array('absolute' => true)) . '/images/no_image.gif';
       }
       else
       {
@@ -137,7 +137,7 @@ class timelineActions extends opApiActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage')));
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage', array('absolute' => true))));
       $body = op_timeline_plugin_body_filter($activity, $body);
       $uri = $activity->getUri();
       $source = $activity->getSource();
@@ -195,7 +195,7 @@ class timelineActions extends opApiActions
             $cm['memberImage'] = sf_image_path($memberImageFile, array('size' => '48x48',));
           }
           $cm['memberScreenName'] = $this->getScreenName($cm['memberId']) ? $this->getScreenName($cm['memberId']) : $cm['memberName'];
-          $cm['body'] = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), $baseUrl);
+          $cm['body'] = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), $baseUrl);/
           if ($cm['memberId']==$this->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';

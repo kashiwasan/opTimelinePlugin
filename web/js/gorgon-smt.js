@@ -7,10 +7,18 @@ $(function(){
     var Body = $('#gorgon-textarea-body').val();
     var Csrf = $(this).attr('data-post-csrftoken');
     var baseUrl = $(this).attr('data-post-baseurl');
+    if (gorgon)
+    {   
+      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body + '&foreign=' + gorgon.post.foreign + '&foreignId=' + gorgon.post.foreignId;
+    }   
+    else
+    {   
+      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body;
+    }   
     $.ajax({
       url: baseUrl + '/timeline/post',
       type: 'POST',
-      data: 'CSRFtoken=' + Csrf + '&body=' + Body,
+      data: Data,
       dataType: 'json',
       success: function(data) {
         if(data.status=='success'){

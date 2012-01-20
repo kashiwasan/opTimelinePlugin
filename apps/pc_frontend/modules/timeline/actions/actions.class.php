@@ -162,7 +162,7 @@ class timelineActions extends sfActions
       $member = Doctrine::getTable('Member')->find($memberId);
       if (!$member->getImageFileName())
       {
-        $memberImage = url_for('@homepage') . 'images/no_image.gif';
+        $memberImage = url_for('@homepage', array('absolute' => true)) . 'images/no_image.gif';
       }
       else
       {
@@ -171,7 +171,7 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage')));
+      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage', array('absolute' => true))));
       $body = op_timeline_plugin_body_filter($activity, $body);
       $uri = $activity->getUri();
       $source = $activity->getSource();
@@ -220,7 +220,7 @@ class timelineActions extends sfActions
           $cm['memberName'] = $member->getName();
           if (!$member->getImageFileName())
           {
-            $cm['memberImage'] = url_for('@homepage') . 'images/no_image.gif';
+            $cm['memberImage'] = url_for('@homepage', array('absolute' => true)) . 'images/no_image.gif';
           }
           else
           {
