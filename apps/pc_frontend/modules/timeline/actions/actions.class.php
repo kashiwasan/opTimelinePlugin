@@ -52,7 +52,20 @@ class timelineActions extends sfActions
     {
       return $this->executeSmtMember($request);
     }
-    $this->memberId = $request->getParameter('id', $this->getUser()->getMember()->getName());
+    $this->memberId = $request->getParameter('id', $this->getUser()->getMember()->getId());
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    return sfView::SUCCESS;
+  }
+
+  public function executeCommunity(sfWebRequest $request)
+  {
+    if ($this->isSmt())
+    {
+      return $this->executeSmtCommunity($request);
+    }
+    $this->communityId = $request->getParameter('id');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
@@ -61,7 +74,7 @@ class timelineActions extends sfActions
 
   public function executeSmtMember($request)
   {
-    $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getName());
+    $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getId());
     $this->member = Doctrine::getTable('Member')->find($this->memberId);
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
@@ -69,6 +82,19 @@ class timelineActions extends sfActions
     $this->setLayout('smtLayoutMember');
     $this->getResponse()->setDisplayMember($this->member);  
     $this->setTemplate('smtMember');
+    return sfVIew::SUCCESS;
+  }
+
+  public function executeSmtCommunity($request)
+  {
+    $this->communityId = (int)$request->getParameter('id');
+    $this->community = Doctrine::getTable('Community')->find($this->communityId);
+    $this->baseUrl = sfConfig::get('op_base_url');
+    $form = new sfForm();
+    $this->token = $form->getCSRFToken();
+    $this->setLayout('smtLayoutGroup');
+    $this->getResponse()->setDisplayCommunity($this->community);  
+    $this->setTemplate('smtCommunity');
     return sfVIew::SUCCESS;
   }
 

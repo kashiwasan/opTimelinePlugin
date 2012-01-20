@@ -5,3 +5,9 @@ smtCommunityTimelineBox:
     ja_JP: "コミュニティのタイムラインを表示します。"
   component: [timeline, smtTimelineCommunity]
 
+smtCommunityTimelineBy1:
+  caption:
+    ja_JP: "コミュニティのタイムライン(1行表示)"
+  description:
+    ja_JP: "コミュニティのタイムラインが1行だけ表示されます。"
+  component: [timeline, smtCommunityTimelineBy1]

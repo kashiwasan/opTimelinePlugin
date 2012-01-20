@@ -2,6 +2,8 @@
 //<![CDATA[
 var gorgon = {
       'mode': 'all',
+      'post': {
+      }
     };
 //]]>
 </script>

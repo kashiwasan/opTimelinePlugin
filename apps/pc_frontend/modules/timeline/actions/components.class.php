@@ -84,6 +84,17 @@ class timelineComponents extends sfComponents
     }
   }
 
+  public function executeSmtCommunityTimelineBy1(sfWebRequest $request)
+  {
+    $this->communityId = $request->getParameter('id');
+    $this->activityData =  Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $this->communityId)->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(1)->execute();
+    if ($this->activityData)
+    {
+      $this->createdAt = $this->activityData[0]->getCreatedAt();
+      $this->body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($this->activityData[0]->getBody(), sfConfig::get('op_base_url')));
+    }
+  }
+
   public function executeSmtTimelineMember(sfWebRequest $request)
   {
     $this->id = $request->getParameter('id');
