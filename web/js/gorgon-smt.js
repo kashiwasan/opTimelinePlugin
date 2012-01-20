@@ -147,7 +147,7 @@ function timelineLoadmore() {
     {   
       if(json.data[i].reply)
       {   
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#commentlist-' +json.data[i].id);
       }
     }
     $('#timeline-list-loader').css('display', 'none');
