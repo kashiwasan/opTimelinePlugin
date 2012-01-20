@@ -11,6 +11,8 @@
   <?php endif; ?>
   </div>
   <div class="span3 offset9">
+  <?php  if (isset($createdAt) && isset($body)): ?>
   <?php echo link_to('もっと見る', '@member_timeline?id='.$memberId); ?>
+  <?php endif; ?>
   </div>
 </div>
