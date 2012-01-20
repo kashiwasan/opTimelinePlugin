@@ -57,7 +57,6 @@ var gorgon = {
     </div>
   </div>
 </div>
-<hr class="toumei">
 </script>
 
 <script id="timeline-error-template" type="text/x-jquery-tmpl">
