@@ -7,6 +7,7 @@ $(function(){
     var Body = $('#gorgon-textarea-body').val();
     var Csrf = $(this).attr('data-post-csrftoken');
     var baseUrl = $(this).attr('data-post-baseurl');
+    $('#gorgon-submit-loading').show();
     if (gorgon)
     {   
       var Data = 'CSRFtoken=' + Csrf + '&body=' + Body + '&foreign=' + gorgon.post.foreign + '&foreignId=' + gorgon.post.foreignId;
@@ -29,6 +30,7 @@ $(function(){
         }
       }
     });
+    $('#gorgon-submit-loading').hide();
   });
 
   $('#gorgon-loadmore').click( function() {

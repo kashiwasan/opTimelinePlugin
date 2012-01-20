@@ -35,6 +35,7 @@ $(document).ready(function(){
     $(".toggle1").hide();
   });
 });
+
 </script>
 
 
@@ -86,6 +87,7 @@ $(document).ready(function(){
 <?php $csrfToken = $form->getCSRFToken(); ?>
     <button class="span10 offset1 btn small primary" id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">POST</button>
   </div>
+  <div id="gorgon-submit-loading" style="text-align: center; display: none;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
   <hr class="toumei">
   <hr class="toumei">
   <hr class="toumei">

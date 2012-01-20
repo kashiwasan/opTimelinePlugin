@@ -16,3 +16,15 @@
   <?php endif; ?>
   </div>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+var gorgon = {
+      'mode': 'member',
+      'memberId': <?php echo $memberId; ?>, 
+      'post': {
+      }
+    };
+//]]>
+</script>
+<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
+<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/gorgon-smt.js"></script>
