@@ -197,8 +197,8 @@ class timelineActions extends sfActions
       }
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
-      $body = sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), opTimelinePluginUtil::screenNameReplace($activity->getBody(), url_for('@homepage', array('absolute' => true))));
-      $body = op_timeline_plugin_body_filter($activity, $body);
+      $body = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), url_for('@homepage', array('absolute' => true)));
+      // $body = op_timeline_plugin_body_filter($activity, $body);
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
