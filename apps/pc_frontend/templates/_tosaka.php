@@ -109,7 +109,11 @@ $(document).ready(function(){
       <div class="row">
         <div class="span4"><?php echo op_image_tag('LOGO.png', array('height' => '32', 'class' => 'menubutton' )); ?></div>
         <?php if (opToolkit::isSecurePage()): ?>
-        <div class="span4 center"><?php echo op_image_tag('NOTIFY_CENTER.png', array('height' => '32', 'class' => 'ncbutton')) ?></div>
+        <div id="notification_center" class="span4 center"><?php echo op_image_tag('NOTIFY_CENTER.png', array('height' => '32', 'class' => 'ncbutton')) ?>
+          <span class="nc_icon1 label important">1</span>
+          <span class="nc_icon2 label important">2</span>
+          <span class="nc_icon3 label important">3</span>
+        </div>
         <div class="span3 offset1 center"><?php echo op_image_tag('POST.png', array('height' => '32', 'class' => 'postbutton')) ?></div>
         <?php endif; ?>
       </div>
