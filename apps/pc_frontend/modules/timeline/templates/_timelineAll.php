@@ -39,7 +39,15 @@ var gorgon = {
         <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
       </div>
       <div class="comment-list" id="commentlist-${id}">
-        <form style="margin-bottom: 0px;"><textarea data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px; width: 328px;" id="comment-textarea-${id}"></textarea><button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn primary small timeline-comment-button" style="height: 20px; width: 328px; padding: 1px;">投稿</button></form>
+        <div class="comment-nowbutton" id="timeline-now-comment-${id}">
+          <button class="timeline-now-comment-button btn primary small" style="height: 20px; width: 328px; padding: 1px;">コメントする</button>
+        </div>
+        <div class="timeline-comment-area" style="display: none;">
+          <form style="margin-bottom: 0px;">
+            <textarea data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px; width: 328px;" id="comment-textarea-${id}" class="comment-textarea"></textarea>
+            <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn primary small timeline-comment-button" style="height: 20px; width: 328px; padding: 1px;">投稿</button>
+          </form>
+        </div>
       </div>
     </div>
 </script>

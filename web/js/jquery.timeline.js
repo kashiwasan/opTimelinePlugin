@@ -40,11 +40,24 @@
 		});
         };
 
+	$.fn.timelineCommentToggle = function(settings){
+		return this.each(function(){
+			$(this).click(function(){
+				$(this).hide();
+				$target = $(this).parent().next();
+				$target.show();
+				$('.comment-textarea', $target).focus();
+			});
+		}); 
+	};
+
 	$.fn.timelineCommentSmtToggle = function(settings){
 		return this.each(function(){
 			$(this).click(function(){
 				$(this).hide();
-				$(this).parent().next().show();
+				$target = $(this).parent().next();
+				$target.show();
+				$('.comment-textarea', $target).focus();
 			});
 		});
 	};

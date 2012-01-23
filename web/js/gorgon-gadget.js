@@ -66,6 +66,7 @@ function renderJSON(json) {
   $('#timeline-list').empty();
   $timelineData = $('#timelineTemplate').tmpl(json.data);
   $('button.timeline-comment-button', $timelineData).timelineComment();
+  $('.timeline-now-comment-button', $timelineData).timelineCommentToggle();
   $timelineData.appendTo('#timeline-list');
   if(json.data[0])
   {
@@ -104,6 +105,7 @@ function timelineDifferenceLoad() {
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
     $('button.timeline-comment-button', $timelineData).timelineComment();
+    $('.timeline-now-comment-button', $timelineData).timelineCommentToggle();
     $('#timeline-list').prepend($timelineData);
     for(i=0;i<json.data.length;i++)
     {
@@ -133,6 +135,7 @@ function timelineLoadmore() {
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
     $('button.timeline-comment-button', $timelineData).timelineComment();
+    $('.timeline-now-comment-button', $timelineData).timelineCommentToggle();
     $('#timeline-list').after($timelineData);
     for(i=0;i<json.data.length;i++)
     {

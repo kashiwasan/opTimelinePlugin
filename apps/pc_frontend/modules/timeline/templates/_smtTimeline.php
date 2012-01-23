@@ -41,7 +41,7 @@ var gorgon = {
 </div>
 <div class="row hide" id="timeline-comment-form-${id}">
   <form class="span10 offset2" style="margin-bottom: 0px;">
-    <textarea class="span10" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px;" id="comment-textarea-${id}"></textarea>
+    <textarea class="span10 comment-textarea" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px;" id="comment-textarea-${id}"></textarea>
     <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn primary small timeline-comment-button center span10" style="height: 20px; padding: 1px; text-align: center;">投稿</button>
   </form>
 </div>
