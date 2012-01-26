@@ -1,44 +1,8 @@
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
-<script type="text/javascript">
-//-----------------------------------
-//COMMENT BUTTON NAVIGATION
-$(document).ready(function(){
-  $(".commentbutton").click(function(){
-    $(".commentform").toggle();
-    $(".commentbutton").toggle();
-  });
-});
-
-//-----------------------------------
-//TOSAKA BUTTON NAVIGATION
-$(document).ready(function(){
-  $(".postbutton").click(function(){
-    $(".toggle1:not(.postform)").hide();
-    $(".postform").toggle();
-    if($(".postform").is(":visible")){
-      $(".posttextarea").focus();
-    }
-  });
-
-  $(".ncbutton").click(function(){
-    $(".toggle1:not(.ncform)").hide();
-    $(".ncform").toggle();
-  });
-
-  $(".menubutton").click(function(){
-    $(".toggle1:not(.menuform)").hide();
-    $(".menuform").toggle();
-  });
-
-  $(".toggle1_close").click(function(){
-    $(".toggle1").hide();
-  });
-});
-
-</script>
-
-
+<?php use_helper('Javascript'); ?>
+<?php use_javascript('jquery.tmpl.js'); ?>
+<?php use_javascript('smt_notify.js'); ?>
+<?php use_javascript('smt_util.js'); ?>
+<?php include_javascripts() ?>
 <!-- NCFORM TMPL -->
 <div class="ncform hide toggle1">
   <hr class="toumei">
@@ -51,18 +15,57 @@ $(document).ready(function(){
       <?php echo op_image_tag('UPARROW', array('class' => 'toggle1_close')) ?>
     </div>
   </div>
-  <div class="row">
-  <hr class="toumei">
-  <hr class="toumei">
-    <div class="span12 center">
-      <img src="http://p.pne.jp/d/201201162250.png" alt="" />
-    </div>
+  <div id="pushList" class="hide">
   </div>
-  <hr class="toumei">
-  <hr class="toumei">
-  <?php echo op_image_tag('SEPALATOR.png', array('height' => '6', 'width' => '320')) ?>
+  <div id="pushLoading" class="center"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
 </div>
 <!-- NCFORM TMPL -->
+
+<script id="pushListTemplate" type="text/x-jquery-tmpl">
+    <div class="row push" data-location-url="${url}" data-member-id="${member_id_from}">
+      <div class="{{if category=="message" || category=="other"}}divlink {{/if}}row" data-location-url="${url}" data-member-id="${member_id_from}">
+      <hr class="toumei">
+      <div class="span3">
+        <img style="margin-left: 5px;" src="${icon_url}" class="rad4" width="48" height="48">
+      </div>
+      <div class="span9" style="margin-left: -13px;">
+      {{if category=="friend"}}
+        <div class="row">
+        {{html body}}
+        </div>
+        <div class="row">
+            <button class="span2 btn primary small">YES</button>
+            <button class="span2 btn small">NO</button>
+        </div>
+      {{/if}}
+      {{if category=="message"}}
+        <div class="link_message">
+        {{html body}}
+        </div>
+      {{/if}}
+      {{if category=="other"}}
+        <div class="link_other">
+        {{html body}}
+        </div>
+      {{/if}}
+      </div>
+      <hr class="toumei">
+    </div>
+    </div>
+    <hr class="gray">
+</script>
+<script id="pushCountTemplate" type="text/x-jquery-tmpl">
+  {{if message.unread!=='0'}}
+  <span class="nc_icon1 label important" id="nc_count1">${message.unread}</span>
+  {{/if}}
+  {{if link.unread!=='0'}}
+  <span class="nc_icon2 label important" id="nc_count2">${link.unread}</span>
+  {{/if}}
+  {{if other.unread!=='0'}}
+  <span class="nc_icon3 label important" id="nc_count3">${other.unread}</span>
+  {{/if}}
+</script>
+
 
 <?php include_partial('default/smtMenu') ?>
 
@@ -83,11 +86,10 @@ $(document).ready(function(){
   </div>
   <hr class="toumei">
   <div class="row">
-<?php $form = new sfForm(); ?>
-<?php $csrfToken = $form->getCSRFToken(); ?>
+    <?php $form = new sfForm(); ?>
+    <?php $csrfToken = $form->getCSRFToken(); ?>
     <button class="span10 offset1 btn small primary" id="gorgon-submit" data-post-csrftoken="<?php echo $csrfToken; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">POST</button>
   </div>
-  <div id="gorgon-submit-loading" style="text-align: center; display: none;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
   <hr class="toumei">
   <hr class="toumei">
   <hr class="toumei">
@@ -109,15 +111,10 @@ $(document).ready(function(){
   <div class="row">
     <div class="span12">
       <div class="row">
-        <div class="span4"><?php echo op_image_tag('LOGO.png', array('height' => '32', 'class' => 'menubutton' )); ?></div>
-        <?php if (opToolkit::isSecurePage()): ?>
+        <div class="span4"><?php echo op_image_tag('LOGO.png', array('height' => '32', 'class' => 'menubutton')); ?></div>
         <div id="notification_center" class="span4 center"><?php echo op_image_tag('NOTIFY_CENTER.png', array('height' => '32', 'class' => 'ncbutton')) ?>
-          <span class="nc_icon1 label important">1</span>
-          <span class="nc_icon2 label important">2</span>
-          <span class="nc_icon3 label important">3</span>
         </div>
-        <div class="span3 offset1 center"><?php echo op_image_tag('POST.png', array('height' => '32', 'class' => 'postbutton')) ?></div>
-        <?php endif; ?>
+        <div class="span3 offset1 center"><?php echo op_image_tag('POST.png', array('height' => '32', 'class' =>'postbutton')) ?></div>
       </div>
     </div>
   </div>
