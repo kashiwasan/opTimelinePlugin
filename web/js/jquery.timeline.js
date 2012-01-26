@@ -1,8 +1,13 @@
-/**********************************************
-** jQuery timeilinePopin functions
-** how to use : $('#element').timelinePopin();
+/*********************************************************
+** jQuery timeilinePlugin functions
+** how to use : $('#element').timelineComment();
 **              $('#element').timelineDelete();
-***********************************************/
+**              $('#element').timelineCommentToggle();
+**              $('#element').timelineSmtCommentToggle();
+**              $('#element').timeline
+** @parts     : opTimelinePlugin
+** @author    : Shouta Kashiwagi <kashiwagi@tejimaya.com>
+**********************************************************/
 
 (function($){
 	var _followScroll = true;
