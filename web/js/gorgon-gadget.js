@@ -3,9 +3,8 @@ $(function(){
   var timerArray = new Array();
   timelineAllLoad();
   timerID = setInterval('timelineDifferenceLoad()', 15000);
-  if (typeof gorgon.notify != undefined)
+  if ( gorgon.notify !== undefined )
   {
-    includeJS(gorgon.notify.lib);
     $('#timeline-desktopify').desktopify({
       unsupported : function(){
         $('#timeline-desktopify').hide();
@@ -110,7 +109,7 @@ function timelineDifferenceLoad() {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
-      if (typeof gorgon.notify != undefined)
+      if ( gorgon.notify != undefined)
       {
         $('#timeline-desktopify').trigger('notify', [
           json.data[0].memberScreenName + ': ' + json.data[0].body,
