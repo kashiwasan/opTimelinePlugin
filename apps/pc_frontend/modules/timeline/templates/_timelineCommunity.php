@@ -1,4 +1,3 @@
-<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.desktopify.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
@@ -33,7 +32,7 @@ var gorgon = {
     });
   }); 
 </script>
-
+<?php use_javascript('/opTimelinePlugin/js/jquery.desktopify.js'); ?>
 <?php use_javascript('/opTimelinePlugin/js/gorgon-gadget.js'); ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
