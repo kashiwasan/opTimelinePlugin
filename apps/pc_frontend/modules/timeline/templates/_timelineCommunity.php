@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.desktopify.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
@@ -7,7 +8,11 @@ var gorgon = {
       'post': {
         'foreign': 'community',
         'foreignId': '<?php echo $community->getId(); ?>',
-      }
+      },
+      'notify': {
+        'lib': '<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.desktopify.js',
+        'title': '<?php echo $community->getName();?> の最新投稿',
+      },
     };
 //]]>
 </script>
@@ -68,6 +73,8 @@ var gorgon = {
 </script>
 <div class="partsHeading"><h3>SNSメンバー全員のタイムライン</h3></div>
 <a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
+
+<button id="timeline-desktopify" class="btn success">このコミュニティ内の更新通知を許可する</button><br />
 
 <div class="main-content" style="min-height: 500px; ">
   <div class="page-header">

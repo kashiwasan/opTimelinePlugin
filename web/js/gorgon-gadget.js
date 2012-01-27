@@ -3,7 +3,15 @@ $(function(){
   var timerArray = new Array();
   timelineAllLoad();
   timerID = setInterval('timelineDifferenceLoad()', 15000);
- 
+  if (typeof gorgon.notify != undefined)
+  {
+    includeJS(gorgon.notify.lib);
+    $('#timeline-desktopify').desktopify({
+      unsupported : function(){
+        $('#timeline-desktopify').hide();
+      }
+    }).trigger('click');
+  }
   $('button.timeline-comment-button').timelineComment();
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
 
@@ -102,6 +110,13 @@ function timelineDifferenceLoad() {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
+      if (typeof gorgon.notify != undefined)
+      {
+        $('#timeline-desktopify').trigger('notify', [
+          json.data[0].memberScreenName + ': ' + json.data[0].body,
+          gorgon.notify.title,
+        ]);
+      }
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
     $('button.timeline-comment-button', $timelineData).timelineComment();
@@ -165,6 +180,15 @@ function timelineLoad() {
     // $("a[rel^='prettyPopin']").timelinePopin();
     // $("a[rel^='timelineDelete']").timelineDelete();
   });
+}
+
+function includeJS(astrFile)
+{
+  var script = document.createElement('script');
+  script.src = astrFile;
+  script.type = 'text/javascript';
+  script.defer = true;
+  document.getElementsByTagName('head').item(0).appendChild(script);
 }
 
 function convertTag(str) {
