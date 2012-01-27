@@ -6,7 +6,8 @@ var gorgon = {
       'limit': '20',
       'post': {
 
-      }
+      },
+      'timer': '120000',
     };
 //]]>
 </script>

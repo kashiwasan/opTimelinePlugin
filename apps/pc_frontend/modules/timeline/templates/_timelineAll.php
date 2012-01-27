@@ -4,7 +4,8 @@ var gorgon = {
       'limit': '20',
       'post': {
 
-      }
+      },
+      'timer': '60000',
     };
 //]]>
 </script>

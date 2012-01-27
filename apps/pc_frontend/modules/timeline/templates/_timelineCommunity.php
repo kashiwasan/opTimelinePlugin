@@ -15,6 +15,7 @@ var gorgon = {
         'icon': '<?php echo sf_image_path($community->getImageFileName(), array('size' => '48x48',)); ?>',
         <?php endif; ?>
       },
+      'timer': '5000',
     };
 //]]>
 </script>

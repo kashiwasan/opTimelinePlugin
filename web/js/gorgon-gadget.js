@@ -1,8 +1,17 @@
 $(function(){
   var timerID;
   var timerArray = new Array();
+  var timer;
   timelineAllLoad();
-  timerID = setInterval('timelineDifferenceLoad()', 15000);
+  if ( gorgon.timer != undefined )
+  {
+    timer = gorgon.timer;
+  }
+  else
+  {
+    timer = 15000;
+  }
+  timerID = setInterval('timelineDifferenceLoad()', timer);
   if ( gorgon.notify !== undefined )
   {
     $('#timeline-desktopify').desktopify({
