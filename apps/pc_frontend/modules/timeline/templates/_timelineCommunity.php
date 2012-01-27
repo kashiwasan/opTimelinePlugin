@@ -11,6 +11,9 @@ var gorgon = {
       'notify': {
         'lib': '<?php echo url_for('@homepage', array('absolute' => true)); ?>opTimelinePlugin/js/jquery.desktopify.js',
         'title': '<?php echo $community->getName();?> の最新投稿',
+        <?php if ($community->getImageFileName()): ?>
+        'icon': '<?php echo sf_image_path($community->getImageFileName(), array('size' => '48x48',)); ?>',
+        <?php endif; ?>
       },
     };
 //]]>

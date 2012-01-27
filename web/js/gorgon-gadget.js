@@ -109,12 +109,23 @@ function timelineDifferenceLoad() {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
-      if ( gorgon.notify != undefined)
+      if ( gorgon.notify != undefined )
       {
-        $('#timeline-desktopify').trigger('notify', [
-          json.data[0].memberScreenName + ': ' + json.data[0].body,
-          gorgon.notify.title,
-        ]);
+        if ( gorgon.notify.icon == undefined )
+        {
+          $('#timeline-desktopify').trigger('notify', [
+            json.data[0].memberScreenName + ': ' + json.data[0].body,
+            gorgon.notify.title,
+          ]);
+        }
+        else
+        {
+          $('#timeline-desktopify').trigger('notify', [
+            json.data[0].memberScreenName + ': ' + json.data[0].body,
+            gorgon.notify.title,
+            gorgon.notify.icon,
+          ]);
+        }
       }
     }
     $timelineData = $('#timelineTemplate').tmpl(json.data);
