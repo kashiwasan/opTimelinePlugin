@@ -29,7 +29,7 @@
         <img style="margin-left: 5px;" src="${icon_url}" class="rad4" width="48" height="48">
       </div>
       <div class="span9" style="margin-left: -13px;">
-      {{if category=="friend"}}
+      {{if category=="link"}}
         <div class="row">
         {{html body}}
         </div>
@@ -55,14 +55,14 @@
     <hr class="gray">
 </script>
 <script id="pushCountTemplate" type="text/x-jquery-tmpl">
-  {{if message.unread!=='0'}}
-  <span class="nc_icon1 label important" id="nc_count1">${message.unread}</span>
+  {{if message!==0}}
+  <span class="nc_icon1 label important" id="nc_count1">${message}</span>
   {{/if}}
-  {{if link.unread!=='0'}}
-  <span class="nc_icon2 label important" id="nc_count2">${link.unread}</span>
+  {{if link!==0}}
+  <span class="nc_icon2 label important" id="nc_count2">${link}</span>
   {{/if}}
-  {{if other.unread!=='0'}}
-  <span class="nc_icon3 label important" id="nc_count3">${other.unread}</span>
+  {{if other!==0}}
+  <span class="nc_icon3 label important" id="nc_count3">${other}</span>
   {{/if}}
 </script>
 
