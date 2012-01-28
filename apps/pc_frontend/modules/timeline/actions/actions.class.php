@@ -364,6 +364,7 @@ class timelineActions extends sfActions
 
   public function executePost(sfWebRequest $request)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
     $form = new sfForm(); 
     $token = $form->getCSRFToken();
     if ($token=!$request->getParameter('CSRFtoken'))
@@ -383,14 +384,16 @@ class timelineActions extends sfActions
     if (!is_null($mentions))
     {
       $activity->setTemplate('mention_member_id');
-      $activity->setTemplateParam($mentions);
-      // $this->setNotice('1', 'other', $member_id_to, $member_id_from, $body, $url); 
+      $activity->setTemplateParam($mentions); 
     }
     $inReplyToActivityId = $request->getParameter('replyId');
     if (isset($inReplyToActivityId) && is_numeric($inReplyToActivityId))
     {
       $activity->setInReplyToActivityId($inReplyToActivityId);
-      // $this->setNotice('1', 'other', $member_id_to, $member_id_from, $body, $url);
+      $replyActivity = Doctrine::getTable('ActivityData')->find($inReplyToActivityId);
+      $activityMemberTo = Doctrine::getTable('Member')->find($replyActivity->getMemberId());
+      $notifyBody = $this->getUser()->getMember()->getName() . 'さんがあなたの投稿にコメントしました。';
+      opNotificationCenter::notify($this->getUse()->getMember(), $activityMemberTo, $notifyBody, array('category' => 'other', 'url' => url_for('@homepage')));
     }
     $foreign = $request->getParameter('foreign');
     $foreignId = $request->getParameter('foreignId');
