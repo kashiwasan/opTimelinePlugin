@@ -187,13 +187,13 @@ class timelineActions extends sfActions
     switch($orderBy)
     {
       case 'asc':
-        $activityData = $activityData->orderBy('ad.id ASC');
+        $activityData = $activityData->orderBy('ad.id DESC');
         break;
       case 'random':
         $activityData = $activityData->orderBy('random()');
         break;
       default:
-        $activityData = $activityData->orderBy('ad.id DESC');   
+        $activityData = $activityData->orderBy('ad.id DESC');
     }
 
     $activityData = $activityData->limit($limit);
@@ -289,6 +289,10 @@ class timelineActions extends sfActions
         }
       }
       $i++;
+    }
+    if ($orderBy=="asc")
+    {
+      $ac = array_reverse($ac);
     }
     $json = array( 'status' => 'success', 'data' => $ac, );
  
