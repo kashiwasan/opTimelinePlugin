@@ -2,15 +2,13 @@
 <div class="main-content" style="min-height: 300px;">
   <div class="page-header">
     <div id="timeline-list">
-<?php $count = count($activityData); ?>
-<?php for ($j = 0; $j < $count; $j++): ?>
-<?php $i = 2 - $j; ?>
+<?php foreach ($activityData as $activity): ?>
 <div class="x-chatItem outgoingItem x-outgoingItem">
   <table width="100%">
     <tbody>
       <tr>
         <td valign="top">
-            <?php echo link_to(op_image_tag_sf_image($activityData[$i]->getMember()->getImageFileName(), array('alt' => sprintf('[%s]', $activityData[$i]->getMember()), 'size' => '48x48', 'class' => 'x-avatar')), '@obj_member_profile?id='.$activityData[$i]->getMemberId()); ?>
+            <?php echo link_to(op_image_tag_sf_image($activity->getMember()->getImageFileName(), array('alt' => sprintf('[%s]', $activity->getMember()), 'size' => '48x48', 'class' => 'x-avatar')), '@obj_member_profile?id='.$activity->getMemberId()); ?>
             <div class="x-myBubble">
               <div class="x-indicator"></div>
               <table class="x-tableBubble" cellspacing="0" cellpadding="0">
@@ -21,8 +19,8 @@
 	          </tr>
                   <tr>
                     <td class="x-message">
-                      <?php echo $activityData[$i]->getBody(); ?>
-                      <div class="x-timeStamp"><?php echo $activityData[$i]->getMember()->getConfig('op_screen_name', $activityData[$i]->getMember()->getName()); ?> @ <?php echo $activityData[$i]->getCreatedAt(); ?></div>
+                      <?php echo $activity->getBody(); ?>
+                      <div class="x-timeStamp"><?php echo $activity->getMember()->getConfig('op_screen_name', $activity->getMember()->getName()); ?> @ <?php echo $activity->getCreatedAt(); ?></div>
                     </td>
                     <td class="x-messageRight"></td>
                   </tr>
@@ -38,7 +36,7 @@
       </tbody>
     </table>
   </div>
-<?php endfor; ?>
+<?php endforeach; ?>
     </div>
   </div>
   <div style="float: right; margin-top: 15px;">
