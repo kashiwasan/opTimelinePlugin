@@ -400,7 +400,10 @@ class timelineActions extends sfActions
       $replyActivity = Doctrine::getTable('ActivityData')->find($inReplyToActivityId);
       $activityMemberTo = Doctrine::getTable('Member')->find($replyActivity->getMemberId());
       $notifyBody = $this->getUser()->getMember()->getName() . 'さんがあなたの投稿にコメントしました。';
-      opNotificationCenter::notify($this->getUser()->getMember(), $activityMemberTo, $notifyBody, array('category' => 'other', 'url' => url_for('@member_timeline?id='.$this->getUser()->getMemberId())));
+      if ($activityMemberTo->getId() != $this->getUser()->getMember()->getId())
+      {
+        opNotificationCenter::notify($this->getUser()->getMember(), $activityMemberTo, $notifyBody, array('category' => 'other', 'url' => url_for('@member_timeline?id='.$this->getUser()->getMemberId())));
+      }
     }
     $foreign = $request->getParameter('foreign');
     $foreignId = $request->getParameter('foreignId');
