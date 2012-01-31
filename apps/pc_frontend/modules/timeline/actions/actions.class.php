@@ -68,6 +68,7 @@ class timelineActions extends sfActions
     $this->communityId = $request->getParameter('id');
     $this->community = Doctrine::getTable('Community')->find($this->communityId);
     $this->forward404Unless($this->community, 'Undefined community.');
+    sfConfig::set('sf_nav_type', 'community');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
