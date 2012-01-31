@@ -65,6 +65,14 @@ class timelineComponents extends sfComponents
     $this->mode = 2;
   }
 
+  public function executeCommunityTimelineBy5(sfWebRequest $request)
+  {
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/blueandgreen.css');
+    $this->communityId = $request->getParameter('id');
+    $this->activityData =  Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.foreign_table = ?', 'community')->andWhere('ad.foreign_id = ?', $this->communityId)->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(3)->execute();
+  }
+
   public function executeSmtTimeline(sfWebRequest $request)
   {
     $this->baseUrl = sfConfig::get('op_base_url');

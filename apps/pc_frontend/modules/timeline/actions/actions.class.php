@@ -66,6 +66,8 @@ class timelineActions extends sfActions
       return $this->executeSmtCommunity($request);
     }
     $this->communityId = $request->getParameter('id');
+    $this->community = Doctrine::getTable('Community')->find($this->communityId);
+    $this->forward404Unless($this->community, 'Undefined community.');
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
@@ -214,7 +216,7 @@ class timelineActions extends sfActions
       $memberName = $member->getName();
       $memberScreenName = $this->getScreenName($memberId) ? $this->getScreenName($memberId) : $memberName;
       $body = opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $activity->getBody()), url_for('@homepage', array('absolute' => true)));
-      $body = op_timeline_plugin_body_filter($activity, $body);
+      // $body = op_timeline_plugin_body_filter($activity, $body);
       $uri = $activity->getUri();
       $source = $activity->getSource();
       $sourceUri = $activity->getSourceUri();
@@ -364,7 +366,7 @@ class timelineActions extends sfActions
 
   public function executePost(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'sfImage', 'opUtil','Escaping'));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Helper', 'Date', 'I18N', 'sfImage', 'Url', 'Tag', 'opUtil','Escaping', 'opTimeline'));
     $form = new sfForm(); 
     $token = $form->getCSRFToken();
     if ($token=!$request->getParameter('CSRFtoken'))
@@ -393,7 +395,7 @@ class timelineActions extends sfActions
       $replyActivity = Doctrine::getTable('ActivityData')->find($inReplyToActivityId);
       $activityMemberTo = Doctrine::getTable('Member')->find($replyActivity->getMemberId());
       $notifyBody = $this->getUser()->getMember()->getName() . 'さんがあなたの投稿にコメントしました。';
-      opNotificationCenter::notify($this->getUse()->getMember(), $activityMemberTo, $notifyBody, array('category' => 'other', 'url' => url_for('@homepage')));
+      opNotificationCenter::notify($this->getUser()->getMember(), $activityMemberTo, $notifyBody, array('category' => 'other', 'url' => url_for('@member_timeline?id='.$this->getUser()->getMemberId())));
     }
     $foreign = $request->getParameter('foreign');
     $foreignId = $request->getParameter('foreignId');

@@ -10,9 +10,17 @@ memberSuccess:
   javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
   stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css"]
 
+smtMemberSuccess:
+  javascripts: [%OP_JQUERY_URL%, %OP_JQUERYUI_URL%, util]
+
 mentionsSuccess:
   javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js", "/opTimelinePlugin/js/timeline.mentions.js"]
   stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/custom-theme/timeline.css"]
+
+communitySuccess:
+  javascripts: ["https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
+  stylesheets: ["/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon-home.css", "/opTimelinePlugin/css/blueandgreen.css"]
+
 listSuccess:
   has_layout: false
   http_metas:
