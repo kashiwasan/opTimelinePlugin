@@ -140,6 +140,7 @@ function timelineDifferenceLoad() {
         {
           $('#timeline-list').attr('data-last-id', json.data[max].id);
         }
+        $('#timeline-list').scrollTop(750);
       }
       if ( gorgon.notify != undefined )
       {
@@ -180,11 +181,6 @@ function timelineDifferenceLoad() {
     }
     $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});
   });
-
-  if (gorgon.orderBy == "asc")
-  {
-    $('#timeline-list').scrollTop(750);
-  }
 }
 
 function timelineLoadmore() {
