@@ -3,7 +3,11 @@
   <div class="page-header">
     <div id="timeline-list">
 <?php foreach ($activityData as $activity): ?>
+<?php if ($activity->getMemberId()===$sf_context->getUser()->getMemberId()): ?>
 <div class="x-chatItem outgoingItem x-outgoingItem">
+<?php else: ?>
+<div class="x-chatItem incomingItem x-incomingItem">
+<?php endif; ?>
   <table width="100%">
     <tbody>
       <tr>

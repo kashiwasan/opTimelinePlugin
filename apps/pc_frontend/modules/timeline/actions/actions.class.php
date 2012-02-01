@@ -226,10 +226,12 @@ class timelineActions extends sfActions
       if ($memberId==$this->getUser()->getMember()->getId())
       {
         $deleteLink = 'inline';
+        $isSelf = true;
       }
       else
       {
         $deleteLink = 'none';
+        $isSelf = false;
       }
       $ac[] = array( 
         'id' => $id, 
@@ -237,6 +239,7 @@ class timelineActions extends sfActions
         'memberImage' => $memberImage, 
         'memberScreenName' => $memberScreenName, 
         'memberName' => $memberName,
+        'is_self' => $isSelf,
         'body' => $body,  
         'deleteLink' => $deleteLink,
         'uri' => $uri, 
@@ -277,10 +280,12 @@ class timelineActions extends sfActions
           if ($cm['memberId']==$this->getUser()->getMember()->getId())
           {
             $cm['deleteLink'] = 'inline';
+            $cm['is_self'] = true;
           }
           else
           {
             $cm['deleteLink'] = 'none';
+            $cm['is_self'] = false;
           }
           $cm['uri'] = $activity->getUri();
           $cm['source'] = $activity->getSource();

@@ -38,6 +38,8 @@ class opTimelinePluginUtil
         if ($member)
         {
           $memberIds[] = $member->getMemberId();
+          $memberObject = Doctrine::getTable('Member')->find($member->getMemberId());
+          opNotificationCenter::notify(sfContext::getInstance()->getUser()->getMember(), $memberObject, $body, array('category' => 'other', 'url' => url_for('@member_timeline?id='.sfContext::getInstance()->getUser()->getMemberId())));
         }
       }
       $memberId = implode("|", $memberIds);

@@ -24,7 +24,7 @@ var gorgon = {
 <?php use_javascript('/opTimelinePlugin/js/gorgon-gadget.js'); ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
-<div class="x-chatItem outgoingItem x-outgoingItem">
+<div class="x-chatItem {{if is_self==false}}incomingItem x-incomingItem{{else}}outgoingItem x-outgoingItem{{/if}}">
   <table width="100%">
     <tbody>
       <tr>
