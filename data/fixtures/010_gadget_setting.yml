@@ -8,7 +8,7 @@ Gadget:
     name: "timelineProfile"
     sort_order: 20
   timeline_smartphone_home:
-    type: "smartphoneHomeContents"
+    type: "smartphoneContents"
     name: "smtTimeline"
     sort_order: 10
   timeline_smartphone_profile_by1:
