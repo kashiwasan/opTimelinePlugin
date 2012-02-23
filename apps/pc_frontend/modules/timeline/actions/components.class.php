@@ -83,7 +83,7 @@ class timelineComponents extends sfComponents
 
   public function executeSmtMemberTimelineBy1(sfWebRequest $request)
   {
-    $this->memberId = $request->getParameter('id');
+    $this->memberId = $request->getParameter('id', $this->getUser()->getMemberId());
     $this->activityData =  Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id IS NULL')->andWhere('ad.member_id = ?', $this->memberId)->andWhere('ad.foreign_table IS NULL')->andWhere('ad.foreign_id IS NULL')->andWhere('ad.public_flag = ?', 1)->orderBy('ad.id DESC')->limit(1)->execute();
     if ($this->activityData)
     {

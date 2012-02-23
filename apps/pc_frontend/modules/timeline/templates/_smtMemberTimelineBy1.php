@@ -1,4 +1,4 @@
-<?php use_helper('opUtil'); ?>
+<?php use_helper('opUtil', 'Javascript'); ?>
 <div class="row">
 <div class="gadget_header span12">最新のタイムライン</div>
 </div>
@@ -16,15 +16,15 @@
   <?php endif; ?>
   </div>
 </div>
-<script type="text/javascript">
-//<![CDATA[
-var gorgon = {
-      'mode': 'member',
-      'memberId': <?php echo $memberId; ?>, 
-      'post': {
-      }
-    };
-//]]>
-</script>
-<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/jquery.timeline.js"></script>
-<script type="text/javascript" src="<?php echo url_for('@homepage'); ?>opTimelinePlugin/js/gorgon-smt.js"></script>
+<?php
+$gorgon = array(
+  'mode' => 'member',
+  'memberId' => $memberId,
+  'post' => array(),
+);
+echo javascript_tag('
+var gorgon = '.json_encode($gorgon, defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0).';
+')
+?>
+<?php use_javascript('opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
+<?php use_javascript('opTimelinePlugin/js/gorgon-smt.js', 'last') ?>
