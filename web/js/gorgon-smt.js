@@ -26,7 +26,7 @@ $(function(){
           $('#gorgon-textarea-body').val('');
           timelineAllLoad();
         }else{
-          alert(data.message);
+          $.colorbox({inline:true, href:"#timeline-warning", width:"50%", height:"150px", open:true, scrolling:false,});
         }
       }
     });
