@@ -14,7 +14,7 @@ Gadget:
   timeline_smartphone_profile_by1:
     type: "smartphoneProfileContents"
     name: "smtTimelineMemberBy1"
-    sort_order: 20
+    sort_order: 200
   timeline_smartphone_community:
     type: "smartphoneCommunityContents"
     name: "smtCommunityTimelineBox"
