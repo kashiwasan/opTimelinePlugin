@@ -57,7 +57,7 @@ var gorgon = {
 <?php endif; ?>
 <?php endif; ?>
 
-<div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo url_for('@homepage'); ?>" data-last-id="" data-loadmore-id="">
+<div id="timeline-list" class="span12 hide" data-post-baseurl="<?php echo url_for('@homepage'); ?>" data-last-id="" data-loadmore-id="" style="margin-left: 0px;">
 </div>
 <div id="timeline-list-loader" class="row span12 center show" style="margin-top: 20px; margin-bottom: 20px;">
 <?php echo op_image_tag('ajax-loader.gif', array('absolute' => true)) ?>

@@ -62,7 +62,7 @@ var gorgon = {
   <div class="gadget_header span12">SNS全体のタイムライン</div>
 </div>
 
-<div id="timeline-list" class="row span12 hide" data-last-id="" data-loadmore-id="">
+<div id="timeline-list" class="span12 hide" data-last-id="" data-loadmore-id="" style="margin-left: 0px;">
 </div>
 <div id="timeline-list-loader" class="row span12 center show" style="margin-top: 20px; margin-bottom: 20px;">
 <?php echo op_image_tag('ajax-loader.gif', array('alt' => 'Now Loading...')) ?>
