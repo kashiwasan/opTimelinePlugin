@@ -21,12 +21,31 @@ function timelineAllLoad() {
   if (gorgon)
   {
     gorgon.apiKey = openpne.apiKey;
-    $.getJSON( openpne.apiBase + 'activity/search.json', gorgon, renderJSON);
+    $.ajax({
+      type: 'GET',
+      url: openpne.apiBase + 'activity/search.json',
+      data: gorgon,
+      success: renderJSON,
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+      $('#timeline-list-loader').hide();
+      $('#timeline-list').text('タイムラインは投稿されていません。');
+      $('#timeline-list').show();
+      },
+    });
+
   }
   else
   {
-    //var gorgon = {count: 20, apiKey: openpne.apiKey};
-    $.getJSON( openpne.apiBase + 'activity/search.json', gorgon, renderJSON);
+    $.ajax({
+      type: 'GET',
+      url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
+      success: renderJSON,
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+      $('#timeline-list-loader').hide();
+      $('#timeline-list').text('タイムラインは投稿されていません。');
+      $('#timeline-list').show();
+      },
+    });
   }
 }
 
