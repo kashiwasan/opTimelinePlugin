@@ -78,8 +78,8 @@ var gorgon = {
 
 <div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id="" data-loadmore-id="">
 </div>
-<div id="timeline-list-loader" class="row span12 center show">
-<?php op_image_tag('ajax_loader.gif', array('alt' => 'Now Loading...')) ?>
+<div id="timeline-list-loader" class="row span12 center show" style="margin-top: 20px; margin-bottom: 20px;">
+<?php echo op_image_tag('ajax_loader.gif', array('alt' => 'Now Loading...')) ?>
 </div>
 <div class="row">
   <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>
