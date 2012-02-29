@@ -3,34 +3,8 @@ $(function(){
   timelineAllLoad();
   timerID = setInterval('timelineDifferenceLoad()', 15000);
  
-  $('#gorgon-submit').click( function() {
-    var Body = $('#gorgon-textarea-body').val();
-    var Csrf = $(this).attr('data-post-csrftoken');
-    var baseUrl = $(this).attr('data-post-baseurl');
-    $('#gorgon-submit-loading').show();
-    if (gorgon)
-    {   
-      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body + '&foreign=' + gorgon.post.foreign + '&foreignId=' + gorgon.post.foreignId;
-    }   
-    else
-    {   
-      var Data = 'CSRFtoken=' + Csrf + '&body=' + Body;
-    }   
-    $.ajax({
-      url: baseUrl + '/timeline/post',
-      type: 'POST',
-      data: Data,
-      dataType: 'json',
-      success: function(data) {
-        if(data.status=='success'){
-          $('#gorgon-textarea-body').val('');
-          timelineAllLoad();
-        }else{
-          $.colorbox({inline:true, href:"#timeline-warning", width:"50%", height:"150px", open:true, scrolling:false,});
-        }
-      }
-    });
-    $('#gorgon-submit-loading').hide();
+  $('#tosaka_postform_submit').click( function() {
+    timelineDifferenceLoad();
   });
 
   $('#gorgon-loadmore').click( function() {
@@ -44,14 +18,15 @@ $(function(){
 });
 
 function timelineAllLoad() {
-  var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
   if (gorgon)
   {
-    $.getJSON( baseUrl + '/timeline/get', gorgon, renderJSON);
+    gorgon.apiKey = openpne.apiKey;
+    $.getJSON( openpne.apiBase + 'activity/search.json', gorgon, renderJSON);
   }
   else
   {
-    $.getJSON( baseUrl + '/timeline/get?mode=all&limit=20', renderJSON);
+    //var gorgon = {count: 20, apiKey: openpne.apiKey};
+    $.getJSON( openpne.apiBase + 'activity/search.json', gorgon, renderJSON);
   }
 }
 
@@ -62,8 +37,6 @@ function renderJSON(json) {
     var textValue = $(this).val();
     textdata[elementId] = textValue;
   });
-  var baseUrl = $('#gorgon-submit').attr('data-post-baseurl');
-  var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
   $('#timeline-list').empty();
   $timelineData = $('#timelineTemplate').tmpl(json.data);
   $('button.timeline-comment-button', $timelineData).timelineComment();
@@ -81,9 +54,9 @@ function renderJSON(json) {
   if(json.data)
   for(i=0;i<json.data.length;i++)
   {
-    if(json.data[i].reply)
+    if(json.data[i].replies)
     {
-      $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#commentlist-' +json.data[i].id);
+      $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#commentlist-' +json.data[i].id);
     }
     if(!textdata[json.data[i].id])
     {
@@ -97,10 +70,16 @@ function renderJSON(json) {
 }
 
 function timelineDifferenceLoad() {
-  var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var lastId = $('#timeline-list').attr('data-last-id');
-  var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
-  $.getJSON( baseUrl + '/timeline/get?list=check&limit=20&lastId=' + lastId, gorgon, function (json) {
+  if (gorgon)
+  {
+    gorgon.apiKey = openpne.apiKey;
+  }
+  else
+  {
+    gorgon = {apiKey: openpne.apiKey,}
+  }
+  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function (json) {
     if (json.data[0])
     {
       $('#timeline-list').attr('data-last-id', json.data[0].id);
@@ -111,23 +90,29 @@ function timelineDifferenceLoad() {
     $('#timeline-list').prepend($timelineData);
     for(i=0;i<json.data.length;i++)
     {
-      if(json.data[i].reply)
+      if(json.data[i].replies)
       {
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#comment-list-' + json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#comment-list-' + json.data[i].id);
       }
     }
   });
 }
 
 function timelineLoadmore() {
-  var baseUrl = $('#timeline-list').attr('data-post-baseurl');
   var loadmoreId = $('#timeline-list').attr('data-loadmore-id');
-  var commentCSRF = $('#gorgon-submit').attr('data-post-csrftoken');
+  if (gorgon)
+  {
+    gorgon.apiKey = openpne.apiKey;
+  }
+  else
+  {
+    gorgon = {apiKey: openpne.apiKey,}
+  }
 
   $('#timeline-list-loader').css('display', 'show');
   $('#gorgon-loadmore').css('display', 'none');
 
-  $.getJSON( baseUrl + '/timeline/get?list=more&limit=20&moreId=' + loadmoreId, gorgon, function (json) {
+  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&max_id=' + loadmoreId, gorgon, function (json) {
     $('#timeline-list-loader').css('dispaly', 'show');
     $('#gorgon-loadmore').css('display', 'none');
     var max = json.data.length - 1;
@@ -145,31 +130,13 @@ function timelineLoadmore() {
     $('#timeline-list').after($timelineData);
     for(i=0;i<json.data.length;i++)
     {   
-      if(json.data[i].reply)
+      if(json.data[i].replies)
       {   
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#commentlist-' +json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#commentlist-' +json.data[i].id);
       }
     }
     $('#timeline-list-loader').css('display', 'none');
     $('#gorgon-loadmore').css('display', 'show');
-  });
-}
-
-function timelineLoad() {
-  var baseUrl = window.location.pathname;
-  $.getJSON( baseUrl + '/list',function(json){
-    $('#timeline-list').empty();
-    $('#timelineTemplate').tmpl(json.data).appendTo('#timeline-list');
-    for(i=0;i<json.data.length;i++){
-      if(json.data[i].reply)
-      {
-        $('#timelineCommentTemplate').tmpl(json.data[i].reply).appendTo('#commentlist-' + json.data[i].id);
-      }
-    }
-    $('.comment-list').append('<form><textarea class="comment-textarea">コメントする</textarea><button class="comment-button button" >投稿</button></form>');
-    
-    // $("a[rel^='prettyPopin']").timelinePopin();
-    // $("a[rel^='timelineDelete']").timelineDelete();
   });
 }
 

@@ -27,9 +27,9 @@
 				var csrfToken = $(this).attr('data-post-csrftoken');
 				var Body = $('#comment-textarea-'+id).val();
 				$.ajax({
- 					url: baseUrl + '/timeline/post',
+ 					url: openpne.apiBase + 'activity/post.json',
 					type: 'POST',
-      					data: 'CSRFtoken=' + csrfToken + '&body=' + Body + '&replyId=' + id + '&foreign=' + foreign + '&foreignId=' +foreignId,
+      					data: 'body=' + Body + '&in_reply_to_activity_id=' + id + '&apiKey=' + openpne.apiKey + '&target=' + foreign + '&target_id=' +foreignId,
       					dataType: 'json',
       					success: function(data) {
         					if(data.status=='success'){

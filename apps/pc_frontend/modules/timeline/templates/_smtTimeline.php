@@ -12,12 +12,13 @@ var gorgon = {
 <?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/gorgon-smt.js', 'last') ?>
+
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
 <div class="timeline font14 row">
-  <div class="span2"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="46" height="46" /></a></div>
+  <div class="span2"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${member.id}"><img src="${member.profile_image}" class="rad6" width="46" height="46" /></a></div>
   <div class="span10">
     <div id="timelinebody-${id}" class="span10" style="min-height: 48px; max-width: 230px;">
-    <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b><div class="timelinebody-context" id="timelinebody-context-${id}">{{html body}}</div></div>
+    <b><a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a></b><div class="timelinebody-context" id="timelinebody-context-${id}">{{html body}}</div></div>
     <div id="commentlist-${id}"></div>
   </div>
 </div>
@@ -26,8 +27,8 @@ var gorgon = {
 </div>
 <div class="row hide" id="timeline-comment-form-${id}">
   <form class="span10 offset2" style="margin-bottom: 0px;">
-    <textarea class="span10 comment-textarea" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px;" id="comment-textarea-${id}"></textarea>
-    <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn btn-primary btn-mini timeline-comment-button center span10" style="height: 20px; padding: 1px; text-align: center;">投稿</button>
+    <textarea class="span10 comment-textarea" data-timeline-id="${id}" style="height: 35px;" id="comment-textarea-${id}"></textarea>
+    <button data-timeline-id="${id}" class="btn btn-primary btn-mini timeline-comment-button center span10" style="height: 20px; padding: 1px; text-align: center;">投稿</button>
   </form>
 </div>
 </script>
@@ -36,25 +37,14 @@ var gorgon = {
 <div class="comment font12 row">
   <div class="span10">
     <div class="row">
-      <div class="span1"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}"><img src="${memberImage}" class="rad6" width="23" height="23" /></a></div>
+      <div class="span1"><a href="${member.profile_url}"><img src="${member.profile_image}" class="rad6" width="23" height="23" /></a></div>
       <div class="span9">
-        <b><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>member/${memberId}">{{if memberScreenName}} ${memberScreenName} {{else}} ${memberName} {{/if}}</a></b> 
+        <b><a href="${member.profile_image}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a></b> 
         <span id="timeline-comment-context-${id}" class="timeline-comment-context">{{html body}}</span>
       </div>
     </div>
   </div>
 </div>
-</script>
-
-<script id="timeline-error-template" type="text/x-jquery-tmpl">
-  <div id="error-panel" style="display: none;">
-    <span id="error">${json.message}</span>
-  </div>
-</script>
-<script id="timeline-delete-confirm-template" type="text/x-jquery-tmpl">
-  <div id="delete-confirm-panel" style="display: none;">
-   <span id="error">${json.message}</span>
-  </div>
 </script>
 
 <div style="display: none;">
@@ -72,12 +62,12 @@ var gorgon = {
   <div class="gadget_header span12">SNS全体のタイムライン</div>
 </div>
 
-<div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id="" data-loadmore-id="">
+<div id="timeline-list" class="row span12 hide" data-last-id="" data-loadmore-id="">
 </div>
 <div id="timeline-list-loader" class="row span12 center show">
-<img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>images/ajax-loader.gif" alt="Now loading..." />
+<?php op_image_tag('ajax_loader.gif', array('alt' => 'Now Loading...')) ?>
 </div>
-<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>"></div>
+<div id="gorgon-submit"></div>
 <hr class="toumei">
 <div class="row">
   <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>

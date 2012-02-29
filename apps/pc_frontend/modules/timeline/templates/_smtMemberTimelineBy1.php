@@ -26,5 +26,8 @@ echo javascript_tag('
 var gorgon = '.json_encode($gorgon, defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0).';
 ')
 ?>
-<?php use_javascript('opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
-<?php use_javascript('opTimelinePlugin/js/gorgon-smt.js', 'last') ?>
+
+<?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
+<?php use_javascript('/opTimelinePlugin/js/gorgon-smt.js', 'last') ?>

@@ -45,3 +45,6 @@ timelinePluginSuccess:
   http_metas:
     content-type: application/x-javascript
 
+smtShowSuccess:
+  layout: smtLayoutSns
+

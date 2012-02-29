@@ -2,7 +2,8 @@
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
-      'member_id': <?php echo $id; ?>,
+      'activity_id': <?php echo $activity->getId() ?>,
+      'count': 1,
     };
 //]]>
 </script>
@@ -49,21 +50,12 @@ var gorgon = {
 </script>
 
 <div class="row">
-  <div class="gadget_header span12"><?php if ($member): ?><?php echo $member->getName(); ?>さんのタイムライン<?php else: ?>タイムライン<?php endif; ?></div>
+  <div class="gadget_header span12"><?php echo $activity->getMember()->getName(); ?>さんのタイムライン</div>
 </div>
-<?php if ($member): ?>
-<?php if ($sf_user->getMemberId()==$member->getId()): ?>
-<a href="<?php echo url_for('@homepage'); ?>member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
-<?php endif; ?>
-<?php endif; ?>
 
 <div id="timeline-list" class="row span12 hide" data-post-baseurl="<?php echo url_for('@homepage'); ?>" data-last-id="" data-loadmore-id="">
 </div>
-<div id="timeline-list-loader" class="row span12 center show" style="margin-top: 20px; margin-bottom: 20px;">
-<?php echo op_image_tag('ajax-loader.gif', array('absolute' => true)) ?>
-</div>
-<div id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage'); ?>"></div>
-<div class="row">
-  <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>
+<div id="timeline-list-loader" class="row span12 center show">
+<?php op_image_tag('ajax-loader.gif', array('absolute' => true)) ?>
 </div>
 

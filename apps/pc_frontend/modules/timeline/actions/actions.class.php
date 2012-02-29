@@ -75,6 +75,28 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
+  public function executeShow($request)
+  {
+    if ($this->isSmt())
+    {
+      return $this->executeSmtShow($request);
+    }
+  }
+
+  public function executeSmtShow($request)
+  {
+    $this->setLayout('smtLayoutSns');
+    $this->setTemplate('smtShow');
+    $activityId = (int)$request['id'];
+    $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
+    if (!$this->activity)
+    {
+      return sfView::ERROR;
+    }
+    $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
+    return sfView::SUCCESS; 
+  }
+
   public function executeSmtMember($request)
   {
     $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getId());
@@ -85,7 +107,7 @@ class timelineActions extends sfActions
     $this->setLayout('smtLayoutMember');
     $this->getResponse()->setDisplayMember($this->member);  
     $this->setTemplate('smtMember');
-    return sfVIew::SUCCESS;
+    return sfView::SUCCESS;
   }
 
   public function executeSmtCommunity($request)
@@ -98,7 +120,7 @@ class timelineActions extends sfActions
     $this->setLayout('smtLayoutGroup');
     $this->getResponse()->setDisplayCommunity($this->community);  
     $this->setTemplate('smtCommunity');
-    return sfVIew::SUCCESS;
+    return sfView::SUCCESS;
   }
 
   public function executeMentions(sfWebRequest $request)
