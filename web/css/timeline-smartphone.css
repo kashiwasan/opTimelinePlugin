@@ -1,0 +1,104 @@
+.btn-mini {
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.timeline {
+  width: 320px;
+}
+
+.timeline-post {
+  width: 320px;
+  padding: 5px 0;
+  border-top: 2px solid #DDD;
+}
+
+.timeline-post-member-image {
+  float: left;
+  width: 25px;
+}
+
+.timeline-post-content {
+  float: left;
+  width: 295px;
+}
+
+.timeline-member-name {
+  width: 295px;
+  display: block;
+  padding: 0 5px;
+}
+
+.timeline-post-body {
+  width: 285px;
+  display: block;
+  padding: 5px;
+}
+
+.timeline-post-control {
+  display: block;
+  width: 295px;
+  margin-left: 25px;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+.timeline-post-comments {
+  width: 295px;
+  margin-left: 25px;
+  margin-top: 10px;
+  background-color: whiteSmoke;
+}
+
+.timeline-post-comment {
+  width: 285px;
+  display: block;
+  padding: 5px;
+  border-top: 1px solid #DDD;
+}
+
+.timeline-post-comment-member-image {
+  float: left;
+  width: 23px;
+}
+
+.timeline-post-comment-content {
+  float: left;
+  width: 262px;
+}
+
+.timeline-post-comment-name-and-body {
+  display: inline;
+  float: left;
+  font-size: 12px;
+}
+
+.timeline-post-comment-control {
+  display: block;
+  width: 272px;
+  margin-left: 23px;
+  font-size: 11px;
+}
+
+
+
+.timeline-post-comment-form {
+  display: none;
+  width: 285px;
+  padding: 5px;
+  border-top: 1px solid #DDD;
+}
+
+.comment-form-show {
+  display: block;
+}
+
+.timeline-post-comment-form-input {
+  width: 238px;
+  height: 15px;
+  padding: 2px;
+  margin-bottom: 0px;
+  margin-right: 4px;
+}
+
