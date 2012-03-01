@@ -16,6 +16,7 @@ var gorgon = {
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
         <div class="timeline-post">
+          <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
             <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" /></a>
           </div>
@@ -28,7 +29,7 @@ var gorgon = {
             </div>
           </div>
           <div class="timeline-post-control">
-            <a href="#" class="timeline-comment-link">コメントする</a>
+            <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">
@@ -75,7 +76,7 @@ var gorgon = {
   <div class="gadget_header span12">SNS全体のタイムライン</div>
 </div>
 
-<div class="timeline">
+<div class="timeline" style="margin-left: 0px;">
   <div id="timeline-list" data-last-id="" data-loadmore-id="" style="margin-left: 0px;">
   
   </div>
