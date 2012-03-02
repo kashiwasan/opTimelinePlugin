@@ -12,7 +12,21 @@
   width: 410px;
 }
 
+#timeline-submit-loader {
+  display: none;
+  text-align: center;
+  float: left;
+  width: 370px;
+}
+
+#timeline-submit-loader img {
+  max-width: 28px;
+  max-height : 28px;
+}
+
 #timeline-submit-area{
+  width: 48px;
+  float: left;
   display: none;
 }
 
@@ -34,6 +48,12 @@
 .timeline-post-member-image {
   float: left;
   width: 50px;
+}
+
+.timeline-post-member-image img {
+  max-width: 48px;
+  max-height: 48px;
+
 }
 
 .timeline-post-content {
@@ -73,15 +93,18 @@
   display: block;
   padding: 5px;
   border-top: 1px solid #DDD;
+  min-height: 52px;
 }
 
 .timeline-post-comment-member-image {
   float: left;
   width: 40px;
+  max-height: 36px;
+  max-width: 36px;
 }
 
 .timeline-post-comment-content {
-  float: left;
+  float: right;
   width: 320px;
 }
 
@@ -105,6 +128,19 @@
   width: 360px;
   padding: 5px;
   border-top: 1px solid #DDD;
+}
+
+.timeline-post-comment-form-loader {
+  display: none;
+  width: 360px;
+  padding: 5px;
+  border-top: 1px solid #DDD;
+  text-align: center;
+}
+
+.timeline-post-comment-form-loader img {
+  max-width: 20px;
+  max-height: 20px;
 }
 
 .comment-form-show {

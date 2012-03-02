@@ -26,6 +26,9 @@
 				var foreignId = $(this).attr('data-activity-foreign-id');
 				var csrfToken = $(this).attr('data-post-csrftoken');
 				var Body = $('#comment-textarea-'+id).val();
+                                $timelineLoader = $(this).parent().next();
+                                $timelineLoader.show();
+                                $(this).parent().hide();
 				$.ajax({
  					url: openpne.apiBase + 'activity/post.json',
 					type: 'POST',
@@ -34,6 +37,7 @@
       					success: function(data) {
         					if(data.status=='success'){
           						$('#comment-textarea-'+id).val('');
+                                                        $timelineLoader.show();
           						timelineAllLoad();
         					}else{
           						alert(data.message);

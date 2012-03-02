@@ -74,7 +74,8 @@ function renderJSON(json) {
   {
     if(json.data[i].replies)
     {
-      $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#commentlist-' +json.data[i].id);
+      $('#timelineCommentTemplate').tmpl(json.data[i].replies).prependTo('#commentlist-' +json.data[i].id);
+      $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
     }
   }
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
@@ -110,7 +111,8 @@ function timelineDifferenceLoad() {
     {
       if(json.data[i].replies)
       {
-        $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#comment-list-' + json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].replies).prependTo('#comment-list-' + json.data[i].id);
+        $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
     }
   });
@@ -155,7 +157,8 @@ function timelineLoadmore() {
     {   
       if(json.data[i].replies)
       {   
-        $('#timelineCommentTemplate').tmpl(json.data[i].replies).appendTo('#commentlist-' +json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].replies).prependTo('#commentlist-' +json.data[i].id);
+        $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
     }
     $('#timeline-list-loader').css('display', 'none');

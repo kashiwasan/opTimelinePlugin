@@ -28,16 +28,18 @@ var gorgon = {
               {{html body}}
             </div>
           </div>
+
           <div class="timeline-post-control">
             <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">
 
-            <div class="timeline-post-comment-form">
+            <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
             <input class="timeline-post-comment-form-input" type="text" data-timeline-id="${id}" id="comment-textarea-${id}" /><button data-timeline-id="${id}" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
             </div>
           </div>
+
         </div>
 </script>
 

@@ -24,6 +24,7 @@ $(function(){
   // $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()",});
 
   $('#timeline-submit-button').click( function() {
+    $('#timeline-submit-loader').show();
     var Body = $('#timeline-textarea').val();
     var Csrf = $(this).attr('data-post-csrftoken');
     var baseUrl = $(this).attr('data-post-baseurl');
@@ -42,9 +43,11 @@ $(function(){
       dataType: 'json',
       success: function(data) {
         if(data.status=='success'){
-          $('#timeline-textarea').val('');
           timelineAllLoad();
+          $('#timeline-submit-loader').hide();
+          $('#timeline-textarea').val('');
         }else{
+          $('#timeline-submit-loader').hide();
           alert(data.message);
         }
       }
@@ -108,6 +111,7 @@ function renderJSON(json) {
     if(json.data[i].reply)
     {
       $('#timelineCommentTemplate').tmpl(json.data[i].reply).prependTo('#commentlist-' +json.data[i].id);
+      $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
     }
   }
   $('a[rel^="timelineDelete"]').timelineDelete({callback: "timelineAllLoad()"});

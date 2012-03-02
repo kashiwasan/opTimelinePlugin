@@ -20,7 +20,7 @@ var gorgon = {
       $("#timeline-textarea").focus(function(){
         $('.timeline-postform').css('padding-bottom', '30px');
         $('#timeline-textarea').attr('rows', '3');
-        $('#timeline-submit-area').show();
+        $('#timeline-submit-area').css('display', 'inline');
       });
     });
     </script>
@@ -29,7 +29,7 @@ var gorgon = {
         <div class="timeline-post">
           <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
-            <img src="${memberImage}" alt="${memberScreenName}" width="48" />
+            <img src="${memberImage}" alt="${memberScreenName}" />
           </div>
           <div class="timeline-post-content">
             <div class="timeline-member-name">
@@ -45,9 +45,12 @@ var gorgon = {
 
           <div class="timeline-post-comments" id="commentlist-${id}">
 
-            <div class="timeline-post-comment-form">
+            <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
             <input class="timeline-post-comment-form-input" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" id="comment-textarea-${id}" type="text" />
             <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
+            </div>
+            <div id="timeline-post-comment-form-loader-${id}" class="timeline-post-comment-form-loader">
+            <?php echo op_image_tag('ajax-loader.gif', array()) ?>
             </div>
           </div>
         </div>
@@ -78,6 +81,7 @@ var gorgon = {
     <div class="timeline">
       <div class="timeline-postform well">
         <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
+        <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-area">
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">投稿</button>
         </div>
