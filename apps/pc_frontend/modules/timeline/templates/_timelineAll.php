@@ -40,7 +40,7 @@ var gorgon = {
             </div>
           </div>
           <div class="timeline-post-control">
-          <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a> | {{if deleteLink=="inline"}}<a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">削除する</a> | {{/if}} ${createdAt}
+          <a class="timeline-comment-link">コメントする</a> | {{if deleteLink=="inline"}}<a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">削除する</a> | {{/if}} ${createdAt}
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">

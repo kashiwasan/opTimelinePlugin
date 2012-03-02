@@ -64,8 +64,8 @@
 }
 
 .timeline-post-comment-content {
-  float: left;
-  width: 262px;
+  float: right;
+  width: 257px;
 }
 
 .timeline-post-comment-name-and-body {
@@ -76,8 +76,8 @@
 
 .timeline-post-comment-control {
   display: block;
-  width: 272px;
-  margin-left: 23px;
+  width: 267px;
+  margin-left: 28px;
   font-size: 11px;
 }
 
@@ -88,6 +88,19 @@
   width: 285px;
   padding: 5px;
   border-top: 1px solid #DDD;
+}
+
+.timeline-post-comment-form-loader {
+  display: none;
+  width: 285px;
+  padding: 5px;
+  border-top: 1px solid #DDD;
+  text-align: center;
+}
+
+.timeline-post-comment-form-loader img {
+  max-width: 20px;
+  max-height: 20px;
 }
 
 .comment-form-show {

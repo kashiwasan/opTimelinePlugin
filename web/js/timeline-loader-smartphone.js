@@ -1,10 +1,10 @@
 $(function(){
   var timerID;
   timelineAllLoad();
-  timerID = setInterval('timelineDifferenceLoad()', 15000);
+  timerID = setInterval('timelineDifferenceLoad()', 10000);
  
   $('#tosaka_postform_submit').click( function() {
-    timelineDifferenceLoad();
+    setTimeout('timelineDifferenceLoad()', 1500);
   });
 
   $('#gorgon-loadmore').click( function() {

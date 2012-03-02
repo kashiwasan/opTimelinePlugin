@@ -155,3 +155,6 @@
   margin-right: 4px;
 }
 
+.timeline-comment-link {
+  cursor: pointer;
+}

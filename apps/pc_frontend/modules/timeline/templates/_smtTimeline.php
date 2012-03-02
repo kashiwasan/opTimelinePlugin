@@ -38,7 +38,11 @@ var gorgon = {
             <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
             <input class="timeline-post-comment-form-input" type="text" data-timeline-id="${id}" id="comment-textarea-${id}" /><button data-timeline-id="${id}" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
             </div>
+            <div id="timeline-post-comment-form-loader-${id}" class="timeline-post-comment-form-loader">
+              <?php echo op_image_tag('ajax-loader.gif', array()) ?>
+            </div>
           </div>
+
 
         </div>
 </script>
