@@ -19,78 +19,87 @@ var gorgon = {
     };
 //]]>
 </script>
-<script type="text/javascript">
-  $(document).ready(function(){      
-    $("textarea").focus(function(){
-       $(this).addClass("expand");
-       if($(this).val()=="今なにしてる？")
-       {
-         $(this).val("");
-       }
-    }).blur(function(){
-       if($(this).val()=="")
-       {
-         $(this).removeClass("expand");
-         $(this).val("今なにしてる？");
-       }
+
+<?php use_javascript('/opTimelinePlugin/js/jquery.desktopify.js', 'last'); ?>
+<?php use_javascript('/opTimelinePlugin/js/timeline-loader.js', 'last') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
+
+    <script type="text/javascript">
+    $(function(){
+      $("#timeline-textarea").focus(function(){
+        $('.timeline-postform').css('padding-bottom', '30px');
+        $('#timeline-textarea').attr('rows', '3');
+        $('#timeline-submit-area').css('display', 'inline');
+      });
     });
-  }); 
-</script>
-<?php use_javascript('/opTimelinePlugin/js/jquery.desktopify.js'); ?>
-<?php use_javascript('/opTimelinePlugin/js/gorgon-gadget.js'); ?>
+    </script>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
-    <div class="gorgon-list">
-      <div class="gorgon-img"> <img height="48" width="48" src="${memberImage}" alt="${memberScreenName}"> </div>
-      <div class="gorgon">
-        <div class="gorgon-row">
-          <div class="gorgon-text"><a class="gorgon-screenname" href="<?php echo url_for('@homepage', array('absolute' => true)); ?>/member/${memberId}">${memberScreenName}</a> {{html body}} </div>
+        <div class="timeline-post">
+          <a name="timeline-${id}"></a>
+          <div class="timeline-post-member-image">
+            <img src="${memberImage}" alt="${memberScreenName}" />
+          </div>
+          <div class="timeline-post-content">
+            <div class="timeline-member-name">
+              <a class="gorgon-screenname" href="<?php echo url_for('@homepage', array('absolute' => true)); ?>/member/${memberId}">${memberScreenName}</a>
+            </div>
+            <div class="timeline-post-body">
+              {{html body}}
+            </div>
+          </div>
+          <div class="timeline-post-control">
+          <a class="timeline-comment-link">コメントする</a> | {{if deleteLink=="inline"}}<a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">削除する</a> | {{/if}} ${createdAt}
+          </div>
+
+          <div class="timeline-post-comments" id="commentlist-${id}">
+
+            <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
+            <input class="timeline-post-comment-form-input" data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" id="comment-textarea-${id}" type="text" />
+            <button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
+            </div>
+            <div id="timeline-post-comment-form-loader-${id}" class="timeline-post-comment-form-loader">
+            <?php echo op_image_tag('ajax-loader.gif', array()) ?>
+            </div>
+          </div>
         </div>
-        <div class="gorgon-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
-      </div>
-      <div class="comment-list" id="commentlist-${id}">
-        <form style="margin-bottom: 0px;"><textarea data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" style="height: 35px; width: 328px;" id="comment-textarea-${id}"></textarea><button data-timeline-id="${id}" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" class="btn primary small timeline-comment-button" style="height: 20px; width: 328px; padding: 1px;">投稿</button></form>
-      </div>
-    </div>
 </script>
 
 <script id="timelineCommentTemplate" type="text/x-jquery-tmpl">
-        <div class="comment-img"><img src="${memberImage}" width="32" height="32" alt="${memberScreenName}-comment-image"></div>
-        <div class="comment">
-          <div class="comment-row">
-            <div class="comment-text"><a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>/member/${memberId}" class="comment-screenname">${memberScreenName}</a> {{html body}}</div>
-          </div>
-          <div class="comment-row"> <div class="_reply-link" style="margin-right: 15px; display: inline;"><a href="#" class="timestamp"><span class="_timestamp"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/clock.png" alt="timelineTimestampIcon" width="15" height="15" /> ${createdAt}</span></a></div> <div class="delteLink" style="display: ${deleteLink};"><a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>"><img src="<?php echo url_for('@homepage', array('absolute' => true)); ?>/opTimelinePlugin/css/images/trash_can.png" alt="timelineDeleteIcon" width="15" height="15" /> Delete</a></div></div>
+            <div class="timeline-post-comment">
+
+              <div class="timeline-post-comment-member-image">
+                <img src="${memberImage}" alt="" width="36" />
+              </div>
+              <div class="timeline-post-comment-content">
+                <div class="timeline-post-comment-name-and-body">
+                <a href="#">${memberScreenName}</a>
+                <span class="timeline-post-comment-body">
+                {{html body}}
+                </span>
+                </div>
+              </div>
+              <div class="timeline-post-comment-control">
+              {{if deleteLink=="inline"}}<a href="#" rel="timelineDelete" class="timestamp" location-url="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-activity-id="${id}" data-activity-body="${convertTag(body)}" data-activity-memberScreenName="${memberScreenName}" data-activity-csrftoken="<?php echo $token; ?>">削除する</a> {{/if}}
+              </div>
+            </div>
+</script>
+
+<div class="partsHeading"><h3>コミュニティタイムライン</h3></div>
+    <div class="timeline">
+      <div class="timeline-postform well">
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
+        <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
+        <div id="timeline-submit-area">
+          <button id="timeline-submit-button" class="btn btn-primary timeline-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">投稿</button>
         </div>
-</script>
+      </div>
 
-<script id="timeline-error-template" type="text/x-jquery-tmpl">
-  <div id="error-panel" style="display: none;">
-    <span id="error">${json.message}</span>
-  </div>
-</script>
-<script id="timeline-delete-confirm-template" type="text/x-jquery-tmpl">
-  <div id="delete-confirm-panel" style="display: none;">
-   <span id="error">${json.message}</span>
-  </div>
-</script>
-<div class="partsHeading"><h3>SNSメンバー全員のタイムライン</h3></div>
-<a href="<?php echo url_for('@homepage', array('absolute' => true)); ?>/member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
+      <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
+      <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id=""data-loadmore-id="">
 
-<button id="timeline-desktopify" class="btn success">このコミュニティ内の更新通知を許可する</button><br />
-
-<div class="main-content" style="min-height: 500px; ">
-  <div class="page-header">
-    <div id="main-gorgon-box">
-      <div class="gorgon-box">
-          <textarea class="gorgon-textarea" id="gorgon-textarea-body">今なにしてる？</textarea>
-          <button class="gorgon-button button" id="gorgon-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>">投稿</button>
+      <button class="gorgon-button button" id="timeline-loadmore" style="width: 440px;">もっと読む</button>
       </div>
     </div>
-    <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
-    <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id="" data-loadmore-id="">
-    </div>
-    <button class="gorgon-button button" id="gorgon-loadmore" style="width: 410px;">もっと読む</button>
-  </div>
-</div>
-<div id="loadmore-loading" style="text-align: center; display: none;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
+

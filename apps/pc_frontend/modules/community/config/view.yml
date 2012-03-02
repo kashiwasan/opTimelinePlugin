@@ -1,9 +1,9 @@
 homeSuccess:
   customize:
     timelineCommunity:
-      template: [timeline, communityTimelineBy5]
+      template: [timeline, timelineCommunity]
       parts: [communityHome]
-      target: [after]
+      target: [before]
       is_component: true
 
 smtHomeSuccess:
