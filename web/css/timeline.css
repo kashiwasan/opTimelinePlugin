@@ -1,3 +1,15 @@
+input.error, select.error, textarea.error {
+  color: #B94A48;
+  border-color: #B94A48;
+}
+
+input.error:focus, select.error:focus, textarea.error:focus {
+  border-color: #953b39;
+  -webkit-box-shadow: 0 0 6px #d59392;
+  -moz-box-shadow: 0 0 6px #d59392;
+  box-shadow: 0 0 6px #d59392;
+}
+
 .timeline {
   width: 440px;
 }
