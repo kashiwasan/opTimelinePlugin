@@ -76,7 +76,7 @@ var gorgon = {
 
 
     <div class="timeline">
-      <div style="display: nonel" id="timeline-submit-button" class="btn btn-primary timeline-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>"></div>
+      <div style="display: none" id="timeline-submit-button" class="btn btn-primary timeline-submit" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>"></div>
       <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
       <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id=""data-loadmore-id="">
 
