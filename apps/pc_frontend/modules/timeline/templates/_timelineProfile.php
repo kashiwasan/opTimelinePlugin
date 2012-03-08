@@ -80,7 +80,7 @@ var gorgon = {
       <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
       <div id="timeline-list" data-post-csrftoken="<?php echo $token; ?>" data-post-baseurl="<?php echo url_for('@homepage', array('absolute' => true)); ?>" data-last-id=""data-loadmore-id="">
 
-      <button class="gorgon-button button" id="timeline-loadmore" style="width: 440px;">もっと読む</button>
       </div>
+      <button class="gorgon-button button" id="timeline-loadmore" style="width: 440px;">もっと読む</button>
     </div>
 
