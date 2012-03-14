@@ -11,7 +11,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 }
 
 .timeline {
-  width: 440px;
+  width: 485px;
 }
 
 .timeline-postform {
@@ -21,14 +21,14 @@ input.error:focus, select.error:focus, textarea.error:focus {
 }
 
 #timeline-textarea {
-  width: 410px;
+  width: 455px;
 }
 
 #timeline-submit-loader {
   display: none;
   text-align: center;
   float: left;
-  width: 370px;
+  width: 415px;
 }
 
 #timeline-submit-loader img {
@@ -52,7 +52,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 }
 
 .timeline-post {
-  width: 420px;
+  width: 465px;
   padding: 10px;
   border-top: 2px solid #DDD;
 }
@@ -70,38 +70,38 @@ input.error:focus, select.error:focus, textarea.error:focus {
 
 .timeline-post-content {
   float: left;
-  width: 370px;
+  width: 415px;
 }
 
 .timeline-member-name {
-  width: 370px;
+  width: 415px;
   display: block;
   padding: 0 5px;
 }
 
 .timeline-post-body {
-  width: 370px;
+  width: 415px;
   display: block;
   padding: 5px;
 }
 
 .timeline-post-control {
   display: block;
-  width: 370px;
+  width: 415px;
   margin-left: 50px;
   padding: 0 5px;
   font-size: 12px;
 }
 
 .timeline-post-comments {
-  width: 370px;
+  width: 415px;
   margin-left: 55px;
   margin-top: 10px;
   background-color: whiteSmoke;
 }
 
 .timeline-post-comment {
-  width: 360px;
+  width: 405px;
   display: block;
   padding: 5px;
   border-top: 1px solid #DDD;
@@ -117,7 +117,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 
 .timeline-post-comment-content {
   float: right;
-  width: 320px;
+  width: 365px;
 }
 
 .timeline-post-comment-name-and-body {
@@ -128,7 +128,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 
 .timeline-post-comment-control {
   display: block;
-  width: 330px;
+  width: 375px;
   margin-left: 40px;
   font-size: 11px;
 }
@@ -137,14 +137,14 @@ input.error:focus, select.error:focus, textarea.error:focus {
 
 .timeline-post-comment-form {
   display: none;
-  width: 360px;
+  width: 405px;
   padding: 5px;
   border-top: 1px solid #DDD;
 }
 
 .timeline-post-comment-form-loader {
   display: none;
-  width: 360px;
+  width: 405px;
   padding: 5px;
   border-top: 1px solid #DDD;
   text-align: center;
@@ -160,7 +160,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 }
 
 .timeline-post-comment-form-input {
-  width: 308px;
+  width: 353px;
   height: 15px;
   padding: 2px;
   margin-bottom: 0px;
