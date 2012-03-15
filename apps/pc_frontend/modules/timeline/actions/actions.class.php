@@ -81,6 +81,15 @@ class timelineActions extends sfActions
     {
       return $this->executeSmtShow($request);
     }
+
+    $activityId = (int)$request['id'];
+    $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
+    if (!$this->activity)
+    {
+      return sfView::ERROR;
+    }
+    $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
+    return sfView::SUCCESS; 
   }
 
   public function executeSmtShow($request)
@@ -142,6 +151,7 @@ class timelineActions extends sfActions
     $lastId = (int) $request->getParameter('lastId'); 
     $moreId = (int) $request->getParameter('moreId');
     $limit = (int) $request->getParameter('limit', 20);
+    $activityId = $request->getParameter('activityId', null);
     $orderBy = (string) $request->getParameter('orderBy'); 
     $communityId = (int) $request->getParameter('communityId');
     $activityData = Doctrine_Query::create()->from('ActivityData ad');
@@ -201,6 +211,12 @@ class timelineActions extends sfActions
                                      ->andWhere('ad.template_param LIKE ?', '%|' . $this->getUser()->getMember()->getId() . '|%');
 
         break;
+      case 'one':
+        if (!is_numeric($activityId))
+        {
+          $this->jsonError('Request parameter \'activityId\' must be numeric.');
+        }
+        $activityData = $activityData->andWhere('ad.id = ?', $activityId);
       default:
         $activityData = $activityData->andWhere('ad.foreign_table IS NULL')
                                      ->andWhere('ad.foreign_id IS NULL')
