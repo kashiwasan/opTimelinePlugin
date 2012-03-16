@@ -12,32 +12,17 @@ class timelineComponents extends sfComponents
 {
   public function executeTimelineAll(sfWebRequest $request)
   {
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/prettyPopin.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
-    if (is_null(sfConfig::get('op_jquery_url', null)))
-    {
-      $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
-    } 
-    $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
-    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
-    $this->baseUrl = sfConfig::get('op_base_url');
-    $form = new sfForm();
-    $this->token = $form->getCSRFToken();
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
     return sfView::SUCCESS;
   }
 
   public function executeTimelineProfile(sfWebRequest $request)
   {
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/prettyPopin.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
-    $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
-    $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
-    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
-    $this->baseUrl = sfConfig::get('op_base_url');
-    $form = new sfForm();
-    $this->token = $form->getCSRFToken();
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
     if ($request->hasParameter('id'))
     {
       $this->memberId = $request->getParameter('id');
@@ -51,18 +36,9 @@ class timelineComponents extends sfComponents
 
   public function executeTimelineCommunity(sfWebRequest $request)
   {
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/prettyPopin.css');
-    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/gorgon-home.css');
-    $this->getResponse()->addJavascript('https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js');
-    $this->getResponse()->addJavascript('http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js');
-    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js');
-    $this->baseUrl = sfConfig::get('op_base_url');
-    $form = new sfForm();
-    $this->token = $form->getCSRFToken();
-    $this->cid = $request->getParameter('id');
-    $this->foreigntable = "community";
-    $this->mode = 2;
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
   }
 
   public function executeCommunityTimelineBy5(sfWebRequest $request)

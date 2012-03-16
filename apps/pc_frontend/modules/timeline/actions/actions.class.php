@@ -82,6 +82,9 @@ class timelineActions extends sfActions
       return $this->executeSmtShow($request);
     }
 
+    $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
+
     $activityId = (int)$request['id'];
     $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
     if (!$this->activity)
@@ -513,20 +516,6 @@ class timelineActions extends sfActions
     $activityData->delete();
     $json = array( 'status' => 'success', 'message' => 'Your Delete Request has been succeed!' );
     return $this->renderText(json_encode($json));
-  }
-
-  public function executeJs(sfWebRequest $request)
-  {
-    $this->baseUrl = sfConfig::get('op_base_url');
-    $this->mode = $request->getParameter('mode');
-    $this->cid = $request->getParameter('cid');
-    if ($this->mode==2)
-    {
-      $this->foreigntable = 'community';
-    }
-    $form = new sfForm();
-    $this->csrfToken = $form->getCSRFToken();
-    return sfView::SUCCESS;
   }
 
   public function executeTimelinePlugin(sfWebRequest $request)
