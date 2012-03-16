@@ -10,6 +10,15 @@ input.error:focus, select.error:focus, textarea.error:focus {
   box-shadow: 0 0 6px #d59392;
 }
 
+.timestamp {
+  color: #999!important;
+}
+
+.screen-name {
+  color: #000;
+  font-weight: bold!important;
+}
+
 .timeline {
   width: 440px;
 }
@@ -36,6 +45,14 @@ input.error:focus, select.error:focus, textarea.error:focus {
   max-height : 28px;
 }
 
+#timeline-submit-error {
+  display: none;
+  color: #EE0000;
+  text-align: center;
+  float: left;
+  width: 460px;
+}
+
 #timeline-submit-area{
   width: 48px;
   float: left;
@@ -49,6 +66,16 @@ input.error:focus, select.error:focus, textarea.error:focus {
   display: none;
   float: right;
   display: table;
+}
+
+#timeline-loadmore {
+  width: 100%;
+}
+
+#timeline-loadmore-loading {
+  width: 100%;
+  text-align: center;
+  display: none;
 }
 
 .timeline-post {
@@ -118,6 +145,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
 .timeline-post-comment-content {
   float: right;
   width: 320px;
+  min-height: 33px;
 }
 
 .timeline-post-comment-name-and-body {
@@ -148,6 +176,7 @@ input.error:focus, select.error:focus, textarea.error:focus {
   padding: 5px;
   border-top: 1px solid #DDD;
   text-align: center;
+  color: #EE0000;
 }
 
 .timeline-post-comment-form-loader img {
@@ -169,4 +198,8 @@ input.error:focus, select.error:focus, textarea.error:focus {
 
 .timeline-comment-link {
   cursor: pointer;
+}
+
+.timeline-post-delete-confirm {
+  display: none;
 }
