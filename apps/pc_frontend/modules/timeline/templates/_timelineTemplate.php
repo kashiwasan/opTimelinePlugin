@@ -9,7 +9,7 @@
               <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
             </div>
             <div class="timeline-post-body">
-              {{html body}}
+              {{html body_html}}
             </div>
           </div>
           <div class="timeline-post-control">
@@ -41,7 +41,7 @@
                   <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
                 </div>
                 <div class="timeline-post-body">
-                  {{html body}}
+                  {{html body_html}}
                 </div>
               </div>
               <div class="timeline-post-delete" style="text-align: center;">
@@ -65,7 +65,7 @@
                 <div class="timeline-post-comment-name-and-body">
                 <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
                 <span class="timeline-post-comment-body">
-                {{html body}}
+                {{html body_html}}
                 </span>
                 </div>
               </div>
@@ -85,7 +85,7 @@
                       <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
                     </div>
                     <div class="timeline-post-body">
-                      {{html body}}
+                      {{html body_html}}
                     </div>
                   </div>
                   <div class="timeline-post-delete" style="text-align: center;">
