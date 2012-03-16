@@ -14,9 +14,13 @@ input.error:focus, select.error:focus, textarea.error:focus {
   color: #999!important;
 }
 
-.screen-name {
+a.screen-name {
   color: #000;
   font-weight: bold!important;
+}
+
+a.screen-name:link {
+  color: #000;
 }
 
 .timeline {
