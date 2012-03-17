@@ -22,42 +22,34 @@ class timelineActions extends sfActions
  /**
   * Executes index action
   *
-  * @param sfWebRequest $request A request object
+  * @param opWebRequest $request A request object
   */
-  public function executeIndex(sfWebRequest $request)
+  public function executeIndex(opWebRequest $request)
   {
-    if ($this->isSmt())
-    {
-      return $this->executeSmtIndex($request);
-    }
+    $this->forwardIf($request->isSmartphone(), 'timeline', 'smtIndex');
 
     return sfView::SUCCESS;
   }
 
-  public function executeSmtIndex(sfWebRequest $request)
+  public function executeSmtIndex(opWebRequest $request)
   {
-    $this->setLayout('smtLayoutHome');
 
     return sfView::SUCCESS;
   }
 
-  public function executeMember(sfWebRequest $request)
+  public function executeMember(opWebRequest $request)
   {
-    if ($this->isSmt())
-    {
-      return $this->executeSmtMember($request);
-    }
+    $this->forwardIf($request->isSmartphone(), 'timeline', 'smtMember');
+
     $this->memberId = $request->getParameter('id', $this->getUser()->getMember()->getId());
 
     return sfView::SUCCESS;
   }
 
-  public function executeCommunity(sfWebRequest $request)
+  public function executeCommunity(opWebRequest $request)
   {
-    if ($this->isSmt())
-    {
-      return $this->executeSmtCommunity($request);
-    }
+    $this->forwardIf($request->isSmartphone(), 'timeline', 'smtCommunity');
+
     $this->communityId = $request->getParameter('id');
     $this->community = Doctrine::getTable('Community')->find($this->communityId);
     $this->forward404Unless($this->community, 'Undefined community.');
@@ -68,12 +60,9 @@ class timelineActions extends sfActions
     return sfView::SUCCESS;
   }
 
-  public function executeShow($request)
+  public function executeShow(opWebRequest $request)
   {
-    if ($this->isSmt())
-    {
-      return $this->executeSmtShow($request);
-    }
+    $this->forwardIf($request->isSmartphone(), 'timeline', 'smtShow');
 
     $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
@@ -88,14 +77,13 @@ class timelineActions extends sfActions
     return sfView::SUCCESS; 
   }
 
-  public function executeSmtShow($request)
+  public function executeSmtShow(opWebRequest $request)
   {
-    $this->setLayout('smtLayoutSns');
-    $this->setTemplate('smtShow');
     $activityId = (int)$request['id'];
     $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
     if (!$this->activity)
     {
+
       return sfView::ERROR;
     }
     $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
@@ -103,23 +91,21 @@ class timelineActions extends sfActions
     return sfView::SUCCESS; 
   }
 
-  public function executeSmtMember($request)
+  public function executeSmtMember(opWebRequest $request)
   {
     $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getId());
     $this->member = Doctrine::getTable('Member')->find($this->memberId);
-    $this->setLayout('smtLayoutMember');
     $this->getResponse()->setDisplayMember($this->member);  
     $this->setTemplate('smtMember');
 
     return sfView::SUCCESS;
   }
 
-  public function executeSmtCommunity($request)
+  public function executeSmtCommunity(opWebRequest $request)
   {
     $this->communityId = (int)$request->getParameter('id');
     $this->community = Doctrine::getTable('Community')->find($this->communityId);
 
-    $this->setLayout('smtLayoutGroup');
     $this->getResponse()->setDisplayCommunity($this->community);  
     $this->setTemplate('smtCommunity');
 
@@ -149,10 +135,5 @@ class timelineActions extends sfActions
     {
       return false;
     }
-  }
-
-  private function isSmt()
-  {
-    return (preg_match('/iPhone/', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Android/', $_SERVER['HTTP_USER_AGENT']));
   }
 }
