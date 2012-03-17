@@ -1,49 +1,18 @@
 indexSuccess:
-  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js", "/opTimelinePlugin/js/gorgon.js"]
-  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css", "/opTimelinePlugin/css/bootstrap.css"]
-
-smtIndexSuccess:
-  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js", "/opTimelinePlugin/js/gorgon.js"]
-  stylesheets: ["http://houou.github.com/bootstrap.css", "http://houou.github.com/main.css", "/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css"]
+  javascripts: [%OP_JQUERY_URL%, %OP_JQUERYUI_URL%, util]
 
 memberSuccess:
-  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
-  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon.css"]
-
-smtMemberSuccess:
   javascripts: [%OP_JQUERY_URL%, %OP_JQUERYUI_URL%, util]
 
 mentionsSuccess:
-  javascripts: ["http://code.jquery.com/jquery-latest.min.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js", "/opTimelinePlugin/js/timeline.mentions.js"]
-  stylesheets: ["/opTimelinePlugin/css/custom-theme/jquery-ui-1.8.16.custom.css", "/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/custom-theme/timeline.css"]
+  javascripts: [%OP_JQUERY_URL%, %OP_JQUERYUI_URL%, util]
 
 communitySuccess:
   javascripts: ["https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.js", "http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js", "/opTimelinePlugin/js/jquery.timeline.js"]
   stylesheets: ["/opTimelinePlugin/css/prettyPopin.css", "/opTimelinePlugin/css/gorgon-home.css", "/opTimelinePlugin/css/blueandgreen.css"]
 
-listSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/x-javascript+json
-
-getSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/x-javascript+json
-
-listMentionSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/x-javascript+json
-
-jsSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/x-javascript
-timelinePluginSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/x-javascript
+smtIndexSuccess:
+  javascripts: [%OP_JQUERY_URL%, %OP_JQUERYUI_URL%, util]
 
 smtShowSuccess:
   layout: smtLayoutSns
