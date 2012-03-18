@@ -10,7 +10,7 @@ var gorgon = {
 <?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
-<script type="text/javascript" src="<?php echo url_for('@homepage', array('absolute' => true)) ?>opTimelinePlugin/js/gorgon-smt.js"></script>
+<?php use_javascript('/opTimelinePlugin/js/timeline-loader-smartphone.js', 'last') ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
 <div class="timeline font10 row">
