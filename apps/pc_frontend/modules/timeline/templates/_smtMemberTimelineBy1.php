@@ -1,4 +1,8 @@
 <?php use_helper('opUtil', 'Javascript'); ?>
+
+<?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
+
 <div class="row">
 <div class="gadget_header span12">最新のタイムライン</div>
 </div>
@@ -16,18 +20,3 @@
   <?php endif; ?>
   </div>
 </div>
-<?php
-$gorgon = array(
-  'mode' => 'member',
-  'memberId' => $memberId,
-  'post' => array(),
-);
-echo javascript_tag('
-var gorgon = '.json_encode($gorgon, defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0).';
-')
-?>
-
-<?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
-<?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
-<?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
-<?php use_javascript('/opTimelinePlugin/js/gorgon-smt.js', 'last') ?>
