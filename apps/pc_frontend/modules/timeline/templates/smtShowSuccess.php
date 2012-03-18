@@ -7,7 +7,7 @@ var gorgon = {
     };
 //]]>
 </script>
-<?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader-smartphone.js', 'last') ?>

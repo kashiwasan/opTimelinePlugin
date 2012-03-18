@@ -1,6 +1,6 @@
 <?php use_helper('opUtil', 'Javascript'); ?>
 
-<?php use_stylesheet('/opTimelinePlugin/css/colorbox.css') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 
 <div class="row">
