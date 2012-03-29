@@ -25,7 +25,7 @@
 }
 
 .timeline-member-name {
-  width: 295px;
+  width: 285px;
   display: block;
   padding: 0 5px;
 }
@@ -38,7 +38,7 @@
 
 .timeline-post-control {
   display: block;
-  width: 295px;
+  width: 280px;
   margin-left: 25px;
   padding: 0 5px;
   font-size: 12px;
@@ -76,7 +76,7 @@
 
 .timeline-post-comment-control {
   display: block;
-  width: 267px;
+  width: 262px;
   margin-left: 28px;
   font-size: 11px;
 }
