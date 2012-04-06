@@ -1,13 +1,17 @@
 timelineAll:
   caption:
     ja_JP: "SNSメンバーのタイムライン"
+    en_US: "SNS member's timeline"
   description:
     ja_JP: "SNSメンバー全員のタイムラインが表示されます。"
+    en_US: "All SNS members' time line is displayed."
   component: [timeline, timelineAll]
 
 timelineMentions:
   caption:
     ja_JP: "自分宛のタイムライン"
+    en_US: "Time line to you"
   description:
     ja_JP: "自分宛のタイムラインが表示されます。"
+    en_US: "Time line to you is displayed."
   component: [timeline, timelineMentions]
