@@ -1,6 +1,8 @@
 smtTimeline:
   caption:
     ja_JP: "SNSメンバーのタイムライン"
+    en_US: "SNS member's timeline"
   description:
     ja_JP: "SNSメンバー全員のタイムラインが表示されます。"
+    en_US: "All SNS members' time line is displayed."
   component: [timeline, smtTimeline]
