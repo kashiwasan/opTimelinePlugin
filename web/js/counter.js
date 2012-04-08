@@ -1,32 +1,34 @@
-$(function() {
-    var elContent = $('#timeline-textarea');
-    var elCounter = $('#counter');
-    elContent.
-        focus(function() {
-            (function() {
-
-                var count = elContent.val().length;
-                var rest = 140 - count;
-
-                elCounter.text(rest);
-
-                if(rest <= 25 && rest >= 0){
-                    elCounter.css({ color: '#FFA500' });
-                }
-                else if(rest < 0){
-                    elCounter.css({ color: '#FF0000' });
-                }
-                else {
-                    elCounter.css({ color: '#000000' });
-                }
-
-                var tm = setTimeout(arguments.callee, 100);
-                elContent.data('tmCountLetters', tm);
-            })();
-        }).
-
-        blur(function() {
-            var tm = elContent.data('tmCountLetters');
-            clearTimeout(tm);
-        });
+$(function ()
+{
+    var a = $('#timeline-textarea');
+    var b = $('#counter');
+    a.focus(function ()
+    {
+        (function ()
+        {
+            var d = a.val().length;
+            var c = 140 - d;
+            b.text(c);
+            if (c <= 25 && c >= 0) {
+                b.css({
+                    color : '#FFA500'
+                })
+            }
+            else if (c < 0) {
+                b.css({
+                    color : '#FF0000'
+                })
+            }
+            else {
+                b.css({
+                    color : '#000000'
+                })
+            }
+            var e = setTimeout(arguments.callee, 100);
+            a.data('tmCountLetters', e)
+        })()
+    }).blur(function ()
+    {
+        var d = a.data('tmCountLetters');
+        clearTimeout(d)    })
 });
