@@ -19,23 +19,6 @@
 
 class timelineActions extends sfActions
 {
- /**
-  * Executes index action
-  *
-  * @param opWebRequest $request A request object
-  */
-  public function executeIndex(opWebRequest $request)
-  {
-    $this->forwardIf($request->isSmartphone(), 'timeline', 'smtIndex');
-
-    return sfView::SUCCESS;
-  }
-
-  public function executeSmtIndex(opWebRequest $request)
-  {
-    return sfView::SUCCESS;
-  }
-
   public function executeMember(opWebRequest $request)
   {
     $this->forwardIf($request->isSmartphone(), 'timeline', 'smtMember');
