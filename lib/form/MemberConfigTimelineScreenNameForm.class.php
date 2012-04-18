@@ -26,7 +26,7 @@ class MemberConfigTimelineScreenNameForm extends MemberConfigForm
 
     if ($name === 'op_screen_name')
     {
-      $this->widgetSchema['op_screen_name']->setAttributes(array('size' => 32));
+      $this->widgetSchema['op_screen_name']->setAttributes(array('size' => 15));
       $this->mergePostValidator(new sfValidatorCallback(array(
         'callback'  => array($this, 'validate'),
       )));
