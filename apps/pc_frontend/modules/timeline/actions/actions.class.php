@@ -78,7 +78,7 @@ class timelineActions extends sfActions
   {
     $this->memberId = (int)$request->getParameter('id', $this->getUser()->getMember()->getId());
     $this->member = Doctrine::getTable('Member')->find($this->memberId);
-    $this->getResponse()->setDisplayMember($this->member);  
+    opSmartphoneLayoutUtil::setLayoutParameters('member' => $this->member);
     $this->setTemplate('smtMember');
 
     return sfView::SUCCESS;
@@ -88,8 +88,7 @@ class timelineActions extends sfActions
   {
     $this->communityId = (int)$request->getParameter('id');
     $this->community = Doctrine::getTable('Community')->find($this->communityId);
-
-    $this->getResponse()->setDisplayCommunity($this->community);  
+    opSmartphoneLayoutUtil::setLayoutParameters('community' => $this->community);
     $this->setTemplate('smtCommunity');
 
     return sfView::SUCCESS;
