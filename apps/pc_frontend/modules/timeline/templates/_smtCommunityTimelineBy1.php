@@ -11,6 +11,6 @@
   <?php endif; ?>
   </div>
   <div class="span3 offset9">
-  <?php echo link_to('もっと見る', '@member_timeline?id='.$memberId); ?>
+  <?php echo link_to('もっと見る', '@community_timeline?id='.$communityId); ?>
   </div>
 </div>
