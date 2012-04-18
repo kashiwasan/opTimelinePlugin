@@ -33,7 +33,6 @@ class timelineActions extends sfActions
 
   public function executeSmtIndex(opWebRequest $request)
   {
-
     return sfView::SUCCESS;
   }
 
@@ -57,6 +56,7 @@ class timelineActions extends sfActions
     $this->baseUrl = sfConfig::get('op_base_url');
     $form = new sfForm();
     $this->token = $form->getCSRFToken();
+
     return sfView::SUCCESS;
   }
 
@@ -74,6 +74,7 @@ class timelineActions extends sfActions
       return sfView::ERROR;
     }
     $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
+
     return sfView::SUCCESS; 
   }
 
@@ -83,7 +84,6 @@ class timelineActions extends sfActions
     $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
     if (!$this->activity)
     {
-
       return sfView::ERROR;
     }
     $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
@@ -114,13 +114,11 @@ class timelineActions extends sfActions
 
   public function executeMentions(sfWebRequest $request)
   {
-
     return sfView::SUCCESS;
   }
 
   public function executeTimelinePlugin(sfWebRequest $request)
   {
-
     return sfView::SUCCESS;
   }
 

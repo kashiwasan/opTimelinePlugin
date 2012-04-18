@@ -3,7 +3,7 @@
   <div class="page-header">
     <div id="timeline-list">
 <?php foreach ($activityData as $activity): ?>
-<?php if ($activity->getMemberId()===$sf_context->getUser()->getMemberId()): ?>
+<?php if ($activity->getMemberId() === $sf_context->getUser()->getMemberId()): ?>
 <div class="x-chatItem outgoingItem x-outgoingItem">
 <?php else: ?>
 <div class="x-chatItem incomingItem x-incomingItem">
@@ -20,7 +20,7 @@
                   <tr>
                     <td class="x-tl"></td>
                     <td class="x-tr"></td>
-	          </tr>
+                  </tr>
                   <tr>
                     <td class="x-message">
                       <?php echo $activity->getBody(); ?>
