@@ -37,7 +37,7 @@ var gorgon = {
                   <tr>
                     <td class="x-tl"></td>
                     <td class="x-tr"></td>
-	          </tr>
+                  </tr>
                   <tr>
                     <td class="x-message">
                       {{html body}}

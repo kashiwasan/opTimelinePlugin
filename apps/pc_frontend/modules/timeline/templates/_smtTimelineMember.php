@@ -67,7 +67,7 @@ var gorgon = {
   <div class="gadget_header span12"><?php if ($member): ?><?php echo $member->getName(); ?>さんのタイムライン<?php else: ?>タイムライン<?php endif; ?></div>
 </div>
 <?php if ($member): ?>
-<?php if ($sf_user->getMemberId()==$member->getId()): ?>
+<?php if ($sf_user->getMemberId() === $member->getId()): ?>
 <a href="<?php echo url_for('@homepage'); ?>member/config?category=timelineScreenName">■スクリーンネーム設定画面</a><br />
 <?php endif; ?>
 <?php endif; ?>
