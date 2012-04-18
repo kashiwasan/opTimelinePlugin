@@ -1,6 +1,0 @@
-timeline_list:
-  class: sfRequestRoute
-  url: /timeline/list.:sf_format
-  param: { module: timeline, action: list }
-  requirements: { sf_method: [get], sf_format: "^json$" }
-
