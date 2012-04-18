@@ -7,11 +7,11 @@ opTimelinePlugin provides a implement of user timeline stream on OpenPNE3.
 How to Install
 --------------
 
-`$ cd OpenPNE3
+<pre>$ cd OpenPNE3
 $ cd ./plugins
 $ git clone git://github.com/kashiwasan/opTimelinePlugin.git
 $ cd ..
-$ php ./symfony opTimelinePlugin:install`
+$ php ./symfony opTimelinePlugin:install</pre>
 
 
 How to Use
@@ -24,5 +24,5 @@ How to Report Issues
 --------------------
 
 Issues are managed by GitHub Issues
-See more detail [opTimelinePlugin Issues](https://github.com/kashiwasan/opTimelinePlugin/isseus)
+See more detail [opTimelinePlugin Issues](https://github.com/kashiwasan/opTimelinePlugin/issues)
 
