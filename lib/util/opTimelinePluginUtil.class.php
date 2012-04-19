@@ -2,7 +2,7 @@
 
 class opTimelinePluginUtil
 {
-  public static function screenNameReplace($body, $baseUrl, $options = array())
+  public static function screenNameReplace($body, $options = array())
   {
     preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
     if ($matches)
@@ -15,7 +15,7 @@ class opTimelinePluginUtil
         if ($member)
         {
           $memberId = $member->getMemberId();
-          $link = '<a href="'.$baseUrl.'/member/'.$memberId.'" target="_blank">@'.$screenName.'</a>';
+          $link = link_to('@'.$screenName, app_url_for('pc_frontend', array('sf_route' => 'obj_member_profile', 'id' => $memberId), true), array('target' => '_blank'));
           $mention = '/'.$matches[0][$i].'/';
           $body = preg_replace($mention, $link, $body);
         }
