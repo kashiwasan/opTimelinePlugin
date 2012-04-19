@@ -18,7 +18,7 @@ var gorgon = {
   <div class="span10">
     <div id="timelinebody-${id}" style="min-height: 48px;">
     <b><a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a></b><br />
-    {{html body}}
+    {{html body_html}}
     </div>
     <div id="commentlist-${id}"></div>
   </div>
@@ -42,7 +42,7 @@ var gorgon = {
       <div class="span1"><a href="${member.profile_url}"><img src="${member.profile_image}" class="rad6" width="23" height="23" /></a></div>
       <div class="span9">
       <b><a href="${member.profile_image}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a></b><br />
-      {{html body}}
+      {{html body_html}}
       </div>
     </div>
   </div>

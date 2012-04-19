@@ -23,7 +23,7 @@ var gorgon = {
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
-              {{html body}}
+              {{html body_html}}
             </div>
           </div>
 
@@ -53,7 +53,7 @@ var gorgon = {
                 <div class="timeline-post-comment-name-and-body">
                 <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
                 <span class="timeline-post-comment-body">
-                {{html body}}
+                {{html body_html}}
                 </span>
                 </div>
               </div>

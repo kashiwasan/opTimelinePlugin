@@ -40,7 +40,7 @@ var gorgon = {
                   </tr>
                   <tr>
                     <td class="x-message">
-                      {{html body}}
+                      {{html body_html}}
                       <div class="x-timeStamp">${memberScreenName} @ ${createdAt}</div>
                     </td>
                     <td class="x-messageRight"></td>
