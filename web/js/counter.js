@@ -1,35 +1,46 @@
+/*
+ *  OpenPNE - opTimelinePlugin Character Count Script 1.00
+ *  Createed by Yudai Sonoda
+ *  http://net-top.jp/
+ *
+ *  The author is completely abandoned the right of this script.
+ *  (It is also possible diversion to other projects)
+ *
+ *  Built for jQuery library
+ *  http://jquery.com/
+ *  and opTimelinePlugin
+ *  https://github.com/kashiwasan/
+ *
+ */
+
 $(function ()
   {
-    var a = $('#timeline-textarea');
-    var b = $('#counter');
-    a.focus(function ()
-    {
-      (function ()
+
+    // Configuration
+    var allowed = 140;
+    var warning = 25;
+    var textarea = $('#timeline-textarea');
+    var counter = $('#counter');
+
+    counter.text(allowed);
+    textarea.keyup(function ()
       {
-        var d = a.val().length;
-        var c = 140 - d;
-        b.text(c);
-        if (c <= 25 && c >= 0) {
-          b.css({
-            color : '#FFA500'
-          })
-        }
-        else if (c < 0) {
-          b.css({
-            color : '#FF0000'
-          })
-        }
-        else {
-          b.css({
-            color : '#000000'
-          })
-        }
-        var e = setTimeout(arguments.callee, 100);
-        a.data('tmCountLetters', e)
-      })()
-     }).blur(function ()
-     {
-      var d = a.data('tmCountLetters');
-      clearTimeout(d)
-     })
+         count = (allowed - $(this).val().length);
+         counter.text(count);
+         if (count <= warning && count >= 0) {
+           counter.css({
+             color : '#FFA500'
+           })
+         }
+         else if (count < 0) {
+           counter.css({
+             color : '#FF0000'
+           })
+         }
+         else {
+           counter.css({
+             color : '#000000'
+           })
+         }
+     });
 });

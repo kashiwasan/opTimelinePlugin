@@ -12,9 +12,12 @@ var gorgon = {
 
 
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
-<?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
+
+//Character Count Script
+<?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
 
 <script type="text/javascript">
