@@ -59,7 +59,7 @@ function op_timeline_plugin_body_filter($activity, $body, $is_auto_link = true)
 
 function op_timeline_plugin_screen_name($body, $options = array())
 {
-  preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
+  preg_match_all('/(@+)([-_0-9A-Za-z]+)/', $body, $matches);
   if ($matches)
   {
     $i = 0;
