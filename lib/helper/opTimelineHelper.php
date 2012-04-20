@@ -57,4 +57,29 @@ function op_timeline_plugin_body_filter($activity, $body, $is_auto_link = true)
   return $body;
 }
 
+function op_timeline_plugin_screen_name($body, $options = array())
+{
+  preg_match_all('/(@+)([-._0-9A-Za-z]+)/', $body, $matches);
+  if ($matches)
+  {
+    $i = 0;
+    foreach ($matches[2] as $screenName)
+    {
+      $member = Doctrine::getTable('MemberConfig')->findOneByNameAndValue('op_screen_name', $screenName);
+      
+      if ($member)
+      {
+        $memberId = $member->getMemberId();
+        $link = link_to('@'.$screenName, app_url_for('pc_frontend', array('sf_route' => 'obj_member_profile', 'id' => $memberId), true), array('target' => '_blank'));
+        $mention = '/'.$matches[0][$i].'/';
+        $body = preg_replace($mention, $link, $body);
+      }
+
+      $i++;
+    }
+  }
+
+  return $body;
+}
+
 ?>

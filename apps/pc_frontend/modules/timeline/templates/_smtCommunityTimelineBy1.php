@@ -5,7 +5,7 @@
 <div class="row">
   <div class="span12">
   <?php if (isset($createdAt) && isset($body)): ?>
-  <?php echo op_format_activity_time(strtotime($createdAt)); ?> - <?php echo $body; ?>
+  <?php echo op_format_activity_time(strtotime($createdAt)); ?> - <?php echo op_timeline_plugin_screen_name($body) ?>
   <?php else: ?>
   (タイムラインはまだありません。)
   <?php endif; ?>

@@ -84,7 +84,7 @@ class timelineComponents extends sfComponents
     if ($this->activityData)
     {
       $this->createdAt = $this->activityData[0]->getCreatedAt();
-      $this->setVar('body', opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $this->activityData[0]->getBody())), true);
+      $this->body = $this->activityData[0]->getBody();
     }
   }
 
@@ -103,7 +103,7 @@ class timelineComponents extends sfComponents
     if ($this->activityData)
     {
       $this->createdAt = $this->activityData[0]->getCreatedAt();
-      $this->setVar('body', opTimelinePluginUtil::screenNameReplace(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $this->activityData[0]->getBody())), true);
+      $this->body = $this->activityData[0]->getBody();
     }
   }
 
