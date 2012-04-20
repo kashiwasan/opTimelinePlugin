@@ -1,4 +1,4 @@
-<?php use_helper('opUtil'); ?>
+<?php use_helper('opUtil', 'opTimeline'); ?>
 <div class="row">
 <div class="gadget_header span12">最新のタイムライン</div>
 </div>

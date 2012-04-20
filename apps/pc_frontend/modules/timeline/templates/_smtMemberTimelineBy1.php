@@ -1,4 +1,4 @@
-<?php use_helper('opUtil', 'Javascript'); ?>
+<?php use_helper('opUtil', 'Javascript', 'opTimeline'); ?>
 
 <?php use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
