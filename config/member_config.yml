@@ -6,6 +6,7 @@ timelineScreenName:
   op_screen_name:
     Name:       "op_screen_name"
     Caption:    "スクリーンネーム"
+    Info:       "使用できる文字列: 半角英数字, -(ハイフン), _(アンダースコア)"
     FormType:   "input"
     ValueType:  "op_screen_name"
     IsRegist:   true
