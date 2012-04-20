@@ -2,7 +2,7 @@ timelineScreenName:
   _attributes:
     caption: "スクリーンネーム設定"
     enable_pc: true
-    eneble_mobile : false
+    enable_mobile: false
   op_screen_name:
     Name:       "op_screen_name"
     Caption:    "スクリーンネーム"
