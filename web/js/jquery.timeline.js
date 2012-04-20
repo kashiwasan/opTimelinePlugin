@@ -34,7 +34,9 @@
             {
               $('#comment-textarea-'+id).val('');
               $timelineLoader.hide();
-              timelineAllLoad();
+              $('#timeline-post-comment-form-'+id).show();
+              $postData = $('#timelineCommentTemplate').tmpl(data.data);
+              $('#timeline-post-comment-form-'+id).before($postData);
             }
             else
             {
