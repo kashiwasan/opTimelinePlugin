@@ -1,16 +1,8 @@
 /*
- *  OpenPNE - opTimelinePlugin Character Count Script 1.00
- *  Createed by Yudai Sonoda
- *  http://net-top.jp/
+ *  The counter of textarea
  *
- *  The author is completely abandoned the right of this script.
- *  (It is also possible diversion to other projects)
- *
- *  Built for jQuery library
- *  http://jquery.com/
- *  and opTimelinePlugin
- *  https://github.com/kashiwasan/
- *
+ *  @parts  :opTimelinePlugin
+ *  @author :Yudai Sonoda <webmaster@net-top.jp>
  */
 
 $(function ()
