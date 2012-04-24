@@ -12,8 +12,10 @@ var gorgon = {
 
 
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
+<?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
 
 <script type="text/javascript">
 $(function(){
@@ -31,10 +33,11 @@ $(function(){
 
     <div class="timeline">
       <div class="timeline-postform well">
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeypress="return (this.value.length < 1139)"></textarea>
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
+        <span id="counter"></span>
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>
