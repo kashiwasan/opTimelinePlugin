@@ -1,7 +1,7 @@
-<?php use_helper('opUtil', 'Javascript', 'opTimeline'); ?>
+<?php use_helper('opUtil', 'Javascript', 'opTimeline', 'opAsset'); ?>
 
-<?php use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
-<?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
+<?php op_smt_use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
+<?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 
 <div class="row">
 <div class="gadget_header span12">最新のタイムライン</div>

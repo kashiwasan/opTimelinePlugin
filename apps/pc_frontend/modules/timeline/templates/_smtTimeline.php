@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'opUtil') ?>
+<?php use_helper('Javascript', 'opUtil', 'opAsset') ?>
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
@@ -8,11 +8,11 @@ var gorgon = {
     };
 //]]>
 </script>
-<?php use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
-<?php use_stylesheet('/opTimelinePlugin/css/timeline-smartphone.css', 'last') ?>
-<?php use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
-<?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
-<?php use_javascript('/opTimelinePlugin/js/timeline-loader-smartphone.js', 'last') ?>
+<?php op_smt_use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
+<?php op_smt_use_stylesheet('/opTimelinePlugin/css/timeline-smartphone.css', 'last') ?>
+<?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
+<?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
+<?php op_smt_use_javascript('/opTimelinePlugin/js/timeline-loader-smartphone.js', 'last') ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
         <div class="timeline-post">
