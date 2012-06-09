@@ -10,7 +10,9 @@ var gorgon = {
 //]]>
 </script>
 
-
+<?php use_javascript('/opTimelinePlugin/js/jquery.ui.widget.js') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.iframe-transport.js') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.fileupload.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
@@ -29,15 +31,23 @@ $(function(){
 
 <?php include_partial('timeline/timelineTemplate') ?>
 
+<div class="dparts">
+  <div class="parts">
 <div class="partsHeading"><h3>SNSメンバー全員のタイムライン</h3></div>
 
     <div class="timeline">
       <div class="timeline-postform well">
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeypress="return (this.value.length < 1139)"></textarea>
-        <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
+        <div id="timeline-submit-loader">
+          <?php echo op_image_tag('ajax-loader.gif', array()) ?>
+        </div>
+        <div class="progress progress-info progress-striped active" id="timeline-progress">
+          <div class="bar" id="timeline-progress-bar" style="width: 0%;"></div>
+        </div>
         <div id="timeline-submit-error"></div>
-        <div id="timeline-submit-area">
-        <span id="counter"></span>
+        <div id="timeline-submit-area" style="height: 30px; position: relative;">
+          <input type="file" id="timeline-upload" name="images" />
+          <span class="btn" id="timeline-upload-button"><i class="icon-picture"></i></span>      
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>
@@ -49,4 +59,7 @@ $(function(){
       <button class="btn btn-small" id="timeline-loadmore" style="width: 100%;">もっと読む</button>
       <div id="timeline-loadmore-loading"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
     </div>
+  </div>
+
+</div>
 

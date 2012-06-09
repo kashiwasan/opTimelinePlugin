@@ -9,6 +9,11 @@
               <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
             </div>
             <div class="timeline-post-body">
+              {{if images !== null}}
+                <a href="#timeline-post-image-detail-${id}" class="timeline-post-image-detail-link">
+                  <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+                </a>
+              {{/if}}
               {{html body_html}}
             </div>
           </div>
@@ -28,6 +33,27 @@
             <div id="timeline-post-comment-form-error-${id}" class="timeline-post-comment-form-loader">
             </div>
           </div>
+          {{if null!==images}}
+          <div class="timeline-post-image-detail" id="timeline-post-image-detail-${id}">
+            <div class="partsHeading"><h3>${member.name} さんの投稿</h3></div>
+            <div class="timeline-post-image-detail-expand">
+              <img src="${images_large}" alt="timeline-images-${id}-expaned" class="timeline-images-expand" />
+            </div>
+            <div class="timeline-post-image-detail-content">
+              <div class="timeline-post-member-image">
+                <a href="${member.profile_url}" title="${member.name}"><img src="${member.profile_image}" alt="${member.name}" /></a>
+              </div>
+              <div class="timeline-post-content">
+                <div class="timeline-member-name">
+                  <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
+                </div>
+                <div class="timeline-post-body">
+                  {{html body_html}}
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/if}}
           {{if member.self==true}}
           <div class="timeline-post-delete-confirm" id="timeline-post-delete-confirm-${id}">
             <div class="partsHeading"><h3>投稿の削除</h3></div>
@@ -41,6 +67,9 @@
                   <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
                 </div>
                 <div class="timeline-post-body">
+                  {{if images !== null}}
+                      <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+                  {{/if}}
                   {{html body_html}}
                 </div>
               </div>
@@ -70,7 +99,7 @@
                 </div>
               </div>
               <div class="timeline-post-comment-control">
-              {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+              {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <span class="timestamp">${created_at}</span>
               </div>
               {{if member.self==true }}
               <div class="timeline-post-delete-confirm" id="timeline-post-delete-confirm-${id}">

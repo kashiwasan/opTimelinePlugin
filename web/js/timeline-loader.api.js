@@ -2,6 +2,7 @@ $(function(){
   var timerID;
   var timerArray = new Array();
   var timer;
+  var activeClass = 'btn-info';
   timelineAllLoad();
   if ( gorgon.timer != undefined )
   {
@@ -21,11 +22,33 @@ $(function(){
     }).trigger('click');
   }
 
+  $("#timeline-upload").change(function(){
+    if (document.getElementById("timeline-upload").files[0].name)
+    {
+      $('#timeline-upload-button').addClass(activeClass);
+//      alert(document.getElementById("timeline-upload").files[0].name);
+    }
+  });
+
   $('#timeline-submit-button').click( function() {
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
     var body = $('#timeline-textarea').val();
+    if (0 == body)
+    {
+      $('#timeline-submit-loader').hide();
+      $('#timeline-submit-error').text('本文を入力してください');
+      $('#timeline-submit-error').show();
+      return false;
+    }
+    if (0 !== document.getElementById('timeline-upload').files.length && !document.getElementById('timeline-upload').files[0].type.match(/^image\/(gif|jpeg|png)$/))
+    { 
+      $('#timeline-submit-loader').hide();
+      $('#timeline-submit-error').text('画像ファイルを選択してください');
+      $('#timeline-submit-error').show();
+      return false;
+    }
     if (gorgon)
     {
       var data = 'body=' + body + '&target=' + gorgon.post.foreign + '&target_id=' + gorgon.post.foreignId + '&apiKey=' + openpne.apiKey;
@@ -34,7 +57,7 @@ $(function(){
     {
       var data = 'body=' + body + '&apiKey=' + openpne.apiKey;
     }
-    $.ajax({
+    var ajaxOptions = {
       url: openpne.apiBase + 'activity/post.json',
       type: 'POST',
       data: data,
@@ -48,8 +71,102 @@ $(function(){
         $('#timeline-submit-loader').hide();
         $('#timeline-submit-error').text('投稿に失敗しました');
         $('#timeline-submit-error').show();
+      },
+    };
+    if (-1 != window.navigator.userAgent.toLowerCase().indexOf('msie'))
+    {
+      var xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    else
+    {
+      var xhr = new XMLHttpRequest();
+    }
+    var upload = xhr.upload,
+        activeClass = 'btn-info',
+        method = 'POST',
+        params = [];
+    if (-1 == window.navigator.userAgent.toLowerCase().indexOf('msie'))
+    {
+      var fd = new FormData();
+      $.each(data.split('&'), function() {
+        var param = $.map(this.split('='), function(v) {
+          return decodeURIComponent(v.replace(/\+/g, ' '));
+        });
+        fd.append(param[0], param[1]);
+      });
+      if (0 !== document.getElementById('timeline-upload').files.length)
+      {
+        $('#timeline-submit-loader').hide();
+        $('#timeline-progress').show();
+        fd.append('images', document.getElementById('timeline-upload').files[0]);
+        upload.addEventListener("progress", function (ev) {
+          if (ev.lengthComputable) {
+            var pct = Math.round((ev.loaded / ev.total) * 100);
+            $('#timeline-progress-bar').css('width', pct + '%');
+          }
+        }, false);
+        upload.addEventListener("load", function () {
+          $('#timeline-progress-bar').css('width', '100%');
+        }, false);
+        upload.addEventListener("error", function (ev) {console.log(ev)}, false);
       }
-    });
+//      xhr.open(method, openpne.apiBase + 'activity/post.json');
+      xhr.open(method, '/api_dev.php/activity/post.json');
+      xhr.send(fd);
+    }
+    else
+    {
+      xhr.open(method, openpne.apiBase + 'activity/post.json', true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Content-length", data.length);
+      xhr.setRequestHeader("Connection", "close");
+      xhr.send(data);
+    }
+    xhr.onreadystatechange = function(){ 
+      if ( xhr.readyState == 4 ) { 
+        if ( xhr.status == 200 ) 
+        { 
+          timelineAllLoad();
+          $('#timeline-submit-loader').hide();
+          $('#timeline-progress-bar').css('width', '0%');
+          $('#timeline-progress').hide();
+          $('#timeline-upload-button').removeClass(activeClass);
+          $('#timeline-upload').val('');
+          $('#timeline-textarea').val('');
+        }
+        else
+        {
+          $('#timeline-submit-loader').hide();
+          $('#timeline-progress-bar').css('width', '0%');
+          $('#timeline-progress').hide();
+          $('#timeline-submit-error').text('投稿に失敗しました');
+          $('#timeline-submit-error').show();
+        }
+      }
+    };
+//    $('#timeline-upload').upload(
+//      openpne.apiBase + 'activity/post.json',
+//      data, 
+//      function(json) {
+//        timelineAllLoad();
+//        $('#timeline-submit-loader').hide();
+//        $('#timeline-textarea').val('');
+//      },
+//      'json'
+//    );
+//    ajaxOptions.data = new FormData($('input[name^="images"]'));
+//    $.each($('input[name^="images"]')[0].files, function(i, file)
+//    {
+//      ajaxOptions.data.append(i, file);
+//    });
+//    ajaxOptions.data.append('body', body);
+//    ajaxOptions.data.append('apiKey', openpne.apiKey);
+//    if (gorgon)
+//    {
+//      ajaxOptions.data.append('target', gorgon.post.foreign);
+//      ajaxOptions.data.append('target_id', gorgon.post.foreignId);
+//    }
+//      $.ajax(ajaxOptions);
   });
 
   $('#timeline-loadmore').click( function() {
@@ -187,6 +304,17 @@ function renderJSON(json, mode) {
     }
   }
   $('button.timeline-post-delete-button').timelineDelete();
+  $('.timeline-post-image-detail-link').colorbox({
+    inline: true,
+    width: '610px',
+    opacity: '0.8',
+    onOpen: function(){ 
+      $($(this).attr('href')).show(); 
+    },
+    onCleanup: function(){ 
+      $($(this).attr('href')).hide();
+    },
+  });
   $('.timeline-post-delete-confirm-link').colorbox({
     inline: true,
     width: '610px',

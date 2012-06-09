@@ -24,6 +24,13 @@
   width: 295px;
 }
 
+.timeline-post-image {
+  width: 50px;
+  display: inline;
+  margin: 0 5px 0 5px;
+  float: left;
+}
+
 .timeline-member-name {
   width: 285px;
   display: block;

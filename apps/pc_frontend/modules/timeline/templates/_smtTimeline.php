@@ -25,12 +25,15 @@ var gorgon = {
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
+              {{if null!==images}}
+                  <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+              {{/if}}
               {{html body_html}}
             </div>
           </div>
 
           <div class="timeline-post-control">
-            <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
+            <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a> | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}">${created_at}</a>
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">

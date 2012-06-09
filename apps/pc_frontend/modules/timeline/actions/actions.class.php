@@ -54,7 +54,7 @@ class timelineActions extends sfActions
     $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
     if (!$this->activity)
     {
-      return sfView::ERROR;
+      $this->forward404();
     }
     $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
 
@@ -67,7 +67,7 @@ class timelineActions extends sfActions
     $this->activity = Doctrine::getTable('ActivityData')->find($activityId);
     if (!$this->activity)
     {
-      return sfView::ERROR;
+      $this->forward404();
     }
     $this->comment = Doctrine_Query::create()->from('ActivityData ad')->where('ad.in_reply_to_activity_id = ?', $activityId)->execute();
 
