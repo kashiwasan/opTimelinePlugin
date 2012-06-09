@@ -15,12 +15,12 @@ input.error:focus, select.error:focus, textarea.error:focus {
 }
 
 a.screen-name {
-  color: white;
+  color: #000;
   font-weight: bold!important;
 }
 
 a.screen-name:link {
-  color: #FFFFFF;
+  color: #000;
 }
 
 .timeline {
@@ -202,7 +202,7 @@ a.screen-name:link {
   width: 460px;
   margin-left: 55px;
   margin-top: 10px;
-  background-color: #5C5C5C;
+  background-color: whiteSmoke;
 }
 
 .timeline-post-comment {
