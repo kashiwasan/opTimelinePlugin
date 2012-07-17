@@ -27,11 +27,23 @@ $ ./symfony opTimelinePlugin:install
   <email />
   <active>yes</active>
  </lead>
- <date>2012-04-20</date>
- <time>19:04:04</time>
+ <lead>
+  <name>手嶋守</name>
+  <user>tejima</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>手嶋守</name>
+  <user>tejima</user>
+  <email />
+  <active>yes</active>
+ </developer>
+ <date>2012-07-17</date>
+ <time>22:49:35</time>
  <version>
-  <release>0.9.1</release>
-  <api>0.9.1</api>
+  <release>0.9.2</release>
+  <api>0.9.2</api>
  </version>
  <stability>
   <release>beta</release>
@@ -39,7 +51,7 @@ $ ./symfony opTimelinePlugin:install
  </stability>
  <license>Apache</license>
  <notes>
-fixed some bugs.
+fixed minor bugs
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -56,16 +68,16 @@ fixed some bugs.
    <file baseinstalldir="/" md5sum="4e40150c3a98809df75c8b508a74973e" name="apps/pc_frontend/modules/timeline/templates/smtCommunitySuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="73fa2368ae8541090f65860588afccde" name="apps/pc_frontend/modules/timeline/templates/smtMemberSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="c154cb4c5eae03912b70295e9d5766a4" name="apps/pc_frontend/modules/timeline/templates/smtShowError.php" role="data" />
-   <file baseinstalldir="/" md5sum="fb22f266dd063d08b37bcdeca5ebfb9a" name="apps/pc_frontend/modules/timeline/templates/smtShowSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="3463491aa8802ac76abb040e9199eeea" name="apps/pc_frontend/modules/timeline/templates/smtShowSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="e06a7917d4b3d30cb72c616c30ed8a8a" name="apps/pc_frontend/modules/timeline/templates/timelinePluginSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="7d4d22b3f34a1da4eae082855f41314a" name="apps/pc_frontend/modules/timeline/templates/_communityTimelineBy5.php" role="data" />
    <file baseinstalldir="/" md5sum="a33f8e8887c19b781e6b9c70e189c89e" name="apps/pc_frontend/modules/timeline/templates/_smtCommunityTimelineBy1.php" role="data" />
-   <file baseinstalldir="/" md5sum="1925997ec67ade189eba6a230246fd64" name="apps/pc_frontend/modules/timeline/templates/_smtMemberTimelineBy1.php" role="data" />
-   <file baseinstalldir="/" md5sum="470968520b48b392687c5c0d003c8579" name="apps/pc_frontend/modules/timeline/templates/_smtTimeline.php" role="data" />
-   <file baseinstalldir="/" md5sum="e98c22b3d4dbf95e77870cb00ab0a307" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineCommunity.php" role="data" />
-   <file baseinstalldir="/" md5sum="4a2eb93b5554e7d81b18835547755a02" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineMember.php" role="data" />
+   <file baseinstalldir="/" md5sum="1735483cc78e52beba0199328c4437d1" name="apps/pc_frontend/modules/timeline/templates/_smtMemberTimelineBy1.php" role="data" />
+   <file baseinstalldir="/" md5sum="5cace033826833e23682ef2e2a3df5c7" name="apps/pc_frontend/modules/timeline/templates/_smtTimeline.php" role="data" />
+   <file baseinstalldir="/" md5sum="65a85791a581333cb212dfbbe4ba424c" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineCommunity.php" role="data" />
+   <file baseinstalldir="/" md5sum="9c202be8bdb9d0ab032e3c70023b1f88" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineMember.php" role="data" />
    <file baseinstalldir="/" md5sum="5a67b31eba756fe3169053fad8d41049" name="apps/pc_frontend/modules/timeline/templates/_smtTimelinePostButton.php" role="data" />
-   <file baseinstalldir="/" md5sum="c57fc6e8cd188231339f0fe1f897d2c2" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data" />
+   <file baseinstalldir="/" md5sum="ee765e5d66b0e3e6190120b2c1833d74" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data" />
    <file baseinstalldir="/" md5sum="83e187421a58cbde2ebc9e02e4ac6207" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data" />
    <file baseinstalldir="/" md5sum="e2c5e000f8b0b5d2664bcc6769f26e02" name="apps/pc_frontend/modules/timeline/templates/_timelineMentions.php" role="data" />
    <file baseinstalldir="/" md5sum="836321a904e2a7f873db5884f06bd02d" name="apps/pc_frontend/modules/timeline/templates/_timelineProfile.php" role="data" />
@@ -95,6 +107,7 @@ fixed some bugs.
    <file baseinstalldir="/" md5sum="fd28f51342e464846f750a383d12de6e" name="web/css/chat_alternating.css" role="data" />
    <file baseinstalldir="/" md5sum="32e924584ac1bcb467714df2ae301a2b" name="web/css/chat_default_styles.css" role="data" />
    <file baseinstalldir="/" md5sum="6aea864e1f7fd401e3d324924c094574" name="web/css/community-timeline-main.css" role="data" />
+   <file baseinstalldir="/" md5sum="0d5d98e9e656d9dd5e6740a53c62a76c" name="web/css/counter.css" role="data" />
    <file baseinstalldir="/" md5sum="77e2af95cdf25680a158fd372d5785c8" name="web/css/gorgon-home.css" role="data" />
    <file baseinstalldir="/" md5sum="cd8309040b99e12dca722c75349eb90f" name="web/css/gorgon.css" role="data" />
    <file baseinstalldir="/" md5sum="6e335bebd4a3c50533e2159c1a794183" name="web/css/jquery.colorbox.css" role="data" />
@@ -134,6 +147,7 @@ fixed some bugs.
    <file baseinstalldir="/" md5sum="5a470c59504d6ad23c0f46571b792253" name="web/images/typing-right.png" role="data" />
    <file baseinstalldir="/" md5sum="11118ae8db796d41dd11482067c89d01" name="web/img/glyphicons-halflings-white.png" role="data" />
    <file baseinstalldir="/" md5sum="531d4b607365ac65b09a181216f0664d" name="web/img/glyphicons-halflings.png" role="data" />
+   <file baseinstalldir="/" md5sum="0ee63f397584b5c652860f6e1d777493" name="web/js/counter.js" role="data" />
    <file baseinstalldir="/" md5sum="da3cccc2650c14cfc89ac94ae61f026d" name="web/js/gorgon-gadget.js" role="data" />
    <file baseinstalldir="/" md5sum="a3142a97342b46e05d4ae2b2f468442f" name="web/js/gorgon-smt.js" role="data" />
    <file baseinstalldir="/" md5sum="a1a8cb16a060f6280a767187fd22e037" name="web/js/jquery-1.6.2.min.js" role="data" />
@@ -209,6 +223,21 @@ brush up.
    <license>Apache</license>
    <notes>
 fixed some bugs.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.2</release>
+    <api>0.9.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2012-07-17</date>
+   <license>Apache</license>
+   <notes>
+fixed minor bugs
    </notes>
   </release>
  </changelog>
