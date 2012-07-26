@@ -28,11 +28,19 @@ $(function(){
     var body = $('#timeline-textarea').val();
     if (gorgon)
     {
-      var data = 'body=' + body + '&target=' + gorgon.post.foreign + '&target_id=' + gorgon.post.foreignId + '&apiKey=' + openpne.apiKey;
+      var data = {
+        body: body,
+        target: gorgon.post.foreign,
+        target_id: gorgon.post.foreignId,
+        apiKey: openpne.apiKey
+      };
     }
     else
     {
-      var data = 'body=' + body + '&apiKey=' + openpne.apiKey;
+      var data = {
+        body: body,
+        apiKey: openpne.apiKey
+      };
     }
     $.ajax({
       url: openpne.apiBase + 'activity/post.json',

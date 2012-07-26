@@ -27,7 +27,13 @@
         $.ajax({
           url: openpne.apiBase + 'activity/post.json',
           type: 'POST',
-          data: 'body=' + body + '&in_reply_to_activity_id=' + id + '&apiKey=' + openpne.apiKey + '&target=' + foreign + '&target_id=' +foreignId,
+          data: {
+            body: body,
+            in_reply_to_activity_id: id,
+            apiKey: openpne.apiKey,
+            target: foreign,
+            target_id: foreignId
+          },
           dataType: 'json',
           success: function(data) {
             if ('success' == data.status)
@@ -66,7 +72,10 @@
         $.ajax({
           url: openpne.apiBase + 'activity/delete.json',
           type: 'POST',
-          data: 'activity_id=' + activity_id + '&apiKey=' + openpne.apiKey,
+          data: {
+            activity_id: activity_id,
+            apiKey: openpne.apiKey
+          },
           dataType: 'json',
           success: function(data) {
             $(this).parent().next().hide();
