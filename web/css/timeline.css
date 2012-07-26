@@ -23,10 +23,6 @@ a.screen-name:link {
   color: #000;
 }
 
-.timeline {
-  width: 440px;
-}
-
 .timeline-postform {
   position: relative; 
   padding: 10px;
@@ -34,14 +30,16 @@ a.screen-name:link {
 }
 
 #timeline-textarea {
-  width: 410px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 #timeline-submit-loader {
   display: none;
   text-align: center;
   float: left;
-  width: 370px;
 }
 
 #timeline-submit-loader img {
@@ -57,7 +55,6 @@ a.screen-name:link {
   color: #EE0000;
   text-align: center;
   float: left;
-  width: 460px;
 }
 
 #timeline-submit-area{
@@ -86,9 +83,9 @@ a.screen-name:link {
 }
 
 .timeline-post {
-  width: 420px;
   padding: 10px;
   border-top: 2px solid #DDD;
+  overflow: hidden;
 }
 
 .timeline-post-member-image {
@@ -105,43 +102,34 @@ a.screen-name:link {
 }
 
 .timeline-post-content {
-  float: left;
-  width: 370px;
+  margin-left: 50px;
 }
 
 .timeline-member-name {
-  width: 370px;
   display: block;
   padding: 0 5px;
 }
 
 .timeline-post-body {
-  width: 370px;
   display: block;
   padding: 5px;
 }
 
 .timeline-post-control {
   display: block;
-  width: 370px;
-  margin-left: 50px;
   padding: 0 5px;
   font-size: 12px;
 }
 
 .timeline-post-comments {
-  width: 370px;
-  margin-left: 55px;
   margin-top: 10px;
   background-color: whiteSmoke;
 }
 
 .timeline-post-comment {
-  width: 360px;
   display: block;
   padding: 5px;
   border-top: 1px solid #DDD;
-  min-height: 52px;
 }
 
 .timeline-post-comment-member-image {
@@ -152,21 +140,17 @@ a.screen-name:link {
 }
 
 .timeline-post-comment-content {
-  float: right;
-  width: 320px;
   min-height: 33px;
+  margin-left: 40px;
 }
 
 .timeline-post-comment-name-and-body {
   display: inline;
-  float: left;
   font-size: 12px;
 }
 
 .timeline-post-comment-control {
   display: block;
-  width: 330px;
-  margin-left: 40px;
   font-size: 11px;
 }
 
@@ -174,14 +158,12 @@ a.screen-name:link {
 
 .timeline-post-comment-form {
   display: none;
-  width: 360px;
   padding: 5px;
   border-top: 1px solid #DDD;
 }
 
 .timeline-post-comment-form-loader {
   display: none;
-  width: 360px;
   padding: 5px;
   border-top: 1px solid #DDD;
   text-align: center;
