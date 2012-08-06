@@ -1,3 +1,5 @@
+<div id="profileTimeline_<?php echo $gadget->id ?>" class="dparts profileTimeline"><div class="parts">
+
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
@@ -30,3 +32,5 @@ var gorgon = {
   <button class="gorgon-button button" id="timeline-loadmore">もっと読む</button>
   <div id="timeline-loadmore-loading"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
 </div>
+
+</div></div>
