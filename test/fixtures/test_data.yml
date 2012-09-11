@@ -17,3 +17,14 @@ MemberConfig:
     name: "password"
     value: "<?php echo md5('password') ?>"
     Member: member_1
+
+Gadget:
+  timelineall_gadget:
+    type: contents
+    name: timelineAll
+
+GadgetConfig:
+  timelineall_gadget_config:
+    Gadget: timelineall_gadget
+    name: limit
+    value: 5
