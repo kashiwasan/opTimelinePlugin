@@ -16,5 +16,5 @@ $browser->get('/')
 $gadget = Doctrine::getTable('Gadget')->findOneByName('timelineAll');
 $html = get_component('timeline', 'timelineAll', array('gadget' => $gadget));
 
-$browser->test()->ok(false !== strpos($html, '\'limit\': \'5\''));
+$browser->test()->ok(false !== strpos($html, '\'count\': \'5\''));
 

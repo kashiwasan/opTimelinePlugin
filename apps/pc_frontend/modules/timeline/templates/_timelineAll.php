@@ -3,7 +3,7 @@
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
-      'limit': '<?php echo $gadget->getConfig('limit'); ?>',
+      'count': '<?php echo $gadget->getConfig('limit'); ?>',
       'post': {
 
       },
