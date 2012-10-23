@@ -18,7 +18,16 @@
             </div>
           </div>
           <div class="timeline-post-control">
-          <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>{{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+            <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>
+            {{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+
+            <!--Nice Plugin -->
+            <a><span class="nice-cancel" data-nice-id="${id}" style="display: none;">いいね！を取り消す</span></a>
+            <a><span class="nice-post" data-nice-id="${id}"><i class="icon-thumbs-up"></i></span></a>
+            <a><span class="nice-list" data-nice-id="${id}">いいね！</span></a>
+            <div class="nice-list-member" data-nice-id="${id}">
+              <p style="background-color: #33c">「いいね！」したメンバー</p>
+            </div>
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">
@@ -126,3 +135,11 @@
             </div>
 </script>
 
+<script id="NicelistTemplate" type="text/x-jquery-tmpl">
+  <table style="border: 1px #000 solid;">
+    <tr style="padding: 2px;">
+      <td style="width: 48px; padding: 2px;"><a href="${profile_url}"><img src="${profile_image}" width="48"></a></td>
+      <td style="padding: 2px;"><a href="${profile_url}">${name}</a></td>
+    </tr>
+  </table>
+</script>

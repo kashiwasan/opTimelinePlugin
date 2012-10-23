@@ -13,8 +13,10 @@ class timelineComponents extends sfComponents
   public function executeTimelineAll(sfWebRequest $request)
   {
     $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addStyleSheet('/opNicePlugin/css/nice.css');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
+    $this->getResponse()->addJavascript('/opNicePlugin/js/nice.js', 'last');
 
     return sfView::SUCCESS;
   }
@@ -22,8 +24,10 @@ class timelineComponents extends sfComponents
   public function executeTimelineProfile(sfWebRequest $request)
   {
     $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addStyleSheet('/opNicePlugin/css/nice.css');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
+    $this->getResponse()->addJavascript('/opNicePlugin/js/nice.js', 'last');
     if ($request->hasParameter('id'))
     {
       $this->memberId = $request->getParameter('id');
@@ -39,8 +43,10 @@ class timelineComponents extends sfComponents
   public function executeTimelineCommunity(sfWebRequest $request)
   {
     $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
+    $this->getResponse()->addStyleSheet('/opNicePlugin/css/nice.css');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
+    $this->getResponse()->addJavascript('/opNicePlugin/js/nice.js', 'last');
   }
 
   public function executeCommunityTimelineBy5(sfWebRequest $request)
