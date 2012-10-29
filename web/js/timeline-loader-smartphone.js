@@ -166,6 +166,8 @@ function renderJSON(json, mode) {
     $('#timeline-loadmore').show();
     $('#timeline-loadmore-loading').hide();
   }
+
+  totalLoadAll();
 }
 
 function convertTag(str) {
