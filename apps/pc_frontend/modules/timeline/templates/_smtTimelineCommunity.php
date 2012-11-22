@@ -31,7 +31,16 @@ var gorgon = {
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}
             </div>
+              <!--Like Plugin -->
+              <span class="like-wrapper hide">
+              <a href="/like/list/A/${id}"><span class="like-list" data-like-id="${id}">いいね！</span></a>
+              <a><span class="like-cancel" data-like-id="${id}" style="display: none;">いいね！を取り消す&nbsp;</span></a>
+              {{if member.self==false}}<a><span class="like-post" data-like-id="${id}" member-id="${member.id}"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;</span></a>{{/if}}
+              </span>
+              </div>
+
           </div>
+
 
           <div class="timeline-post-control">
             <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
@@ -64,6 +73,15 @@ var gorgon = {
                 {{html body_html}}
                 </span>
                 </div>
+                  <!-- like Plugin -->
+                  <span class="like-comment-wrapper hide">
+                  <div class="like-comment">
+                  <a href="/like/list/A/${id}"><span class="like-list" data-like-id="${id}">いいね！</span></a>
+                  <a><span class="like-cancel" data-like-id="${id}" style="display: none;">いいね！を取り消す&nbsp;</span></a>
+                  {{if member.self==false}}<a><span class="like-post" data-like-id="${id}" member-id="${member.id}"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;</span></a>{{/if}}
+                  <div class="like-list-member" data-like-id="${id}"></div>
+                  </div>
+                  </span>
               </div>
               <div class="timeline-post-comment-control">
               ${created_at}
