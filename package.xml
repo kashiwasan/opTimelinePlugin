@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.0
-    http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>opTimelinePlugin</name>
  <channel>plugins.openpne.jp</channel>
  <summary>アクティビティをさらに進化させたプラグインです。</summary>
@@ -24,143 +21,155 @@ $ ./symfony opTimelinePlugin:install
  <lead>
   <name>kashiwasan</name>
   <user>kashiwasan</user>
-  <email />
+  <email/>
   <active>yes</active>
  </lead>
  <lead>
   <name>手嶋守</name>
   <user>tejima</user>
-  <email />
+  <email/>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>upsilon</name>
+  <user>upsilon</user>
+  <email/>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>kaoru nishizoe</name>
+  <user>nishizoe</user>
+  <email/>
   <active>yes</active>
  </lead>
  <developer>
   <name>手嶋守</name>
   <user>tejima</user>
-  <email />
+  <email/>
   <active>yes</active>
  </developer>
- <date>2012-07-17</date>
- <time>22:49:35</time>
+ <date>2012-11-22</date>
+ <time>19:54:04</time>
  <version>
-  <release>0.9.2</release>
-  <api>0.9.2</api>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
  <license>Apache</license>
  <notes>
-fixed minor bugs
+stable release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="359a02d04556be90c43cfc29b96f2662" name="apps/pc_frontend/config/routing.yml" role="data" />
-   <file baseinstalldir="/" md5sum="9481b987d7a09573aac4a955d4e3af0f" name="apps/pc_frontend/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="9cd696057dbb3b68f0004411298817ba" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="1e5c28d4fea95dc5de9e72388ab63768" name="apps/pc_frontend/modules/timeline/actions/actions.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="31f642f6d1175b15849f192e758e5ab7" name="apps/pc_frontend/modules/timeline/actions/components.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="1bd4f1eae9da08c1fccba0da02306355" name="apps/pc_frontend/modules/timeline/config/security.yml" role="data" />
-   <file baseinstalldir="/" md5sum="5559ab4f73502323436069c86e9eefdd" name="apps/pc_frontend/modules/timeline/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="fabc1c085b1bd6dafc4162c33c2b5d2f" name="apps/pc_frontend/modules/timeline/templates/communitySuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="a5ba3cc418b75d605d93bf968bb1536f" name="apps/pc_frontend/modules/timeline/templates/memberSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="6334841a17b9eb756a47fa0f2187fadf" name="apps/pc_frontend/modules/timeline/templates/showSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="4e40150c3a98809df75c8b508a74973e" name="apps/pc_frontend/modules/timeline/templates/smtCommunitySuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="73fa2368ae8541090f65860588afccde" name="apps/pc_frontend/modules/timeline/templates/smtMemberSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="c154cb4c5eae03912b70295e9d5766a4" name="apps/pc_frontend/modules/timeline/templates/smtShowError.php" role="data" />
-   <file baseinstalldir="/" md5sum="3463491aa8802ac76abb040e9199eeea" name="apps/pc_frontend/modules/timeline/templates/smtShowSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="e06a7917d4b3d30cb72c616c30ed8a8a" name="apps/pc_frontend/modules/timeline/templates/timelinePluginSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="7d4d22b3f34a1da4eae082855f41314a" name="apps/pc_frontend/modules/timeline/templates/_communityTimelineBy5.php" role="data" />
-   <file baseinstalldir="/" md5sum="a33f8e8887c19b781e6b9c70e189c89e" name="apps/pc_frontend/modules/timeline/templates/_smtCommunityTimelineBy1.php" role="data" />
-   <file baseinstalldir="/" md5sum="1735483cc78e52beba0199328c4437d1" name="apps/pc_frontend/modules/timeline/templates/_smtMemberTimelineBy1.php" role="data" />
-   <file baseinstalldir="/" md5sum="5cace033826833e23682ef2e2a3df5c7" name="apps/pc_frontend/modules/timeline/templates/_smtTimeline.php" role="data" />
-   <file baseinstalldir="/" md5sum="65a85791a581333cb212dfbbe4ba424c" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineCommunity.php" role="data" />
-   <file baseinstalldir="/" md5sum="9c202be8bdb9d0ab032e3c70023b1f88" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineMember.php" role="data" />
-   <file baseinstalldir="/" md5sum="5a67b31eba756fe3169053fad8d41049" name="apps/pc_frontend/modules/timeline/templates/_smtTimelinePostButton.php" role="data" />
-   <file baseinstalldir="/" md5sum="ee765e5d66b0e3e6190120b2c1833d74" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data" />
-   <file baseinstalldir="/" md5sum="83e187421a58cbde2ebc9e02e4ac6207" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data" />
-   <file baseinstalldir="/" md5sum="e2c5e000f8b0b5d2664bcc6769f26e02" name="apps/pc_frontend/modules/timeline/templates/_timelineMentions.php" role="data" />
-   <file baseinstalldir="/" md5sum="836321a904e2a7f873db5884f06bd02d" name="apps/pc_frontend/modules/timeline/templates/_timelineProfile.php" role="data" />
-   <file baseinstalldir="/" md5sum="6e687668ac6228a3a1a57280dc0b8050" name="apps/pc_frontend/modules/timeline/templates/_timelineTemplate.php" role="data" />
-   <file baseinstalldir="/" md5sum="c6fe20490b52f57170d23f179a76102e" name="config/gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="81f82bfd969955c770e57bad6a52a8aa" name="config/member_config.yml" role="data" />
-   <file baseinstalldir="/" md5sum="ecbe6753ba28e49b5056136d693345ee" name="config/profile_gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="60784a17964562395d1be8e6b8b07d1b" name="config/smartphone_community_gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="0219f3ce9bbafbd3cf194b2e4e6b88bf" name="config/smartphone_gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="4e9bfce329050bcdb32d56ec99b4b426" name="config/smartphone_profile_gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="205f5a9682726430e58ccd3c3751db6d" name="data/fixtures/000_revision.yml" role="data" />
-   <file baseinstalldir="/" md5sum="7c3d25b319497996a551bfcb4c627ab9" name="data/fixtures/010_gadget_setting.yml" role="data" />
-   <file baseinstalldir="/" md5sum="25ad12c427dc5ce82c61c256b9f5d4ae" name="i18n/messages.ja.xml" role="data" />
-   <file baseinstalldir="/" md5sum="8139b60974dbf94aea4bbe7f1fda9f25" name="lib/form/MemberConfigTimelineScreenNameForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="0b0097309cee614e5e31b0bd2ea20962" name="lib/helper/opTimelineHelper.php" role="data" />
-   <file baseinstalldir="/" md5sum="7cec2d08abea342962b56ef1b8001fa8" name="lib/task/opTimelinePluginInstallTask.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="f32bf8a62b548520b74769b4fb101b0f" name="lib/util/opTimelinePluginUtil.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="25b04d5e2306bbc79824f120dc88d181" name="test/bootstrap/database.php" role="data" />
-   <file baseinstalldir="/" md5sum="2089e76b9d0ae0fd4d222ee37ea68cb5" name="test/bootstrap/functional.php" role="data" />
-   <file baseinstalldir="/" md5sum="4bfa4b596e946c8a283410a2e2ba4315" name="test/bootstrap/unit.php" role="data" />
-   <file baseinstalldir="/" md5sum="8471fade12b0760fab6715ffb8b8f9e4" name="test/fixtures/test_data.yml" role="data" />
-   <file baseinstalldir="/" md5sum="8a98cacfcc151f2808c399543fd52679" name="test/functional/mobile_frontend/skeletonActionsTest.php" role="data" />
-   <file baseinstalldir="/" md5sum="1faa199e87c1ce270e86edee706b37fd" name="test/functional/pc_frontend/skeletonActionsTest.php" role="data" />
-   <file baseinstalldir="/" md5sum="52440ab0abcc01c98551283f1e9942e1" name="test/unit/model/SkeletonTest.php" role="data" />
-   <file baseinstalldir="/" md5sum="0003bb6c44c4006888cef68505f28875" name="web/css/blueandgreen.css" role="data" />
-   <file baseinstalldir="/" md5sum="10f6c58182bfd342855024f4ea2084d1" name="web/css/bootstrap.css" role="data" />
-   <file baseinstalldir="/" md5sum="fd28f51342e464846f750a383d12de6e" name="web/css/chat_alternating.css" role="data" />
-   <file baseinstalldir="/" md5sum="32e924584ac1bcb467714df2ae301a2b" name="web/css/chat_default_styles.css" role="data" />
-   <file baseinstalldir="/" md5sum="6aea864e1f7fd401e3d324924c094574" name="web/css/community-timeline-main.css" role="data" />
-   <file baseinstalldir="/" md5sum="0d5d98e9e656d9dd5e6740a53c62a76c" name="web/css/counter.css" role="data" />
-   <file baseinstalldir="/" md5sum="77e2af95cdf25680a158fd372d5785c8" name="web/css/gorgon-home.css" role="data" />
-   <file baseinstalldir="/" md5sum="cd8309040b99e12dca722c75349eb90f" name="web/css/gorgon.css" role="data" />
-   <file baseinstalldir="/" md5sum="6e335bebd4a3c50533e2159c1a794183" name="web/css/jquery.colorbox.css" role="data" />
-   <file baseinstalldir="/" md5sum="3130753d966bf107a6f507d57a9c7c90" name="web/css/timeline-smartphone.css" role="data" />
-   <file baseinstalldir="/" md5sum="72893e915c98ea03c9f76ac134f4ffb3" name="web/css/timeline.css" role="data" />
-   <file baseinstalldir="/" md5sum="1a567b26a5e730bea96ef41b6afd1aca" name="web/css/images/clock.png" role="data" />
-   <file baseinstalldir="/" md5sum="c766e172b9c6dba8c569815e3eb72ba3" name="web/css/images/trash_can.png" role="data" />
-   <file baseinstalldir="/" md5sum="8500d55d530b57b31375625d1ca99059" name="web/css/images/prettyPopin/b_close.gif" role="data" />
-   <file baseinstalldir="/" md5sum="df46993044576f83f2c2cc1a64e18f31" name="web/css/images/prettyPopin/loader.gif" role="data" />
-   <file baseinstalldir="/" md5sum="18b0e9aadffb94c7031a2ce27e1100fc" name="web/css/images/prettyPopin/popinLeft.gif" role="data" />
-   <file baseinstalldir="/" md5sum="c0f0dade94d6415cfce7804f6a520b12" name="web/css/images/prettyPopin/popinRight.gif" role="data" />
-   <file baseinstalldir="/" md5sum="7b9776076d5fceef4993b55c9383dedd" name="web/images/ajax-loader.gif" role="data" />
-   <file baseinstalldir="/" md5sum="a84a15847d34ee7e43f33e476dfa074d" name="web/images/alert.png" role="data" />
-   <file baseinstalldir="/" md5sum="33096154f263e0b619669fb7cf76114c" name="web/images/blueBackground.gif" role="data" />
-   <file baseinstalldir="/" md5sum="40943eaaf270e8ce5918653a6b31211e" name="web/images/blueBackground.png" role="data" />
-   <file baseinstalldir="/" md5sum="4ed11c7cb5b570af97748830f07351f7" name="web/images/blueCurves.gif" role="data" />
-   <file baseinstalldir="/" md5sum="5b58f128deb7ec6b3848021a95620115" name="web/images/blueCurves.png" role="data" />
-   <file baseinstalldir="/" md5sum="03dbd9200e1e0b3b69e0593acf2f6c6c" name="web/images/blueIndicator.gif" role="data" />
-   <file baseinstalldir="/" md5sum="194340e6cae42fba241c3491e96d30c0" name="web/images/blueIndicator.png" role="data" />
-   <file baseinstalldir="/" md5sum="9764d5bce2974f9ce35aa2bc90bbdf1c" name="web/images/blueIndicator2.png" role="data" />
-   <file baseinstalldir="/" md5sum="8b9139be1140b991cb275b91d5b55a20" name="web/images/blueIndicatorAlt.gif" role="data" />
-   <file baseinstalldir="/" md5sum="7ca8a1d2eb0763b35c266cd54bee2fa5" name="web/images/colorbox_border.png" role="data" />
-   <file baseinstalldir="/" md5sum="b68b9ecaae424de4862ba0d055b7a560" name="web/images/colorbox_controls.png" role="data" />
-   <file baseinstalldir="/" md5sum="acf427e932fb9413700a4b8b58b41eec" name="web/images/colorbox_loading_background.png" role="data" />
-   <file baseinstalldir="/" md5sum="790376e15a036959e358a19d4a7ea437" name="web/images/colorbox_overlay.png" role="data" />
-   <file baseinstalldir="/" md5sum="1f28c788278cd38c1df01fc7ac77c58e" name="web/images/greenBackground.gif" role="data" />
-   <file baseinstalldir="/" md5sum="9569348c48b5e23e2dddb7a516c816a2" name="web/images/greenBackground.png" role="data" />
-   <file baseinstalldir="/" md5sum="ac906f5e0e0b68d2a5bc5db43952255c" name="web/images/greenCurves.gif" role="data" />
-   <file baseinstalldir="/" md5sum="ddd3f0e913d046f2c1c72519a45528a6" name="web/images/greenCurves.png" role="data" />
-   <file baseinstalldir="/" md5sum="3a9381fafa9969f6e8def3620c851d45" name="web/images/greenIndicator.gif" role="data" />
-   <file baseinstalldir="/" md5sum="42d290a70d1e8f099fbf7badbc2827e0" name="web/images/greenIndicator.png" role="data" />
-   <file baseinstalldir="/" md5sum="a5204fdcc5799dfadadd21c6c0c92a05" name="web/images/greenIndicator2.png" role="data" />
-   <file baseinstalldir="/" md5sum="109382ad93e2939ce3b914d617baa62e" name="web/images/greenIndicatorAlt.gif" role="data" />
-   <file baseinstalldir="/" md5sum="956cc7b7134d2dec0a94566f58580c37" name="web/images/post_icon.png" role="data" />
-   <file baseinstalldir="/" md5sum="8dfcda0b8509510c3ddc6461fc65c223" name="web/images/RIGHT_MARGIN.png" role="data" />
-   <file baseinstalldir="/" md5sum="0b0a75f51a6721afb53623b5ff07ac53" name="web/images/typing-left.png" role="data" />
-   <file baseinstalldir="/" md5sum="5a470c59504d6ad23c0f46571b792253" name="web/images/typing-right.png" role="data" />
-   <file baseinstalldir="/" md5sum="11118ae8db796d41dd11482067c89d01" name="web/img/glyphicons-halflings-white.png" role="data" />
-   <file baseinstalldir="/" md5sum="531d4b607365ac65b09a181216f0664d" name="web/img/glyphicons-halflings.png" role="data" />
-   <file baseinstalldir="/" md5sum="0ee63f397584b5c652860f6e1d777493" name="web/js/counter.js" role="data" />
-   <file baseinstalldir="/" md5sum="da3cccc2650c14cfc89ac94ae61f026d" name="web/js/gorgon-gadget.js" role="data" />
-   <file baseinstalldir="/" md5sum="a3142a97342b46e05d4ae2b2f468442f" name="web/js/gorgon-smt.js" role="data" />
-   <file baseinstalldir="/" md5sum="a1a8cb16a060f6280a767187fd22e037" name="web/js/jquery-1.6.2.min.js" role="data" />
-   <file baseinstalldir="/" md5sum="0fa78a621a85700338f794cafb1898f6" name="web/js/jquery.colorbox.js" role="data" />
-   <file baseinstalldir="/" md5sum="007640beb5613c6aab970d8d6ef753cb" name="web/js/jquery.desktopify.js" role="data" />
-   <file baseinstalldir="/" md5sum="c93e43ada7a3a17f52dea5b07c85d096" name="web/js/jquery.timeline.js" role="data" />
-   <file baseinstalldir="/" md5sum="793ee0d00048d2b8ee8ca7d730c58db1" name="web/js/timeline-loader-smartphone.js" role="data" />
-   <file baseinstalldir="/" md5sum="8ca3c8ec0118b75e9f26e00b67d89abb" name="web/js/timeline-loader.api.js" role="data" />
-   <file baseinstalldir="/" md5sum="41d4e18b4ad695410c8526f607f9df79" name="web/js/timeline-loader.js" role="data" />
-   <file baseinstalldir="/" md5sum="d68f452e78f4ed9d29fc37894175c506" name="dependencies.yml" role="data" />
-   <file baseinstalldir="/" md5sum="617856c3fb2b7177fe7fffa8a1ddd1a1" name="dependencies.yml.sample" role="data" />
-   <file baseinstalldir="/" md5sum="f34dd7a47996e29f48fe9629cc0dcbd1" name="README" role="data" />
-   <file baseinstalldir="/" md5sum="c7c778f21204d50ec7d240cdbe0f6161" name="README.md" role="data" />
+   <file baseinstalldir="/" md5sum="359a02d04556be90c43cfc29b96f2662" name="apps/pc_frontend/config/routing.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="9481b987d7a09573aac4a955d4e3af0f" name="apps/pc_frontend/config/view.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="9cd696057dbb3b68f0004411298817ba" name="apps/pc_frontend/modules/community/config/view.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="1e5c28d4fea95dc5de9e72388ab63768" name="apps/pc_frontend/modules/timeline/actions/actions.class.php" role="data"/>
+   <file baseinstalldir="/" md5sum="2dc48b00c577bb6736f9d1a8c39cff89" name="apps/pc_frontend/modules/timeline/actions/components.class.php" role="data"/>
+   <file baseinstalldir="/" md5sum="1bd4f1eae9da08c1fccba0da02306355" name="apps/pc_frontend/modules/timeline/config/security.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="5559ab4f73502323436069c86e9eefdd" name="apps/pc_frontend/modules/timeline/config/view.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="fabc1c085b1bd6dafc4162c33c2b5d2f" name="apps/pc_frontend/modules/timeline/templates/communitySuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="a5ba3cc418b75d605d93bf968bb1536f" name="apps/pc_frontend/modules/timeline/templates/memberSuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="6334841a17b9eb756a47fa0f2187fadf" name="apps/pc_frontend/modules/timeline/templates/showSuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="4e40150c3a98809df75c8b508a74973e" name="apps/pc_frontend/modules/timeline/templates/smtCommunitySuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="73fa2368ae8541090f65860588afccde" name="apps/pc_frontend/modules/timeline/templates/smtMemberSuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="c154cb4c5eae03912b70295e9d5766a4" name="apps/pc_frontend/modules/timeline/templates/smtShowError.php" role="data"/>
+   <file baseinstalldir="/" md5sum="3463491aa8802ac76abb040e9199eeea" name="apps/pc_frontend/modules/timeline/templates/smtShowSuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="e06a7917d4b3d30cb72c616c30ed8a8a" name="apps/pc_frontend/modules/timeline/templates/timelinePluginSuccess.php" role="data"/>
+   <file baseinstalldir="/" md5sum="7d4d22b3f34a1da4eae082855f41314a" name="apps/pc_frontend/modules/timeline/templates/_communityTimelineBy5.php" role="data"/>
+   <file baseinstalldir="/" md5sum="a33f8e8887c19b781e6b9c70e189c89e" name="apps/pc_frontend/modules/timeline/templates/_smtCommunityTimelineBy1.php" role="data"/>
+   <file baseinstalldir="/" md5sum="1735483cc78e52beba0199328c4437d1" name="apps/pc_frontend/modules/timeline/templates/_smtMemberTimelineBy1.php" role="data"/>
+   <file baseinstalldir="/" md5sum="40671742ae952a432c0881f2acec51e8" name="apps/pc_frontend/modules/timeline/templates/_smtTimeline.php" role="data"/>
+   <file baseinstalldir="/" md5sum="65a85791a581333cb212dfbbe4ba424c" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineCommunity.php" role="data"/>
+   <file baseinstalldir="/" md5sum="9c202be8bdb9d0ab032e3c70023b1f88" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineMember.php" role="data"/>
+   <file baseinstalldir="/" md5sum="5a67b31eba756fe3169053fad8d41049" name="apps/pc_frontend/modules/timeline/templates/_smtTimelinePostButton.php" role="data"/>
+   <file baseinstalldir="/" md5sum="79afa33160d64e132ccd3658ffa19da5" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data"/>
+   <file baseinstalldir="/" md5sum="2594b80f12c12d2bbc5ae97baf6dc493" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data"/>
+   <file baseinstalldir="/" md5sum="0ad56f6dcb0aa672585651f8f7d60ba2" name="apps/pc_frontend/modules/timeline/templates/_timelineMentions.php" role="data"/>
+   <file baseinstalldir="/" md5sum="6aa5093a0118cf2271aeb81f5c0ad35e" name="apps/pc_frontend/modules/timeline/templates/_timelineProfile.php" role="data"/>
+   <file baseinstalldir="/" md5sum="96741e5acf8f081b21832c756ea3429d" name="apps/pc_frontend/modules/timeline/templates/_timelineTemplate.php" role="data"/>
+   <file baseinstalldir="/" md5sum="1c328bdc62855d492c0547291849c2b0" name="config/gadget.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="81f82bfd969955c770e57bad6a52a8aa" name="config/member_config.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="ecbe6753ba28e49b5056136d693345ee" name="config/profile_gadget.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="60784a17964562395d1be8e6b8b07d1b" name="config/smartphone_community_gadget.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="0219f3ce9bbafbd3cf194b2e4e6b88bf" name="config/smartphone_gadget.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="4e9bfce329050bcdb32d56ec99b4b426" name="config/smartphone_profile_gadget.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="205f5a9682726430e58ccd3c3751db6d" name="data/fixtures/000_revision.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="7c3d25b319497996a551bfcb4c627ab9" name="data/fixtures/010_gadget_setting.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="25ad12c427dc5ce82c61c256b9f5d4ae" name="i18n/messages.ja.xml" role="data"/>
+   <file baseinstalldir="/" md5sum="8139b60974dbf94aea4bbe7f1fda9f25" name="lib/form/MemberConfigTimelineScreenNameForm.class.php" role="data"/>
+   <file baseinstalldir="/" md5sum="0b0097309cee614e5e31b0bd2ea20962" name="lib/helper/opTimelineHelper.php" role="data"/>
+   <file baseinstalldir="/" md5sum="7cec2d08abea342962b56ef1b8001fa8" name="lib/task/opTimelinePluginInstallTask.class.php" role="data"/>
+   <file baseinstalldir="/" md5sum="f32bf8a62b548520b74769b4fb101b0f" name="lib/util/opTimelinePluginUtil.class.php" role="data"/>
+   <file baseinstalldir="/" md5sum="25b04d5e2306bbc79824f120dc88d181" name="test/bootstrap/database.php" role="data"/>
+   <file baseinstalldir="/" md5sum="2089e76b9d0ae0fd4d222ee37ea68cb5" name="test/bootstrap/functional.php" role="data"/>
+   <file baseinstalldir="/" md5sum="4bfa4b596e946c8a283410a2e2ba4315" name="test/bootstrap/unit.php" role="data"/>
+   <file baseinstalldir="/" md5sum="3931b78676c5e40f4cb3840ab8daac50" name="test/fixtures/test_data.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="8a98cacfcc151f2808c399543fd52679" name="test/functional/mobile_frontend/skeletonActionsTest.php" role="data"/>
+   <file baseinstalldir="/" md5sum="1faa199e87c1ce270e86edee706b37fd" name="test/functional/pc_frontend/skeletonActionsTest.php" role="data"/>
+   <file baseinstalldir="/" md5sum="b6ef8bac2e60ac12f0ebe27ab4f6f440" name="test/functional/pc_frontend/timelineAllGadgetTest.php" role="data"/>
+   <file baseinstalldir="/" md5sum="52440ab0abcc01c98551283f1e9942e1" name="test/unit/model/SkeletonTest.php" role="data"/>
+   <file baseinstalldir="/" md5sum="0003bb6c44c4006888cef68505f28875" name="web/css/blueandgreen.css" role="data"/>
+   <file baseinstalldir="/" md5sum="a7c8c5042e47ac53101fbe6c4331dec3" name="web/css/bootstrap.css" role="data"/>
+   <file baseinstalldir="/" md5sum="fd28f51342e464846f750a383d12de6e" name="web/css/chat_alternating.css" role="data"/>
+   <file baseinstalldir="/" md5sum="32e924584ac1bcb467714df2ae301a2b" name="web/css/chat_default_styles.css" role="data"/>
+   <file baseinstalldir="/" md5sum="6aea864e1f7fd401e3d324924c094574" name="web/css/community-timeline-main.css" role="data"/>
+   <file baseinstalldir="/" md5sum="0d5d98e9e656d9dd5e6740a53c62a76c" name="web/css/counter.css" role="data"/>
+   <file baseinstalldir="/" md5sum="77e2af95cdf25680a158fd372d5785c8" name="web/css/gorgon-home.css" role="data"/>
+   <file baseinstalldir="/" md5sum="cd8309040b99e12dca722c75349eb90f" name="web/css/gorgon.css" role="data"/>
+   <file baseinstalldir="/" md5sum="6e335bebd4a3c50533e2159c1a794183" name="web/css/jquery.colorbox.css" role="data"/>
+   <file baseinstalldir="/" md5sum="3130753d966bf107a6f507d57a9c7c90" name="web/css/timeline-smartphone.css" role="data"/>
+   <file baseinstalldir="/" md5sum="503ceeb6e15acb52d0fc2d8f02dc5760" name="web/css/timeline.css" role="data"/>
+   <file baseinstalldir="/" md5sum="1a567b26a5e730bea96ef41b6afd1aca" name="web/css/images/clock.png" role="data"/>
+   <file baseinstalldir="/" md5sum="c766e172b9c6dba8c569815e3eb72ba3" name="web/css/images/trash_can.png" role="data"/>
+   <file baseinstalldir="/" md5sum="8500d55d530b57b31375625d1ca99059" name="web/css/images/prettyPopin/b_close.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="df46993044576f83f2c2cc1a64e18f31" name="web/css/images/prettyPopin/loader.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="18b0e9aadffb94c7031a2ce27e1100fc" name="web/css/images/prettyPopin/popinLeft.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="c0f0dade94d6415cfce7804f6a520b12" name="web/css/images/prettyPopin/popinRight.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="7b9776076d5fceef4993b55c9383dedd" name="web/images/ajax-loader.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="a84a15847d34ee7e43f33e476dfa074d" name="web/images/alert.png" role="data"/>
+   <file baseinstalldir="/" md5sum="33096154f263e0b619669fb7cf76114c" name="web/images/blueBackground.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="40943eaaf270e8ce5918653a6b31211e" name="web/images/blueBackground.png" role="data"/>
+   <file baseinstalldir="/" md5sum="4ed11c7cb5b570af97748830f07351f7" name="web/images/blueCurves.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="5b58f128deb7ec6b3848021a95620115" name="web/images/blueCurves.png" role="data"/>
+   <file baseinstalldir="/" md5sum="03dbd9200e1e0b3b69e0593acf2f6c6c" name="web/images/blueIndicator.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="194340e6cae42fba241c3491e96d30c0" name="web/images/blueIndicator.png" role="data"/>
+   <file baseinstalldir="/" md5sum="9764d5bce2974f9ce35aa2bc90bbdf1c" name="web/images/blueIndicator2.png" role="data"/>
+   <file baseinstalldir="/" md5sum="8b9139be1140b991cb275b91d5b55a20" name="web/images/blueIndicatorAlt.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="7ca8a1d2eb0763b35c266cd54bee2fa5" name="web/images/colorbox_border.png" role="data"/>
+   <file baseinstalldir="/" md5sum="b68b9ecaae424de4862ba0d055b7a560" name="web/images/colorbox_controls.png" role="data"/>
+   <file baseinstalldir="/" md5sum="acf427e932fb9413700a4b8b58b41eec" name="web/images/colorbox_loading_background.png" role="data"/>
+   <file baseinstalldir="/" md5sum="790376e15a036959e358a19d4a7ea437" name="web/images/colorbox_overlay.png" role="data"/>
+   <file baseinstalldir="/" md5sum="1f28c788278cd38c1df01fc7ac77c58e" name="web/images/greenBackground.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="9569348c48b5e23e2dddb7a516c816a2" name="web/images/greenBackground.png" role="data"/>
+   <file baseinstalldir="/" md5sum="ac906f5e0e0b68d2a5bc5db43952255c" name="web/images/greenCurves.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="ddd3f0e913d046f2c1c72519a45528a6" name="web/images/greenCurves.png" role="data"/>
+   <file baseinstalldir="/" md5sum="3a9381fafa9969f6e8def3620c851d45" name="web/images/greenIndicator.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="42d290a70d1e8f099fbf7badbc2827e0" name="web/images/greenIndicator.png" role="data"/>
+   <file baseinstalldir="/" md5sum="a5204fdcc5799dfadadd21c6c0c92a05" name="web/images/greenIndicator2.png" role="data"/>
+   <file baseinstalldir="/" md5sum="109382ad93e2939ce3b914d617baa62e" name="web/images/greenIndicatorAlt.gif" role="data"/>
+   <file baseinstalldir="/" md5sum="956cc7b7134d2dec0a94566f58580c37" name="web/images/post_icon.png" role="data"/>
+   <file baseinstalldir="/" md5sum="8dfcda0b8509510c3ddc6461fc65c223" name="web/images/RIGHT_MARGIN.png" role="data"/>
+   <file baseinstalldir="/" md5sum="0b0a75f51a6721afb53623b5ff07ac53" name="web/images/typing-left.png" role="data"/>
+   <file baseinstalldir="/" md5sum="5a470c59504d6ad23c0f46571b792253" name="web/images/typing-right.png" role="data"/>
+   <file baseinstalldir="/" md5sum="9bbc6e9602998a385c2ea13df56470fd" name="web/img/glyphicons-halflings-white.png" role="data"/>
+   <file baseinstalldir="/" md5sum="2516339970d710819585f90773aebe0a" name="web/img/glyphicons-halflings.png" role="data"/>
+   <file baseinstalldir="/" md5sum="0ee63f397584b5c652860f6e1d777493" name="web/js/counter.js" role="data"/>
+   <file baseinstalldir="/" md5sum="da3cccc2650c14cfc89ac94ae61f026d" name="web/js/gorgon-gadget.js" role="data"/>
+   <file baseinstalldir="/" md5sum="a3142a97342b46e05d4ae2b2f468442f" name="web/js/gorgon-smt.js" role="data"/>
+   <file baseinstalldir="/" md5sum="a1a8cb16a060f6280a767187fd22e037" name="web/js/jquery-1.6.2.min.js" role="data"/>
+   <file baseinstalldir="/" md5sum="0fa78a621a85700338f794cafb1898f6" name="web/js/jquery.colorbox.js" role="data"/>
+   <file baseinstalldir="/" md5sum="007640beb5613c6aab970d8d6ef753cb" name="web/js/jquery.desktopify.js" role="data"/>
+   <file baseinstalldir="/" md5sum="dec10d474ae3072207dcabe2365b1852" name="web/js/jquery.timeline.js" role="data"/>
+   <file baseinstalldir="/" md5sum="9bab86ad4e6e4b5c391aa7bfd7462a20" name="web/js/timeline-loader-smartphone.js" role="data"/>
+   <file baseinstalldir="/" md5sum="fe04fa8bfff7e276649333e0c5631f99" name="web/js/timeline-loader.api.js" role="data"/>
+   <file baseinstalldir="/" md5sum="41d4e18b4ad695410c8526f607f9df79" name="web/js/timeline-loader.js" role="data"/>
+   <file baseinstalldir="/" md5sum="d68f452e78f4ed9d29fc37894175c506" name="dependencies.yml" role="data"/>
+   <file baseinstalldir="/" md5sum="617856c3fb2b7177fe7fffa8a1ddd1a1" name="dependencies.yml.sample" role="data"/>
+   <file baseinstalldir="/" md5sum="6dab9ace3796e690c6d8d90c5965d4fe" name="README" role="data"/>
   </dir>
  </contents>
  <dependencies>
@@ -178,7 +187,7 @@ fixed minor bugs
    </package>
   </required>
  </dependencies>
- <phprelease />
+ <phprelease/>
  <changelog>
   <release>
    <version>
@@ -238,6 +247,21 @@ fixed some bugs.
    <license>Apache</license>
    <notes>
 fixed minor bugs
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-11-22</date>
+   <license>Apache</license>
+   <notes>
+stable release.
    </notes>
   </release>
  </changelog>
