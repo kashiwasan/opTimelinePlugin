@@ -9,9 +9,9 @@
               <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
             </div>
             <div class="timeline-post-body">
-              {{if images !== null}}
+              {{if image_url !== null}}
                 <a href="#timeline-post-image-detail-${id}" class="timeline-post-image-detail-link">
-                  <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+                  <img src="${image_url}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
                 </a>
               {{/if}}
               {{html body_html}}
@@ -33,11 +33,11 @@
             <div id="timeline-post-comment-form-error-${id}" class="timeline-post-comment-form-loader">
             </div>
           </div>
-          {{if null!==images}}
+          {{if null!==image_url}}
           <div class="timeline-post-image-detail" id="timeline-post-image-detail-${id}">
             <div class="partsHeading"><h3>${member.name} さんの投稿</h3></div>
             <div class="timeline-post-image-detail-expand">
-              <img src="${images_large}" alt="timeline-images-${id}-expaned" class="timeline-images-expand" />
+              <img src="${image_url_large}" alt="timeline-images-${id}-expaned" class="timeline-images-expand" />
             </div>
             <div class="timeline-post-image-detail-content">
               <div class="timeline-post-member-image">
@@ -67,8 +67,8 @@
                   <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
                 </div>
                 <div class="timeline-post-body">
-                  {{if images !== null}}
-                      <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+                  {{if image_url !== null}}
+                      <img src="${image_url}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
                   {{/if}}
                   {{html body_html}}
                 </div>

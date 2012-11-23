@@ -25,8 +25,8 @@ var gorgon = {
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
-              {{if null!==images}}
-                  <img src="${images}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
+              {{if null!==image_url}}
+                  <img src="${image_url}" alt="timeline-images-${id}" class="timeline-post-image" width="48" height="48" />
               {{/if}}
               {{html body_html}}
             </div>
