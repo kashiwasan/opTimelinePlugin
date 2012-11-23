@@ -111,7 +111,7 @@ $(function(){
         upload.addEventListener("error", function (ev) {console.log(ev)}, false);
       }
 //      xhr.open(method, openpne.apiBase + 'activity/post.json');
-      xhr.open(method, '/api_dev.php/activity/post.json');
+      xhr.open(method, '/api.php/activity/post.json');
       xhr.send(fd);
     }
     else
