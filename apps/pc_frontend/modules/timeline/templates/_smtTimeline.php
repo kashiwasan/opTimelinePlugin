@@ -35,6 +35,11 @@ var gorgon = {
           </div>
 
           <div class="timeline-post-control">
+            {{if already_liked==true}}
+            <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}">いいね！を取り消す(${like_count})</a> |
+            {{else}}
+            <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}">いいね！(${like_count})</a> | 
+            {{/if}}
             <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a> | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}">${created_at}</a>
           </div>
           <!--Like Plugin -->
@@ -83,9 +88,21 @@ var gorgon = {
 </span>
               </div>
               <div class="timeline-post-comment-control">
+              {{if already_liked==true}}
+              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}">いいね！を取り消す(${like_count})</a> |
+              {{else}}
+              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}">いいね！(${like_count})</a> | 
+              {{/if}}
               ${created_at}
               </div>
             </div>
+</script>
+<script id="timelineLikeAddTemplate" type="text/x-jquery-tmpl">
+いいね！(${$item.like_count})
+</script>
+
+<script id="timelineLikeRemoveTemplate" type="text/x-jquery-tmpl">
+いいね！を取り消す(${$item.like_count})
 </script>
 
 <div style="display: none;">

@@ -309,3 +309,7 @@ a.screen-name:link {
 .timeline-post-delete-confirm-content > .timeline-post-content > .timeline-member-name > .screen-name {
   color: #000;
 }
+
+.timeline-like-link {
+  cursor: pointer;
+}

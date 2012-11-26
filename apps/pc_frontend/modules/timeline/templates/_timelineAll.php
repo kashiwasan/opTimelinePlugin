@@ -13,6 +13,7 @@ var gorgon = {
 <?php use_javascript('/opTimelinePlugin/js/jquery.ui.widget.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.iframe-transport.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.fileupload.js') ?>
+<?php use_javascript('/opTimelinePlugin/js/bootstrap-tooltip.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>

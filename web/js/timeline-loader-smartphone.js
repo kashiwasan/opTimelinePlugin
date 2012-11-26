@@ -157,6 +157,32 @@ function renderJSON(json, mode) {
       }
     }
   }
+  $('.timeline-like-link').click(function(){
+    var activity_id = $(this).attr('data-activity-id');
+    var next_action = $(this).attr('data-next-action');
+    var data = { apiKey: openpne.apiKey, activity_id: activity_id };
+    $.ajax({
+      url: openpne.apiBase + 'like/post.json',
+      type: 'post',
+      data: data,
+      dataType: 'json',
+      success: function(json) {
+        if ('remove' == next_action)
+        {
+          $tmplData = $('#timelineLikeAddTemplate').tmpl(json.data, { like_count: json.data.like_count });
+          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'add');
+        }
+        else
+        {
+          $tmplData = $('#timelineLikeRemoveTemplate').tmpl(json.data, { like_count: json.data.like_count });
+          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'remove');
+        }
+      },
+      error: function(x, r, e){
+        $('#timeline-like-link-' + activity_id).prepend('[error] ');
+      },
+    });
+  });
   if ('all' == mode)
   {
     $('#timeline-loading').hide();
@@ -166,8 +192,6 @@ function renderJSON(json, mode) {
     $('#timeline-loadmore').show();
     $('#timeline-loadmore-loading').hide();
   }
-
-  totalLoadAll();
 }
 
 function convertTag(str) {

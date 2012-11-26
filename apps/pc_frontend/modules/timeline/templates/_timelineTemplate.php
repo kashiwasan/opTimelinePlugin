@@ -18,6 +18,11 @@
             </div>
           </div>
           <div class="timeline-post-control">
+            {{if already_liked==true}}
+            <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}"{{if like_count > 0}} rel="tooptip" data-original-title="読み込み中..."{{/if}}>いいね！を取り消す(${like_count})</a> |
+            {{else}}
+            <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}"{{if like_count > 0}} rel="tooptip" data-original-title="読み込み中..."{{/if}}>いいね！(${like_count})</a> | 
+            {{/if}}
             <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>
             {{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
 
@@ -108,29 +113,23 @@
                 {{html body_html}}
                 </span>
                 </div>
-<<<<<<< HEAD
               </div>
-              <!-- nice Plugin -->
-              <div class="nice-comment">
-                <a><span class="nice-list" data-nice-id="${id}">いいね！</span></a>
-                <a><span class="nice-cancel" data-nice-id="${id}" style="display: none;">いいね！を取り消す&nbsp;</span></a>
-                {{if member.self==false}}<a><span class="nice-post" data-nice-id="${id}" member-id="${member.id}"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;</span></a>{{/if}}
-                <div class="nice-list-member" data-nice-id="${id}"></div>
-              </div>
-=======
-            <!-- like Plugin -->
-            <span class="like-comment-wrapper hide">
-            <div class="like-comment">
-              <a><span class="like-list" data-like-id="${id}">いいね！</span></a>
-              <a><span class="like-cancel" data-like-id="${id}" style="display: none;">いいね！を取り消す&nbsp;</span></a>
-              {{if member.self==false}}<a><span class="like-post" data-like-id="${id}" member-id="${member.id}"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;</span></a>{{/if}}
-              <div class="like-list-member" data-like-id="${id}"></div>
-            </div>
-            </span>
->>>>>>> bace879... Rename the like from iine.
-
+              <!-- like Plugin -->
+              <span class="like-comment-wrapper hide">
+                <div class="like-comment">
+                  <a><span class="like-list" data-like-id="${id}">いいね！</span></a>
+                  <a><span class="like-cancel" data-like-id="${id}" style="display: none;">いいね！を取り消す&nbsp;</span></a>
+                  {{if member.self==false}}<a><span class="like-post" data-like-id="${id}" member-id="${member.id}"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;</span></a>{{/if}}
+                  <div class="like-list-member" data-like-id="${id}"></div>
+                </div>
+              </span>
 
                 <div class="timeline-post-comment-control">
+              {{if already_liked==true}}
+              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}">いいね！を取り消す(${like_count})</a> |
+              {{else}}
+              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}">いいね！(${like_count})</a> | 
+              {{/if}}
                 {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
                 </div>
               
@@ -166,4 +165,16 @@
       <td style="padding: 2px;"><a href="${profile_url}">${name}</a></td>
     </tr>
   </table>
+</script>
+
+<script id="timelineLikeAddTemplate" type="text/x-jquery-tmpl">
+いいね！(${$item.like_count})
+</script>
+
+<script id="timelineLikeRemoveTemplate" type="text/x-jquery-tmpl">
+いいね！を取り消す(${$item.like_count})
+</script>
+
+<script id="timelineLikeListTemplate" type="text/x-jquery-tmpl">
+${member.name}
 </script>

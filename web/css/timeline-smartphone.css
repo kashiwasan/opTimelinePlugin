@@ -122,3 +122,6 @@
   margin-right: 4px;
 }
 
+.timeline-like-link {
+  cursor: pointer;
+}
