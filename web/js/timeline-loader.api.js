@@ -175,6 +175,66 @@ $(function(){
     timelineLoadmore();
   });
 
+  $('.timeline-like-link').live('click', function(){
+    var activity_id = $(this).attr('data-activity-id');
+    var next_action = $(this).attr('data-next-action');
+    var data = { apiKey: openpne.apiKey, activity_id: activity_id };
+    $.ajax({
+      url: openpne.apiBase + 'like/post.json',
+      type: 'post',
+      data: data,
+      dataType: 'json',
+      success: function(json) {
+        if ('remove' == next_action)
+        {
+          $tmplData = $('#timelineLikeAddTemplate').tmpl(json.data, { like_count: json.data.like_count });
+          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'add');
+        }
+        else
+        {
+          $tmplData = $('#timelineLikeRemoveTemplate').tmpl(json.data, { like_count: json.data.like_count });
+          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'remove');
+        }
+        $('#timeline-like-link-' + activity_id).attr('data-already-read', 'false');
+      },
+      error: function(x, r, e){
+        $('#timeline-like-link-' + activity_id).prepend('[error] ');
+      },
+    });
+  });
+  $('.timeline-like-link').hover(function(){
+    var activity_id = $(this).attr('data-activity-id');
+    var already_read = $(this).attr('data-already-read');
+    var data = { apiKey: openpne.apiKey, activity_id: activity_id };
+    if ('true' == already_read)
+    {
+      return false;
+    }
+    $.ajax({
+      url: openpne.apiBase + 'like/list.json',
+      type: 'get',
+      data: data,
+      dataType: 'json',
+      success: function(json) {
+        if (undefined != json.data[0])
+        {
+          $tmplData = $('#timelineLikeListTemplate').tmpl(json.data);
+          $('#timeline-like-link-' + activity_id).attr('data-original-title', $tmplData.text() + ' がいいね！と言っています。');
+          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html($tmplData).append(' がいいね！と言っています。');
+        }
+        else
+        {
+          $('#timeline-like-link-' + activity_id).attr('data-original-title', 'いいね！と言っている人はまだいません。');
+          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html('いいね！と言っている人はまだいません。');
+        } 
+        $('#timeline-like-link-' + activity_id).attr('data-already-read', 'true');
+      },
+      error: function(x, r, e){
+        $('#timeline-like-link-' + activity_id).attr('data-origin-title', '[error]');
+      },
+    });
+  });
+
 });
 
 function timelineAllLoad() {
@@ -330,66 +390,7 @@ function renderJSON(json, mode) {
       timelineAllLoad();
     },
   });
-  $('.timeline-like-link').click(function(){
-    var activity_id = $(this).attr('data-activity-id');
-    var next_action = $(this).attr('data-next-action');
-    var data = { apiKey: openpne.apiKey, activity_id: activity_id };
-    $.ajax({
-      url: openpne.apiBase + 'like/post.json',
-      type: 'post',
-      data: data,
-      dataType: 'json',
-      success: function(json) {
-        if ('remove' == next_action)
-        {
-          $tmplData = $('#timelineLikeAddTemplate').tmpl(json.data, { like_count: json.data.like_count });
-          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'add');
-        }
-        else
-        {
-          $tmplData = $('#timelineLikeRemoveTemplate').tmpl(json.data, { like_count: json.data.like_count });
-          $('#timeline-like-link-' + activity_id).html($tmplData).attr('data-next-action', 'remove');
-        }
-        $('#timeline-like-link-' + activity_id).attr('data-already-read', 'false');
-      },
-      error: function(x, r, e){
-        $('#timeline-like-link-' + activity_id).prepend('[error] ');
-      },
-    });
-  });
   $('.timeline-like-link').tooltip();
-  $('.timeline-like-link').hover(function(){
-    var activity_id = $(this).attr('data-activity-id');
-    var already_read = $(this).attr('data-already-read');
-    var data = { apiKey: openpne.apiKey, activity_id: activity_id };
-    if ('true' == already_read)
-    {
-      return false;
-    }
-    $.ajax({
-      url: openpne.apiBase + 'like/list.json',
-      type: 'get',
-      data: data,
-      dataType: 'json',
-      success: function(json) {
-        if (undefined != json.data[0])
-        {
-          $tmplData = $('#timelineLikeListTemplate').tmpl(json.data);
-          $('#timeline-like-link-' + activity_id).attr('data-original-title', $tmplData.text() + ' がいいね！と言っています。');
-          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html($tmplData).append(' がいいね！と言っています。');
-        }
-        else
-        {
-          $('#timeline-like-link-' + activity_id).attr('data-original-title', 'いいね！と言っている人はまだいません。');
-          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html('いいね！と言っている人はまだいません。');
-        } 
-        $('#timeline-like-link-' + activity_id).attr('data-already-read', 'true');
-      },
-      error: function(x, r, e){
-        $('#timeline-like-link-' + activity_id).attr('data-origin-title', '[error]');
-      },
-    });
-  });
 
   if ('all' == mode)
   {
