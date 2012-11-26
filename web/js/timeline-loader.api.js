@@ -323,7 +323,7 @@ function renderJSON(json, mode) {
     $('#timeline-list').empty();
   }
 
-  $timelineData = $('#timelineTemplate').tmpl(json.data);
+  $timelineData = $('#timelineTemplate').tmpl(json.data, { commentCount: countObject, renderComment: renderComment });
   $('.timeline-comment-button', $timelineData).timelineComment();
   $('.timeline-comment-link', $timelineData).click(function(){
     $commentBoxArea = $(this).parent().siblings().find('.timeline-post-comment-form');
@@ -347,21 +347,10 @@ function renderJSON(json, mode) {
   }
   if ('all' == mode || 'more' == mode)
   {
-    var max = json.data.length - 1;
+    var max = countObject(json.data) - 1;
     if (json.data[max])
     {
       $('#timeline-list').attr('data-loadmore-id', json.data[max].id);
-    }
-  }
-  if(json.data)
-  {
-    for(i=0;i<json.data.length;i++)
-    {
-      if(json.data[i].replies)
-      {
-        $('#timelineCommentTemplate').tmpl(json.data[i].replies).prependTo('#commentlist-' +json.data[i].id);
-        $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
-      }
     }
   }
   $('button.timeline-post-delete-button').timelineDelete();
@@ -411,4 +400,16 @@ function convertTag(str) {
   str = str.replace(/</g,'&lt;');
   str = str.replace(/>/g,'&gt;');
   return str;
+}
+
+function countObject(obj) {
+  var count = 0;
+  for (var key in obj) {
+    count++;
+  }
+  return count;
+}
+
+function renderComment(replies) {
+  return $('#timelineCommentTemplate').tmpl(replies);
 }

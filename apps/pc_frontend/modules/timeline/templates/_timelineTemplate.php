@@ -23,7 +23,7 @@
             {{else}}
             <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}"{{if like_count > 0}} rel="tooptip" data-original-title="読み込み中..."{{/if}}>いいね！(${like_count})</a> | 
             {{/if}}
-            <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>
+            <a class="timeline-comment-link">コメント{{if typeof replies !== "undefined"}} (${$item.commentCount(replies)}){{/if}}</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>
             {{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
 
             <!--Like Plugin -->
@@ -38,6 +38,11 @@
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">
+            {{if typeof replies !== "undefined"}}
+              {{each $item.renderComment(replies)}}
+                {{html $value.outerHTML}}
+              {{/each}}
+            {{/if}}
 
             <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
             <input class="timeline-post-comment-form-input" data-timeline-id="${id}" id="comment-textarea-${id}" type="text" />
