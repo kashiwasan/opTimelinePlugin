@@ -111,7 +111,7 @@ $(function(){
         upload.addEventListener("error", function (ev) {console.log(ev)}, false);
       }
 //      xhr.open(method, openpne.apiBase + 'activity/post.json');
-      xhr.open(method, '/api.php/activity/post.json');
+      xhr.open(method, openpne.apiBase + 'activity/post.json');
       xhr.send(fd);
     }
     else
@@ -202,7 +202,7 @@ $(function(){
       },
     });
   });
-  $('.timeline-like-link').hover(function(){
+  $('.timeline-like-link').live('hover', function(){
     var activity_id = $(this).attr('data-activity-id');
     var already_read = $(this).attr('data-already-read');
     var data = { apiKey: openpne.apiKey, activity_id: activity_id };
@@ -220,12 +220,12 @@ $(function(){
         {
           $tmplData = $('#timelineLikeListTemplate').tmpl(json.data);
           $('#timeline-like-link-' + activity_id).attr('data-original-title', $tmplData.text() + ' がいいね！と言っています。');
-          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html($tmplData).append(' がいいね！と言っています。');
+          $('#timeline-like-link-' + activity_id).tooltip({animation: false}).tooltip('destroy').tooltip('show');
         }
         else
         {
           $('#timeline-like-link-' + activity_id).attr('data-original-title', 'いいね！と言っている人はまだいません。');
-          $('.tooltip-inner', $('#timeline-like-link-' + activity_id).next()).html('いいね！と言っている人はまだいません。');
+          $('#timeline-like-link-' + activity_id).tooltip({animation: false}).tooltip('destroy').tooltip('show');
         } 
         $('#timeline-like-link-' + activity_id).attr('data-already-read', 'true');
       },

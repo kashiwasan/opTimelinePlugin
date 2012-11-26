@@ -125,11 +125,11 @@
               </span>
 
                 <div class="timeline-post-comment-control">
-              {{if already_liked==true}}
-              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}">いいね！を取り消す(${like_count})</a> |
-              {{else}}
-              <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}">いいね！(${like_count})</a> | 
-              {{/if}}
+                {{if already_liked==true}}
+                  <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="remove" data-activity-id="${id}"{{if like_count > 0}} rel="tooptip" data-original-title="読み込み中..."{{/if}}>いいね！を取り消す(${like_count})</a> |
+                {{else}}
+                  <a id="timeline-like-link-${id}" class="timeline-like-link" data-next-action="add" data-activity-id="${id}"{{if like_count > 0}} rel="tooptip" data-original-title="読み込み中..."{{/if}}>いいね！(${like_count})</a> | 
+                {{/if}}
                 {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
                 </div>
               
