@@ -1,0 +1,7 @@
+language: javascript
+
+before_script:
+  - git clone --depth=1 git://github.com/upsilon/opTestApiPlugin.git ../opTestApiPlugin
+
+script:
+  - phantomjs ../opTestApiPlugin/test/bootstrap/run-qunit.js test/js/timeline.html
