@@ -93,12 +93,21 @@ function op_timeline_activity($activity)
     $images = $activity->getImages();
   }
 
+  $publicStatusList = array(
+      ActivityDataTable::PUBLIC_FLAG_OPEN    => 'open',
+      ActivityDataTable::PUBLIC_FLAG_SNS     => 'sns',
+      ActivityDataTable::PUBLIC_FLAG_FRIEND  => 'friend',
+      ActivityDataTable::PUBLIC_FLAG_PRIVATE => 'private'
+  );
+
+  $publicStatus = $publicStatusList[(int)$activity->getPublicFlag()];
+
   return array(
     'id' => $activity->getId(),
     'member' => op_api_member($member),
     'body' => $activity->getBody(),
     'body_html' => op_activity_linkification(nl2br(op_api_force_escape($activity->getBody()))),
-    'public_flag' => (int)$activity->getPublicFlag(),
+    'public_status' => $publicStatus,
     'uri' => $activity->getUri(),
     'source' => $activity->getSource(),
     'source_uri' => $activity->getSourceUri(),

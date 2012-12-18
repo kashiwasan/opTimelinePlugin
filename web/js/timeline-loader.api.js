@@ -25,14 +25,17 @@ $(function(){
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
+
     var body = $('#timeline-textarea').val();
+
     if (gorgon)
     {
       var data = {
         body: body,
         target: gorgon.post.foreign,
         target_id: gorgon.post.foreignId,
-        apiKey: openpne.apiKey
+        apiKey: openpne.apiKey,
+        public_flag: $('#timeline-public-flag option:selected').val()
       };
     }
     else
@@ -42,6 +45,9 @@ $(function(){
         apiKey: openpne.apiKey
       };
     }
+
+    console.log(data);
+
     $.ajax({
       url: openpne.apiBase + 'activity/post.json',
       type: 'POST',
