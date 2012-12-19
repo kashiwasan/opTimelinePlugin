@@ -81,4 +81,3 @@ function op_timeline_plugin_screen_name($body, $options = array())
 
   return $body;
 }
-
