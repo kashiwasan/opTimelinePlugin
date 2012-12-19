@@ -1,0 +1,4 @@
+timeline_search:
+  url: /timeline/search.json
+  param: { module: timeline, action: search, sf_format: json }
+  requirements: { sf_method: [get] }

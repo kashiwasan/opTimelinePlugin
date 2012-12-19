@@ -82,3 +82,28 @@ function op_timeline_plugin_screen_name($body, $options = array())
   return $body;
 }
 
+
+function op_timeline_activity($activity)
+{
+  $viewMemberId = sfContext::getInstance()->getUser()->getMemberId();
+  $member = $activity->getMember();
+  $images = null;
+  if ($activity->getImages()->count())
+  {
+    $images = $activity->getImages();
+  }
+
+  return array(
+    'id' => $activity->getId(),
+    'member' => op_api_member($member),
+    'body' => $activity->getBody(),
+    'body_html' => op_activity_linkification(nl2br(op_api_force_escape($activity->getBody()))),
+    'public_flag' => (int)$activity->getPublicFlag(),
+    'uri' => $activity->getUri(),
+    'source' => $activity->getSource(),
+    'source_uri' => $activity->getSourceUri(),
+    'image_url' => !is_null($images) ? sf_image_path($images[0]->getFile(), array('size' => '48x48'), true) : null,
+    'image_large_url' => !is_null($images) ? sf_image_path($images[0]->getFile(), array(), true) : null,
+    'created_at' => date('r', strtotime($activity->getCreatedAt())),
+  );
+}

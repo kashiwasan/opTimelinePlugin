@@ -73,7 +73,7 @@ function timelineAllLoad() {
     gorgon.apiKey = openpne.apiKey;
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json',
+      url: openpne.apiBase + 'timeline/search.json',
       data: gorgon,
       success: function(json){
         renderJSON(json, 'all');
@@ -82,14 +82,14 @@ function timelineAllLoad() {
         $('#timeline-loading').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
-      },  
+      }  
     }); 
   }
   else
   {
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
+      url: openpne.apiBase + 'timeline/search.json?apiKey=' + openpne.apiKey,
       success: function(json){
         renderJSON(json, 'all');
       },
@@ -112,7 +112,7 @@ function timelineDifferenceLoad() {
   {
     gorgon = {apiKey: openpne.apiKey,}
   }
-  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
+  $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
     renderJSON(json, 'diff');
   });
 }
@@ -132,7 +132,7 @@ function timelineLoadmore() {
 
   $.ajax({
     type: 'GET',
-    url: openpne.apiBase + 'activity/search.json',
+    url: openpne.apiBase + 'timeline/search.json',
     data: gorgon,
     success: function(json){
       renderJSON(json, 'more');
