@@ -1,0 +1,4 @@
+comment_search:
+  url: /timeline/commentSearch.json
+  param: { module: timeline, action: commentSearch, sf_format: json }
+  requirements: { sf_method: [get] }

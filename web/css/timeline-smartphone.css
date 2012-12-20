@@ -115,3 +115,15 @@
   margin-right: 4px;
 }
 
+.timeline-comment-loadmore {
+  display: none;
+  cursor: pointer;
+  padding: 2px 0 2px 6px;
+  margin: 3px 0 -8px 25px;
+  font-size: 12px;
+  background-color: whiteSmoke;
+}
+
+.timeline-comment-loader {
+  display: none;
+}

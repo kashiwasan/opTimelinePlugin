@@ -25,6 +25,34 @@ $(function(){
     $('#gorgon-loadmore').show();
   });
 
+  $('.timeline-comment-loadmore').live('click', function() {
+    var timelineId = $(this).attr('data-timeline-id');
+    var commentlist = $('#commentlist-' + timelineId);
+    var commentLength = commentlist.children('.timeline-post-comment').length;
+    $('#timeline-comment-loader-' + timelineId).show();
+
+    $.ajax({
+      type: 'GET',
+      url: openpne.apiBase + 'timeline/commentSearch.json?apiKey=' + openpne.apiKey,
+      data: {
+        'timeline_id': timelineId,
+        'count': commentLength + 20,
+      },
+      success: function(json){
+        commentlist.children('.timeline-post-comment').remove();
+        $('#timelineCommentTemplate').tmpl(json.data.reverse()).prependTo('#commentlist-' + timelineId);
+        $('#timeline-comment-loader-' + timelineId).hide();
+
+        if (json.data.length < commentLength + 20)
+        {
+          $('#timeline-comment-loadmore-' + timelineId).hide();
+        }
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        $('#commentlist-' + timelineId).hide();
+      },  
+    }); 
+  });
 });
 
 function timelineAllLoad() {
@@ -152,8 +180,12 @@ function renderJSON(json, mode) {
     {
       if(json.data[i].replies)
       {
-        $('#timelineCommentTemplate').tmpl(json.data[i].replies).prependTo('#commentlist-' +json.data[i].id);
+        $('#timelineCommentTemplate').tmpl(json.data[i].replies.reverse()).prependTo('#commentlist-' +json.data[i].id);
         $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
+      }
+      if(10 < parseInt(json.data[i].repliesCount))
+      {
+        $('#timeline-comment-loadmore-' + json.data[i].id).show();
       }
     }
   }
