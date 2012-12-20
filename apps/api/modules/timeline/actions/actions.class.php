@@ -12,85 +12,48 @@ class timelineActions extends opJsonApiActions
 
   public function executeSearch(sfWebRequest $request)
   {
-    //コントローラー部分は変更する必要がないのと変更するためのコストが高すぎるので
-    //ソースコードをコピーした
+    $parameters = $request->getGetParameters();
 
-    $builder = opActivityQueryBuilder::create()
-                    ->setViewerId($this->getUser()->getMemberId());
-
-    if (isset($request['target']))
+    if (isset($parameters['target']))
     {
-      if ('friend' === $request['target'])
-      {
-        $builder->includeFriends($request['target_id'] ? $request['target_id'] : null);
-      }
-      elseif ('community' === $request['target'])
-      {
-        $this->forward400Unless($request['target_id'], 'target_id parameter not specified.');
-        $builder
-                ->includeSelf()
-                ->includeFriends()
-                ->includeSns()
-                ->setCommunityId($request['target_id']);
-
-      }
-      else
-      {
-        $this->forward400('target parameter is invalid.');
-      }
-    }
-    else
-    {
-      if (isset($request['member_id']))
-      {
-        $builder->includeMember($request['member_id']);
-      }
-      else
-      {
-        $builder
-                ->includeSns()
-                ->includeFriends()
-                ->includeSelf();
-      }
+      $this->forward400IfInvalidTarget($parameters);
     }
 
-    $query = $builder->buildQuery();
+    //実行の仕方自体はアクティビティの検索と同じなので、アクティビティ検索APIを使用する
+    //@todo 本体のアクティビティ検索の部分をmodel化して同じクラスを使用するようにする
+    $apiDatas = (array) json_decode($this->fetchApiData('activity/search'));
 
-    if (isset($request['keyword']))
-    {
-      $query->andWhereLike('body', $request['keyword']);
-    }
+    $timeline = new opTimeline();
+    $returnDatas = $timeline->addPublicFlagForActivityDatas($apiDatas);
 
-    $globalAPILimit = sfConfig::get('op_json_api_limit', 20);
-    if (isset($request['count']) && (int) $request['count'] < $globalAPILimit)
-    {
-      $query->limit($request['count']);
-    }
-    else
-    {
-      $query->limit($globalAPILimit);
-    }
-
-    if (isset($request['max_id']))
-    {
-      $query->addWhere('id <= ?', $request['max_id']);
-    }
-
-    if (isset($request['since_id']))
-    {
-      $query->addWhere('id > ?', $request['since_id']);
-    }
-
-    if (isset($request['activity_id']))
-    {
-      $query->addWhere('id = ?', $request['activity_id']);
-    }
-
-    $this->activityData = $query
-                    ->andWhere('in_reply_to_activity_id IS NULL')
-                    ->execute();
-
-    $this->setTemplate('search');
+    return $this->renderJson($returnDatas);
   }
 
+  private function fetchApiData($apiName)
+  {
+    $moduleName = sfContext::getInstance()->getModuleName();
+    $actionName = sfContext::getInstance()->getActionName();
+    $currentApiName = $moduleName.'/'.$actionName;
+
+    $currentUrl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $callApiUrl = str_replace($currentApiName, $apiName, $currentUrl);
+
+    return file_get_contents($callApiUrl);
+  }
+
+  private function forward400IfInvalidTarget(array $params)
+  {
+    $validTargets = array('friend', 'community');
+
+    if (!in_array($params['target'], $validTargets)) {
+      return $this->forward400('target parameter is invalid.');
+    }
+
+    if ($params['target'] === 'community')
+    {
+      $this->forward400Unless($params['target_id'], 'target_id parameter not specified.');
+    }
+
+  }
+  
 }
