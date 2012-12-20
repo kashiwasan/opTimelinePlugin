@@ -16,13 +16,13 @@
 <?php echo $form->renderFormTag(url_for('timeline/updateTimeline')) ?>
 <?php echo $form['body'] ?>
 <?php echo $form->renderHiddenFields() ?>
-<input type="submit" value="<?php echo 'コメントする' ?>" />
+<input type="submit" value="<?php echo 'ｺﾒﾝﾄする' ?>" />
 </form>
 <?php end_slot() ?>
 <?php $list[] = get_slot('activity_form') ?>
 <?php endif; ?>
 <?php $params = array(
-  'title' => isset($title) ? $title : 'コメント',
+  'title' => isset($title) ? $title : 'ｺﾒﾝﾄ',
   'list' => $list,
   'border' => true,
 ) ?>

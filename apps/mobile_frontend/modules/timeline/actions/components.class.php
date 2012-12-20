@@ -34,24 +34,25 @@ class timelineComponents extends sfComponents
   {
     $builder = opActivityQueryBuilder::create()
             ->setViewerId($this->getUser()->getMemberId());
-    $builder->includeMember($this->getRequestParameter('id'));
+
+    $builder->includeMember($request->getParameter('id'));
     $query = $builder->buildQuery();
     $query->limit(20);
 
     $this->activities = $query
          ->andWhere('in_reply_to_activity_id IS NULL')
          ->execute();
-    $this->member = Doctrine::getTable('Member')->find($this->getRequestParameter('id'));
+    $this->member = Doctrine::getTable('Member')->find($request->getParameter('id'));
   }
 
   public function executeTimelineCommunity(sfWebRequest $request)
   {
-    $this->member_id = $this->getUser()->getMemberId();
-    $community_id = $this->community->getId();
+    $memberId = $this->getUser()->getMemberId();
+    $communityId = $this->community->getId();
 
     $builder = opActivityQueryBuilder::create()
-            ->setViewerId($this->member_id)
-            ->setCommunityId($community_id);
+            ->setViewerId($memberId)
+            ->setCommunityId($communityId);
     $builder->includeSns()->includeFriends()->includeSelf();
     $query = $builder->buildQuery();
     $query->limit(20);
@@ -59,11 +60,11 @@ class timelineComponents extends sfComponents
     $this->activities = $query
          ->andWhere('in_reply_to_activity_id IS NULL')
          ->execute();
-    if ($this->community->isPrivilegeBelong($this->member_id))
+    if ($this->community->isPrivilegeBelong($memberId))
     {
       $this->form = new TimelineDataForm();
       $this->form->setDefault('foreign_table', 'community');
-      $this->form->setDefault('foreign_id', $community_id);
+      $this->form->setDefault('foreign_id', $communityId);
     }     
   }
 }
