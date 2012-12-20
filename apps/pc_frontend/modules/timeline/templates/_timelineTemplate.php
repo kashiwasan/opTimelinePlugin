@@ -14,6 +14,17 @@
             <div class="timeline-post-control">
             <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>{{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
             </div>
+            <!--Like Plugin -->
+            <div class="like" style="display: none;">
+              <span class="like-wrapper" data-like-id="${id}" data-like-target="A" member-id="${member.id}">
+                <span class="like-post">いいね！</span>
+                <span class="like-cancel">いいね！を取り消す&nbsp;</span>
+                <span class="like-you">あなたが「いいね！」と言っています。</span><div></div>
+                  <a class="like-list" href="#likeModal" data-toggle="modal"></a>
+                <div class="like-list-member"></div>
+                <span class="like-friend-list"></span>
+              </span>
+            </div>
 
             <a>
               <div id="timeline-comment-loadmore-${id}" data-timeline-id="${id}" class="timeline-comment-loadmore">
@@ -105,6 +116,17 @@
                 </div>
               </div>
               {{/if}}
+            </div>
+            <!--Like Plugin -->
+            <div class="like" style="display: none;">
+              <span class="like-wrapper font-small" data-like-id="${id}" data-like-target="A" member-id="${member.id}">
+                <span class="like-post">いいね！</span>
+                <span class="like-cancel">いいね！を取り消す&nbsp;</span>
+                <span class="like-you">あなたが「いいね！」と言っています。</span><div></div>
+                  <a class="like-list" href="#likeModal" data-toggle="modal"></a>
+                <div class="like-list-member"></div>
+                <span class="like-friend-list"></span>
+              </span>
             </div>
 </script>
 
