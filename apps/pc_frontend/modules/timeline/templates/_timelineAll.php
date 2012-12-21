@@ -9,6 +9,7 @@ var gorgon = {
       },
       'timer': '60000',
     };
+var MAXLENGTH = 140;
 //]]>
 </script>
 
@@ -41,7 +42,7 @@ $(function(){
           <option value="<?php echo $value ?>"><?php echo __($text) ?></option>
         <?php endforeach; ?>
         </select>
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeypress="return (this.value.length < 1139)"></textarea>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeypress="return (this.value.length < 1139)" onkeyup="lengthCheck(this);"></textarea>
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">

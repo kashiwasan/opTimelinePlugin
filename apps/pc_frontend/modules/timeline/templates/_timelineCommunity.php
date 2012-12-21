@@ -19,6 +19,7 @@ var gorgon = {
       },
       'timer': '5000',
     };
+var MAXLENGTH = 140;
 //]]>
 </script>
 
@@ -40,7 +41,7 @@ $(function(){
 <div class="partsHeading"><h3>コミュニティタイムライン</h3></div>
     <div class="timeline">
       <div class="timeline-postform well">
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeyup="lengthCheck(this);"></textarea>
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">

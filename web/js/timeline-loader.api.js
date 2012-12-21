@@ -265,3 +265,15 @@ function convertTag(str) {
   str = str.replace(/>/g,'&gt;');
   return str;
 }
+
+function lengthCheck(obj)
+{
+  if (MAXLENGTH < obj.value.length)
+  {
+    $('#timeline-submit-button').attr('disabled','disabled');
+  }
+  else if ($('#timeline-submit-button').attr('disabled'))
+  {
+    $('#timeline-submit-button').removeAttr('disabled');
+  }
+}
