@@ -25,14 +25,17 @@ $(function(){
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
+
     var body = $('#timeline-textarea').val();
+
     if (gorgon)
     {
       var data = {
         body: body,
         target: gorgon.post.foreign,
         target_id: gorgon.post.foreignId,
-        apiKey: openpne.apiKey
+        apiKey: openpne.apiKey,
+        public_flag: $('#timeline-public-flag option:selected').val()
       };
     }
     else
@@ -42,6 +45,7 @@ $(function(){
         apiKey: openpne.apiKey
       };
     }
+
     $.ajax({
       url: openpne.apiBase + 'activity/post.json',
       type: 'POST',
@@ -102,7 +106,7 @@ function timelineAllLoad() {
     gorgon.apiKey = openpne.apiKey;
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json',
+      url: openpne.apiBase + 'timeline/search.json',
       data: gorgon,
       success: function(json){
         renderJSON(json, 'all');
@@ -111,14 +115,14 @@ function timelineAllLoad() {
         $('#timeline-loading').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
-      },  
+      }  
     }); 
   }
   else
   {
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
+      url: openpne.apiBase + 'timeline/search.json?apiKey=' + openpne.apiKey,
       success: function(json){
         renderJSON(json, 'all');
       },
@@ -141,7 +145,7 @@ function timelineDifferenceLoad() {
   {
     gorgon = {apiKey: openpne.apiKey,}
   }
-  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
+  $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
     renderJSON(json, 'diff');
   });
 }
@@ -161,7 +165,7 @@ function timelineLoadmore() {
 
   $.ajax({
     type: 'GET',
-    url: openpne.apiBase + 'activity/search.json',
+    url: openpne.apiBase + 'timeline/search.json',
     data: gorgon,
     success: function(json){
       renderJSON(json, 'more');

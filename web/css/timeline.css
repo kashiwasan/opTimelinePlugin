@@ -10,7 +10,8 @@ input.error:focus, select.error:focus, textarea.error:focus {
   box-shadow: 0 0 6px #d59392;
 }
 
-.timestamp {
+.timestamp,
+.public-flag {
   color: #999!important;
 }
 

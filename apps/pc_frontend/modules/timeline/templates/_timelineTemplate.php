@@ -9,7 +9,14 @@
               <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
             </div>
             <div class="timeline-post-body">
-              {{html body_html}}
+              {{html body_html}} 
+            </div>
+            <div class="timeline-post-control">
+              {{if public_status == 'friend' }}
+              <span class="public-flag">公開範囲:マイフレンドまで公開</span>
+              {{else public_status == 'private' }}
+              <span class="public-flag">公開範囲:公開しない</span>
+              {{/if}}
             </div>
             <div class="timeline-post-control">
             <a class="timeline-comment-link">コメントする</a>{{if member.self==true}} | <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a>{{/if}} | <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>

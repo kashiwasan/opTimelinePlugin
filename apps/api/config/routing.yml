@@ -2,3 +2,7 @@ comment_search:
   url: /timeline/commentSearch.json
   param: { module: timeline, action: commentSearch, sf_format: json }
   requirements: { sf_method: [get] }
+timeline_search:
+  url: /timeline/search.json
+  param: { module: timeline, action: search, sf_format: json }
+  requirements: { sf_method: [get] }
