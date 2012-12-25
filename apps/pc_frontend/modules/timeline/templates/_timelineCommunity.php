@@ -25,6 +25,8 @@ var MAXLENGTH = 140;
 
 <?php use_javascript('/opTimelinePlugin/js/jquery.desktopify.js', 'last'); ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js', 'last') ?>
+<?php use_javascript('/opTimelinePlugin/js/counter.js', 'last') ?>
+<?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
 
@@ -45,6 +47,7 @@ $(function(){
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
+          <span id="counter"></span>
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>
