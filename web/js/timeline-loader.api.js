@@ -55,6 +55,7 @@ $(function(){
         timelineAllLoad();
         $('#timeline-submit-loader').hide();
         $('#timeline-textarea').val('');
+        $('#counter').text(MAXLENGTH);
       },
       error: function(x, r, e){
         $('#timeline-submit-loader').hide();
@@ -146,7 +147,10 @@ function timelineDifferenceLoad() {
     gorgon = {apiKey: openpne.apiKey,}
   }
   $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
-    renderJSON(json, 'diff');
+    if (json.data)
+    {
+      renderJSON(json, 'diff');
+    }
   });
 }
 
@@ -189,10 +193,13 @@ function renderJSON(json, mode) {
   {
     for(i=0;i<json.data.length;i++)
     {
-      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/i))
+      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
       {
-        var imgUrl = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<a href="$1"><img src="$1"></img></a>');
-        json.data[i].body_html = imgUrl;
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<a href="$1"><img src="$1"></img></a>');
+      }
+      else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
+      {
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock">$1</div></a>');
       }
     }
   }

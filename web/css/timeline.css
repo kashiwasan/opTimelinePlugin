@@ -208,3 +208,18 @@ a.screen-name:link {
 .timeline-comment-loader {
   display: none;
 }
+
+.urlBlock {
+  margin: 5px;
+  padding: 5px;
+  background-color: whiteSmoke;
+  border: 1px solid #DDD;
+}
+
+#timeline-public-flag {
+  margin-bottom: 10px;
+}
+
+.timeline-public-flag-label {
+  display: inline;
+}

@@ -1,7 +1,7 @@
 #counter{
   position: absolute;
-  top: 75px;
-  left: 340px;
+  right: 70px;
+  bottom: 8px;
   font-size: 18px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

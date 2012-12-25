@@ -36,7 +36,7 @@ $(function(){
 
     <div class="timeline">
       <div class="timeline-postform well">
-        <label for="timeline-public-flag">公開範囲</label>
+        <label for="timeline-public-flag" class="timeline-public-flag-label">公開範囲：</label>
         <select id="timeline-public-flag">
         <?php foreach ($publicFlags as $value => $text): ?>
           <option value="<?php echo $value ?>"><?php echo __($text) ?></option>
@@ -46,7 +46,7 @@ $(function(){
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
-        <span id="counter"></span>
+          <span id="counter"></span>
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>
