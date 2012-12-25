@@ -185,6 +185,17 @@ function renderJSON(json, mode) {
   {
     $('#timeline-list').empty();
   }
+  if(json.data)
+  {
+    for(i=0;i<json.data.length;i++)
+    {
+      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/i))
+      {
+        var imgUrl = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<a href="$1"><img src="$1"></img></a>');
+        json.data[i].body_html = imgUrl;
+      }
+    }
+  }
 
   $timelineData = $('#timelineTemplate').tmpl(json.data);
   $('.timeline-comment-button', $timelineData).timelineComment();

@@ -8,7 +8,7 @@
             <div class="timeline-member-name">
               <a class="screen-name" href="${member.profile_url}">${member.screen_name}</a>
             </div>
-            <div class="timeline-post-body">
+            <div class="timeline-post-body" id="timeline-post-body-${id}">
               {{html body_html}} 
             </div>
             <div class="timeline-post-control">
