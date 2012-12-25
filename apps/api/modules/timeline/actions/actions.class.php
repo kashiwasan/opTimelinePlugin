@@ -42,7 +42,7 @@ class timelineActions extends opJsonApiActions
     }
 
     $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
-    $fileInfo['binary']  = stream_get_contents($stream);
+    $fileInfo['binary'] = stream_get_contents($stream);
     $fileInfo['actvity_id'] = $_POST['id'];
 
     $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
@@ -89,7 +89,7 @@ class timelineActions extends opJsonApiActions
     //@todo OpenPNEの保存形式に変更する
 
     $uploadBasePath = '/cache/img/'.$file->getImageFormat();
-    
+
     $uploadDirPath = sfConfig::get('sf_web_dir').$uploadBasePath;
 
     if (!file_exists($uploadDirPath))
@@ -127,6 +127,7 @@ class timelineActions extends opJsonApiActions
     $timeline = new opTimeline();
 
     $returnDatas = $timeline->addPublicFlagForActivityDatas($apiDatas);
+    $returnDatas = $timeline->addImageUrlForContent($apiDatas);
 
     return $this->renderJson($returnDatas);
   }

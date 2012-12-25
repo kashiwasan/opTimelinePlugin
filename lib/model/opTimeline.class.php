@@ -51,4 +51,43 @@ class opTimeline
     return $publicStatues;
   }
 
+  public function addImageUrlForContent(array $apiDatas)
+  {
+    $ids = array();
+    foreach ($apiDatas['data'] as $data)
+    {
+      $ids[] = $data->id;
+    }
+
+    if (empty($ids))
+    {
+      return $apiDatas;
+    }
+
+    $query = new opDoctrineQuery();
+    $query->select('activity_data_id, uri');
+    $query->from('ActivityImage');
+    $query->andWhereIn('activity_data_id', $ids);
+
+    $searchResult = $query->fetchArray();
+
+    $imageUrls = array();
+    foreach ($searchResult as $row) {
+      $imageUrls[$row['activity_data_id']] = $row['uri'];
+    }
+
+    foreach ($apiDatas['data'] as &$data)
+    {
+      $id = $data->id;
+      
+      if (isset($imageUrls[$id])) {
+        $data->body = $data->body.' '.$imageUrls[$id];
+        $data->body_html = $data->body_html.' '.$imageUrls[$id];
+      }
+
+    }
+
+    return $apiDatas;
+  }
+
 }
