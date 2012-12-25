@@ -3,6 +3,7 @@ $(function(){
   var timerArray = new Array();
   var timer;
   timelineAllLoad();
+
   if ( gorgon.timer != undefined )
   {
     timer = gorgon.timer;
@@ -11,6 +12,7 @@ $(function(){
   {
     timer = 15000;
   }
+
   timerID = setInterval('timelineDifferenceLoad()', timer);
   if ( gorgon.notify !== undefined )
   {
@@ -52,7 +54,16 @@ $(function(){
       data: data,
       dataType: 'json',
       success: function(json) {
-        timelineAllLoad();
+
+
+        if ($('#timeline-submit-upload').val()) {
+          imageUpload(json.data.id);
+          //画像API処理が終わった後に実行するために実行時間を調整する
+          setTimeout('timelineAllLoad()', 750);
+        } else {
+          timelineAllLoad()
+        }
+
         $('#timeline-submit-loader').hide();
         $('#timeline-textarea').val('');
         $('#counter').text(MAXLENGTH);
@@ -63,6 +74,8 @@ $(function(){
         $('#timeline-submit-error').show();
       }
     });
+
+    
   });
 
   $('#timeline-loadmore').click( function() {
@@ -128,9 +141,9 @@ function timelineAllLoad() {
         renderJSON(json, 'all');
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
-      $('#timeline-loading').hide();
-      $('#timeline-list').text('タイムラインは投稿されていません。');
-      $('#timeline-list').show();
+        $('#timeline-loading').hide();
+        $('#timeline-list').text('タイムラインは投稿されていません。');
+        $('#timeline-list').show();
       },  
     }); 
   }
@@ -138,13 +151,16 @@ function timelineAllLoad() {
 
 function timelineDifferenceLoad() {
   var lastId = $('#timeline-list').attr('data-last-id');
+
   if (gorgon)
   {
     gorgon.apiKey = openpne.apiKey;
   }
   else
   {
-    gorgon = {apiKey: openpne.apiKey,}
+    gorgon = {
+      apiKey: openpne.apiKey,
+    }
   }
   $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
     if (json.data)
@@ -163,7 +179,9 @@ function timelineLoadmore() {
   }
   else
   {
-    gorgon = {apiKey: openpne.apiKey,}
+    gorgon = {
+      apiKey: openpne.apiKey,
+    }
   }
   gorgon.max_id = loadmoreId;
 
@@ -294,4 +312,24 @@ function lengthCheck(obj)
   {
     $('#timeline-submit-button').removeAttr('disabled');
   }
+}
+
+function imageUpload(activityId)
+{
+  //reference　http://lagoscript.org/jquery/upload/documentation
+  $('#timeline-submit-upload').upload(
+    openpne.apiBase + 'timeline/image_upload.json',
+    {
+      apiKey: openpne.apiKey,
+      id:　activityId
+    },
+    function (res) {
+      
+    },
+    'text' //デバッグを簡単にするために最初はtextにする
+  );
+
+  //アップロードファイルが残ったままになるので
+  $('#timeline-submit-upload').val('')
+
 }
