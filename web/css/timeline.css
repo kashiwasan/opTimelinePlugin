@@ -218,6 +218,7 @@ a.screen-name:link {
 
 #timeline-public-flag {
   margin-bottom: 10px;
+  width: 100px;
 }
 
 .timeline-public-flag-label {
