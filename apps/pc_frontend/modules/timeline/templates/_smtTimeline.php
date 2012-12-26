@@ -23,6 +23,7 @@ var gorgon = {
           <div class="timeline-post-content">
             <div class="timeline-member-name">
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
+            <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}

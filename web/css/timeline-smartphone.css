@@ -127,3 +127,9 @@
 .timeline-comment-loader {
   display: none;
 }
+
+.timestamp {
+  color: #999!important;
+  float: right;
+  font-size: x-small;
+}
