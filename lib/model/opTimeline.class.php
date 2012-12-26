@@ -82,7 +82,7 @@ class opTimeline
       
       if (isset($imageUrls[$id])) {
         $data->body = $data->body.' '.$imageUrls[$id];
-        $data->body_html = $data->body_html.' '.$imageUrls[$id];
+        $data->body_html = $data->body_html.'<div><img src="'.$imageUrls[$id].'"></div>';
       }
 
     }
@@ -90,4 +90,16 @@ class opTimeline
     return $apiDatas;
   }
 
+  public function getViewPhoto()
+  {
+    $viewPhoto = Doctrine::getTable('SnsConfig')->get('op_timeline_plugin_view_photo', false);
+    if (!is_null($viewPhoto))
+    {
+      return $viewPhoto;
+    }
+    else
+    {
+      return 1;
+    }
+  }
 }

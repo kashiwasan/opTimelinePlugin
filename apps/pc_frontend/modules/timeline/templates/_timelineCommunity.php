@@ -20,6 +20,7 @@ var gorgon = {
       'timer': '5000',
     };
 var MAXLENGTH = 140;
+var viewPhoto = <?php echo $viewPhoto ?>;
 //]]>
 </script>
 
@@ -48,6 +49,8 @@ $(function(){
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
+          <span id="timeline-upload-photo-button" class="btn"><i class="icon-camera"></i></span>
+          <span id="photo-file-name"></span>
           <span id="counter"></span>
           <select id="timeline-public-flag">
           <?php foreach ($publicFlags as $value => $text): ?>

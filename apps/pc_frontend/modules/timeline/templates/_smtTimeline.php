@@ -6,6 +6,7 @@ var gorgon = {
       'post': {
       }
     };
+var viewPhoto = <?php echo $viewPhoto ?>;
 //]]>
 </script>
 <?php op_smt_use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>

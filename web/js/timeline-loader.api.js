@@ -27,6 +27,7 @@ $(function(){
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
+    $('#photo-file-name').text('');
 
     var body = $('#timeline-textarea').val();
 
@@ -67,7 +68,6 @@ $(function(){
         $('#timeline-submit-loader').hide();
         $('#timeline-textarea').val('');
         $('#counter').text(MAXLENGTH);
-        $('#photo-file-name').text('');
       },
       error: function(x, r, e){
         $('#timeline-submit-loader').hide();
@@ -224,17 +224,20 @@ function renderJSON(json, mode) {
   {
     $('#timeline-list').empty();
   }
-  if(json.data)
+  if(json.data && 0 < viewPhoto)
   {
     for(i=0;i<json.data.length;i++)
     {
-      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
+      if (!json.data[i].body_html.match(/img.*src=/))
       {
-        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
-      }
-      else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
-      {
-        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
+        if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
+        {
+          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
+        }
+        else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
+        {
+          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
+        }
       }
     }
   }
