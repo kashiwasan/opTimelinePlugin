@@ -94,7 +94,7 @@ class timelineActions extends opJsonApiActions
 
     if (!file_exists($uploadDirPath))
     {
-      mkdir($uploadDirPath);
+      mkdir($uploadDirPath, 0777, true);
     }
 
     $fileSavePath = $uploadDirPath.'/'.$filename;
