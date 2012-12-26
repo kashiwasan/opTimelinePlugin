@@ -67,6 +67,7 @@ $(function(){
         $('#timeline-submit-loader').hide();
         $('#timeline-textarea').val('');
         $('#counter').text(MAXLENGTH);
+        $('#photo-file-name').text('');
       },
       error: function(x, r, e){
         $('#timeline-submit-loader').hide();
@@ -111,6 +112,22 @@ $(function(){
         $('#commentlist-' + timelineId).hide();
       },  
     }); 
+  });
+
+  $('#timeline-submit-upload').change(function() {
+    var fileName = $('#timeline-submit-upload').val();
+    if (20 > fileName.length)
+    {
+      $('#photo-file-name').text(fileName);
+    }
+    else
+    {
+      $('#photo-file-name').text(fileName.substring(0, 19) + '…');
+    }
+  });
+
+  $('#timeline-upload-photo-button').click(function() {
+    $('#timeline-submit-upload').click();
   });
 });
 

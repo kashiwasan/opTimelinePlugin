@@ -221,3 +221,23 @@ a.screen-name:link {
   width: 100px;
   right: 110px;
 }
+
+#timeline-submit-upload {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  display: none;
+}
+
+#timeline-upload-photo-button {
+  position: absolute;
+  padding: 7px;
+  bottom: 5px;
+}
+
+#photo-file-name {
+  position: absolute;
+  bottom: 10px;
+  left: 50px;
+  width: 200px;
+}
