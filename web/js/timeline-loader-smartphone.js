@@ -61,7 +61,8 @@ function timelineAllLoad() {
     gorgon.apiKey = openpne.apiKey;
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json',
+      url: openpne.apiBase + 'timeline/search.json',
+      //url: openpne.apiBase + 'activity/search.json',
       data: gorgon,
       success: function (json){
         renderJSON(json, 'all');
@@ -79,7 +80,8 @@ function timelineAllLoad() {
   {
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
+      //url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
+      url: openpne.apiBase + 'timeline/search.json?apiKey=' + openpne.apiKey,
       success: function (json){
         renderJSON(json, 'all');
       },
@@ -102,7 +104,8 @@ function timelineDifferenceLoad() {
   {
     gorgon = {apiKey: openpne.apiKey,}
   }
-  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
+  //$.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
+  $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
     renderJSON(json, 'diff');
   });
 }
@@ -122,7 +125,8 @@ function timelineLoadmore() {
 
   $.ajax({
     type: 'GET',
-    url: openpne.apiBase + 'activity/search.json',
+    url: openpne.apiBase + 'timeline/search.json',
+    //url: openpne.apiBase + 'activity/search.json',
     data: gorgon,
     success: function(json){
       renderJSON(json, 'more');
@@ -143,6 +147,24 @@ function renderJSON(json, mode) {
   {
     $('#timeline-list').empty();
   }
+  if(json.data && 0 < viewPhoto)
+  {
+    for(i=0;i<json.data.length;i++)
+    {   
+      if (!json.data[i].body_html.match(/img.*src=/))
+      {   
+        if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
+        {   
+          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
+        }   
+        else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
+        {   
+          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
+        }   
+      }   
+    }   
+  }
+
 
   $timelineData = $('#timelineTemplate').tmpl(json.data);
   $('.timeline-comment-button', $timelineData).timelineComment();
