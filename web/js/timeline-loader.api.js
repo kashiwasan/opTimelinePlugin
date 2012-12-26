@@ -213,7 +213,7 @@ function renderJSON(json, mode) {
     {
       if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
       {
-        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<a href="$1"><img src="$1"></img></a>');
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
       }
       else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
       {

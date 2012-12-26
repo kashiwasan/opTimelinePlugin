@@ -23,6 +23,7 @@ var MAXLENGTH = 140;
 //]]>
 </script>
 
+<?php use_javascript('/opTimelinePlugin/js/jquery.upload-1.0.2.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/jquery.desktopify.js', 'last'); ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/counter.js', 'last') ?>
@@ -48,6 +49,12 @@ $(function(){
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
           <span id="counter"></span>
+          <select id="timeline-public-flag">
+          <?php foreach ($publicFlags as $value => $text): ?>
+            <option value="<?php echo $value ?>"><?php echo __($text) ?></option>
+          <?php endforeach; ?>
+          </select>
+          <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>

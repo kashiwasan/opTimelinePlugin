@@ -43,6 +43,8 @@ class timelineComponents extends sfComponents
     $this->getResponse()->addStyleSheet('/opTimelinePlugin/css/jquery.colorbox.css');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last');
     $this->getResponse()->addJavascript('/opTimelinePlugin/js/jquery.timeline.js', 'last');
+
+    $this->publicFlags = Doctrine::getTable('ActivityData')->getPublicFlags();
   }
 
   public function executeCommunityTimelineBy5(sfWebRequest $request)

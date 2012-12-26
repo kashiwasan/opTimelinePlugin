@@ -217,10 +217,7 @@ a.screen-name:link {
 }
 
 #timeline-public-flag {
-  margin-bottom: 10px;
+  position: absolute;
   width: 100px;
-}
-
-.timeline-public-flag-label {
-  display: inline;
+  right: 110px;
 }
