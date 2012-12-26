@@ -1,3 +1,5 @@
+var isUploadSuccess = 'hoge';
+
 $(function(){
   var timerID;
   var timerArray = new Array();
@@ -24,6 +26,8 @@ $(function(){
   }
 
   $('#timeline-submit-button').click( function() {
+
+
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
@@ -48,35 +52,8 @@ $(function(){
         apiKey: openpne.apiKey
       };
     }
-
-    $.ajax({
-      url: openpne.apiBase + 'activity/post.json',
-      type: 'POST',
-      data: data,
-      dataType: 'json',
-      success: function(json) {
-
-
-        if ($('#timeline-submit-upload').val()) {
-          imageUpload(json.data.id);
-          //画像API処理が終わった後に実行するために実行時間を調整する
-          setTimeout('timelineAllLoad()', 750);
-        } else {
-          timelineAllLoad()
-        }
-
-        $('#timeline-submit-loader').hide();
-        $('#timeline-textarea').val('');
-        $('#counter').text(MAXLENGTH);
-      },
-      error: function(x, r, e){
-        $('#timeline-submit-loader').hide();
-        $('#timeline-submit-error').text('投稿に失敗しました');
-        $('#timeline-submit-error').show();
-      }
-    });
-
     
+    tweetByData(data);    
   });
 
   $('#timeline-loadmore').click( function() {
@@ -334,22 +311,44 @@ function lengthCheck(obj)
   }
 }
 
-function imageUpload(activityId)
+function tweetByData(data)
 {
   //reference　http://lagoscript.org/jquery/upload/documentation
   $('#timeline-submit-upload').upload(
-    openpne.apiBase + 'timeline/image_upload.json',
-    {
-      apiKey: openpne.apiKey,
-      id:　activityId
-    },
+    openpne.apiBase + 'timeline/post.json', data,
     function (res) {
-      
+
+      res = res.replace("<pre>", '');
+      res = res.replace("</pre>", '');
+
+      returnData = JSON.parse(res);
+
+      if (returnData.status === "error") {
+
+        var errorMessages = {
+          file_size: 'ファイルサイズが容量オーバーです',
+          upload: 'アップロードに失敗しました',
+          not_image: '画像をアップロードしてください',
+          tweet: '投稿に失敗しました'
+        };
+
+        var errorType = returnData.type;
+
+        $('#timeline-submit-error').text(errorMessages[errorType]);
+        $('#timeline-submit-error').show();
+
+      } else {
+        $('#timeline-submit-error').text('');
+        timelineAllLoad();
+      }
+
+      $('#timeline-submit-upload').val('');
+      $('#timeline-textarea').val('');
+      $('#timeline-submit-loader').hide();
+      $('#timeline-textarea').val('');
+      $('#counter').text(MAXLENGTH);
+
     },
-    'text' //デバッグを簡単にするために最初はtextにする
-  );
-
-  //アップロードファイルが残ったままになるので
-  $('#timeline-submit-upload').val('')
-
+    'text' //なぜかJSON形式でうけとることができなかった
+    );
 }

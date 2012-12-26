@@ -51,7 +51,9 @@ a.screen-name:link {
   max-height : 28px;
 }
 
-#timeline-submit-error {
+#timeline-submit-error,
+#timeline-upload-error
+{
   display: none;
   color: #EE0000;
   text-align: center;

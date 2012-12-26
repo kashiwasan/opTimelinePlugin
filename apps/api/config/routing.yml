@@ -6,7 +6,7 @@ timeline_search:
   url: /timeline/search.json
   param: { module: timeline, action: search, sf_format: json }
   requirements: { sf_method: [get] }
-image_upload:
-  url: /timeline/image_upload.json
-  param: { module: timeline, action: imageUpload, sf_format: json }
+timeline_post:
+  url: /timeline/post.json
+  param: { module: timeline, action: post, sf_format: json }
   requirements: { sf_method: [post] }

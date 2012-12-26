@@ -9,6 +9,7 @@
  */
 class timelineActions extends opJsonApiActions
 {
+  const TWEET_MAX_LENGTH = 140;
 
   public function executeCommentSearch(sfWebRequest $request)
   {
@@ -24,33 +25,156 @@ class timelineActions extends opJsonApiActions
     }
   }
 
-  public function executeImageUpload(sfWebRequest $request)
+  public function executePost(sfWebRequest $request)
+  {
+    $errorInfo = $this->_checkParameterReturnArray($request);
+
+    if (!empty($errorInfo))
+    {
+      return $this->renderJSON($errorInfo);
+    }
+
+    if ((int) $_FILES['timeline-submit-upload']['size'] !== 0)
+    {
+      $fileInfo = $this->_createFileInfo($request);
+
+      $errorFileInfo = $this->_checkImageUploadByFileInfoReturnArray($fileInfo);
+
+      if (!empty($errorFileInfo))
+      {
+        return $this->renderJSON($errorFileInfo);
+      }
+    }
+
+    $this->_operateTweet($request);
+
+    if ((int) $_FILES['timeline-submit-upload']['size'] !== 0)
+    {
+      $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
+
+      return $this->renderJSON(array('status' => 'success', 'message' => 'file up success'));
+    }
+
+    $this->setTemplate('object');
+  }
+
+  private function _createFileInfo(sfWebRequest $request)
   {
     //開発を簡単にするためにコメントアウト
     $fileInfo = $_FILES['timeline-submit-upload'];
+    $fileInfo['stream'] = fopen($fileInfo['tmp_name'], 'r');
+    $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
+    $fileInfo['binary'] = stream_get_contents($fileInfo['stream']);
+    $fileInfo['actvity_id'] = $_POST['id'];
+
+    $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
+
+    return $fileInfo;
+  }
+
+  //activityのpostアクションをコピーしている
+  private function _operateTweet(sfWebRequest $request)
+  {
+    $body = (string) $request['body'];
+
+    $memberId = $this->getUser()->getMemberId();
+    $options = array();
+
+    if (isset($request['public_flag']))
+    {
+      $options['public_flag'] = $request['public_flag'];
+    }
+
+    if (isset($request['in_reply_to_activity_id']))
+    {
+      $options['in_reply_to_activity_id'] = $request['in_reply_to_activity_id'];
+    }
+
+    if (isset($request['uri']))
+    {
+      $options['uri'] = $request['uri'];
+    }
+    elseif (isset($request['url']))
+    {
+      $options['uri'] = $request['url'];
+    }
+
+    if (isset($request['target']) && 'community' === $request['target'])
+    {
+      $options['foreign_table'] = 'community';
+      $options['foreign_id'] = $request['target_id'];
+    }
+
+    $options['source'] = 'API';
+
+    $this->activity = Doctrine::getTable('ActivityData')->updateActivity($memberId, $body, $options);
+
+    $this->activityId = $this->activity->getId();
+
+    if ('1' === $request['forceHtml'])
+    {
+      // workaround for some browsers (see #3201)
+      $this->getRequest()->setRequestFormat('html');
+      $this->getResponse()->setContentType('text/html');
+    }
+
+    $this->setTemplate('object');
+  }
+
+  
+
+  private function _checkParameterReturnArray(sfWebRequest $request)
+  {
+    $body = (string) $request['body'];
+
+    $errorInfo = array('status' => 'error', 'type' => 'tweet');
+
+    if (empty($body))
+    {
+      $errorInfo['message'] = 'body parameter not specified.';
+      return $errorInfo;
+    }
+
+    if (mb_strlen($body) > self::TWEET_MAX_LENGTH)
+    {
+      $errorInfo['message'] = 'The body text is too long.';
+      return $errorInfo;
+    }
+    
+    if (isset($request['target']) && 'community' === $request['target'])
+    {
+      if (!isset($request['target_id']))
+      {
+        $errorInfo['message'] = 'target_id parameter not specified.';
+        return $errorInfo;
+      }
+    }
+
+    return null;
+  }
+
+  private function _checkImageUploadByFileInfoReturnArray(array $fileInfo)
+  {
+    if ($fileInfo['size'] >= opTimelinePluginUtil::getFileSizeMax())
+    {
+      return array('status' => 'error', 'message' => 'file size over', 'type' => 'file_size');
+    }
 
     $stream = fopen($fileInfo['tmp_name'], 'r');
 
     if ($stream === false)
     {
-      return $this->renderJSON(array('status' => 'error', 'message' => 'file upload error'));
+      return array('status' => 'error', 'message' => 'file upload error', 'type' => 'upload');
     }
 
     if (!$this->_isImageUploadByFileInfo($fileInfo))
     {
-      return $this->renderJSON(array('status' => 'error', 'message' => 'not image'));
+      return array('status' => 'error', 'message' => 'not image', 'type' => 'not_image');
     }
 
-    $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
-    $fileInfo['binary'] = stream_get_contents($stream);
-    $fileInfo['actvity_id'] = $_POST['id'];
-
-    $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
-
-    $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
-
-    return $this->renderJSON(array('status' => 'success', 'message' => 'file up success'));
+    return array();
   }
+
 
   private function _isImageUploadByFileInfo(array $fileInfo)
   {
@@ -102,7 +226,7 @@ class timelineActions extends opJsonApiActions
     copy($fileInfo['tmp_name'], $fileSavePath);
 
     $activityImage = new ActivityImage();
-    $activityImage->setActivityDataId($fileInfo['actvity_id']);
+    $activityImage->setActivityDataId($this->activityId);
     $activityImage->setFileId($file->getId());
     $activityImage->setUri($fileInfo['web_base_path'].$uploadBasePath.'/'.$filename);
     $activityImage->setMimeType($file->type);
