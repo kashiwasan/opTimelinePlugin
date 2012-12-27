@@ -10,7 +10,7 @@ var gorgon = {
       'timer': '60000'
     };
 var MAXLENGTH = 140;
-var viewPhoto = 1;
+var viewPhoto = '<?php echo $viewPhoto; ?>';
 
 //]]>
 </script>
@@ -51,7 +51,7 @@ $(function(){
             <option value="<?php echo $value ?>"><?php echo __($text) ?></option>
           <?php endforeach; ?>
           </select>
-          <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
+          <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data"> <?php echo $fileMaxSize ?>
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>

@@ -19,6 +19,8 @@ class timelineComponents extends sfComponents
     $this->publicFlags = Doctrine::getTable('ActivityData')->getPublicFlags();
     $this->viewPhoto = opTimeline::getViewPhoto();
 
+    $this->fileMaxSize = opTimelinePluginUtil::getFileSizeMaxOfFormat();
+    
     return sfView::SUCCESS;
   }
 
