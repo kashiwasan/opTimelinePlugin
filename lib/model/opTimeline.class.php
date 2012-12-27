@@ -93,13 +93,10 @@ class opTimeline
   public function getViewPhoto()
   {
     $viewPhoto = Doctrine::getTable('SnsConfig')->get('op_timeline_plugin_view_photo', false);
-    if (!is_null($viewPhoto))
+    if (false !== $viewPhoto)
     {
       return $viewPhoto;
     }
-    else
-    {
-      return 1;
-    }
+    return 1;
   }
 }
