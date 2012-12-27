@@ -55,7 +55,14 @@ class timelineActions extends opJsonApiActions
       return $this->renderJSON(array('status' => 'success', 'message' => 'file up success'));
     }
 
-    $this->setTemplate('object');
+    return $this->renderJSON(array('status' => 'success', 'message' => 'tweet success'));
+  }
+
+  public function renderJSON(array $datas)
+  {
+    header("Content-Type: application/json; charset=utf-8");
+    echo json_encode($datas);
+    exit;
   }
 
   private function _createFileInfo(sfWebRequest $request)
