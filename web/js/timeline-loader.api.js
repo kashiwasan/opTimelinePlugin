@@ -318,7 +318,7 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      console.log(res);
+      alert(res);
 
       res = res.match(/\{.*\}/);
 
