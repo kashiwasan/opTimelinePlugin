@@ -73,7 +73,7 @@ $(function(){
       url: openpne.apiBase + 'timeline/commentSearch.json?apiKey=' + openpne.apiKey,
       data: {
         'timeline_id': timelineId,
-        'count': commentLength + 20,
+        'count': commentLength + 20
       },
       success: function(json){
         commentlist.children('.timeline-post-comment').remove();
@@ -87,7 +87,7 @@ $(function(){
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
         $('#commentlist-' + timelineId).hide();
-      },  
+      }  
     }); 
   });
 
@@ -138,7 +138,7 @@ function timelineAllLoad() {
         $('#timeline-loading').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
-      },  
+      }  
     }); 
   }
 }
@@ -153,7 +153,7 @@ function timelineDifferenceLoad() {
   else
   {
     gorgon = {
-      apiKey: openpne.apiKey,
+      apiKey: openpne.apiKey
     }
   }
   $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
@@ -174,7 +174,7 @@ function timelineLoadmore() {
   else
   {
     gorgon = {
-      apiKey: openpne.apiKey,
+      apiKey: openpne.apiKey
     }
   }
   gorgon.max_id = loadmoreId;
@@ -188,7 +188,7 @@ function timelineLoadmore() {
     },
     error: function(XMLHttpRequest, textStatus, errorThrown){
       $('#timeline-loadmore-loading').hide();
-    },  
+    }  
   }); 
 }
 
@@ -264,7 +264,7 @@ function renderJSON(json, mode) {
     },
     onClosed: function(){
       timelineAllLoad();
-    },
+    }
   });
   if ('all' == mode)
   {
@@ -305,32 +305,34 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      returnData = JSON.parse(res);
-
-      if (returnData.status === "error") {
-
-        var errorMessages = {
-          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
-          upload: 'アップロードに失敗しました',
-          not_image: '画像をアップロードしてください',
-          tweet: '投稿に失敗しました'
-        };
-
-        var errorType = returnData.type;
-
-        $('#timeline-submit-error').text(errorMessages[errorType]);
-        $('#timeline-submit-error').show();
-
-      } else {
-        $('#timeline-submit-error').text('');
+//      $("h3").text(res);
+//
+//      returnData = JSON.parse(res);
+//
+//      if (returnData.status === "error") {
+//
+//        var errorMessages = {
+//          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
+//          upload: 'アップロードに失敗しました',
+//          not_image: '画像をアップロードしてください',
+//          tweet: '投稿に失敗しました'
+//        };
+//
+//        var errorType = returnData.type;
+//
+//        $('#timeline-submit-error').text(errorMessages[errorType]);
+//        $('#timeline-submit-error').show();
+//
+//      } else {
+//        $('#timeline-submit-error').text('');
         timelineAllLoad();
-      }
-
-      $('#timeline-submit-upload').val('');
-      $('#timeline-textarea').val('');
-      $('#timeline-submit-loader').hide();
-      $('#timeline-textarea').val('');
-      $('#counter').text(MAXLENGTH);
+//      }
+//
+//      $('#timeline-submit-upload').val('');
+//      $('#timeline-textarea').val('');
+//      $('#timeline-submit-loader').hide();
+//      $('#timeline-textarea').val('');
+//      $('#counter').text(MAXLENGTH);
 
     },
     'text' //なぜかJSON形式でうけとることができなかった
