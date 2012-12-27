@@ -133,3 +133,17 @@
   float: right;
   font-size: x-small;
 }
+
+#timeline-submit-upload {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  display: none;
+}
+
+#photo-file-name {
+  position: absolute;
+  bottom: 10px;
+  left: 50px;
+  width: 200px;
+}
