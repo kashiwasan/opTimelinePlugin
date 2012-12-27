@@ -203,20 +203,7 @@ function renderJSON(json, mode) {
   }
   if(json.data && 0 < viewPhoto)
   {
-    for(i=0;i<json.data.length;i++)
-    {
-      if (!json.data[i].body_html.match(/img.*src=/))
-      {
-        if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
-        {
-          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
-        }
-        else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
-        {
-          json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
-        }
-      }
-    }
+    autoLinker(json);
   }
 
   $timelineData = $('#timelineTemplate').tmpl(json.data);
@@ -348,4 +335,28 @@ function tweetByData(data)
     },
     'text' //なぜかJSON形式でうけとることができなかった
     );
+}
+
+function autoLinker(json)
+{
+  for(i=0;i<json.data.length;i++)
+  {
+    if (!json.data[i].body_html.match(/img.*src=/))
+    {
+      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
+      {
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
+      }
+      else if (json.data[i].body.match(/((http:|https:)\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+))/))
+      {
+        var youtubeId = json.data[i].body.substring(json.data[i].body.lastIndexOf('v=') + 2, json.data[i].body.length);
+        var iframe = '<iframe width="370" height="277" src="http://www.youtube.com/embed/' + youtubeId + '" frameborder="0" allowfullscreen></iframe>';
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+))/gi, '<div>' + iframe + '</div>');
+      }
+      else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
+      {
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
+      }
+    }
+  }
 }
