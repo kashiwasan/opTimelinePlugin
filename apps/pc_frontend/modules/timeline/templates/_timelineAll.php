@@ -17,13 +17,16 @@ var fileMaxSize = '<?php echo $fileMaxSize ?>';
 </script>
 
 <?php use_javascript('/opTimelinePlugin/js/jquery.upload-1.0.2.js') ?>
-<?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
+<?php //use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
+
+<script type="text/javascript" src="/opTimelinePlugin/js/timeline-loader.api.js" charset=”utf-8″></script>
+
 <?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
 
-<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js" ></script>
 
 <script type="text/javascript">
 $(function(){
