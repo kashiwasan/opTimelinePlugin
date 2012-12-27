@@ -318,7 +318,7 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      alert(typeof(res));
+      alert(res);
 
       returnData = JSON.parse(res);
 
