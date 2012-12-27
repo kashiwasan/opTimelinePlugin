@@ -23,6 +23,8 @@ var fileMaxSize = '<?php echo $fileMaxSize ?>';
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
 
+<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+
 <script type="text/javascript">
 $(function(){
   $("#timeline-textarea").focus(function(){
