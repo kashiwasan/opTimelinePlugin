@@ -304,35 +304,35 @@ function tweetByData(data)
   $('#timeline-submit-upload').upload(
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
+      returnData = JSON.parse(res);
 
-//      $("h3").text(res);
-//
-//      returnData = JSON.parse(res);
-//
-//      if (returnData.status === "error") {
-//
-//        var errorMessages = {
-//          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
-//          upload: 'アップロードに失敗しました',
-//          not_image: '画像をアップロードしてください',
-//          tweet: '投稿に失敗しました'
-//        };
-//
-//        var errorType = returnData.type;
-//
-//        $('#timeline-submit-error').text(errorMessages[errorType]);
-//        $('#timeline-submit-error').show();
-//
-//      } else {
-//        $('#timeline-submit-error').text('');
+      if (returnData.status === "error") {
+
+        var errorMessages = {
+          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
+          upload: 'アップロードに失敗しました',
+          not_image: '画像をアップロードしてください',
+          tweet: '投稿に失敗しました'
+        };
+
+        var errorType = returnData.type;
+
+        $('#timeline-submit-error').text(errorMessages[errorType]);
+        if ($.browser.msie && $.browser.version > 6)
+        {
+        }
+        $('#timeline-submit-error').show();
+
+      } else {
+        $('#timeline-submit-error').text('');
         timelineAllLoad();
-//      }
-//
-//      $('#timeline-submit-upload').val('');
-//      $('#timeline-textarea').val('');
-//      $('#timeline-submit-loader').hide();
-//      $('#timeline-textarea').val('');
-//      $('#counter').text(MAXLENGTH);
+      }
+
+      $('#timeline-submit-upload').val('');
+      $('#timeline-textarea').val('');
+      $('#timeline-submit-loader').hide();
+      $('#timeline-textarea').val('');
+      $('#counter').text(MAXLENGTH);
 
     },
     'text' //なぜかJSON形式でうけとることができなかった

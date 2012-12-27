@@ -30,6 +30,19 @@ $(function(){
     $('.timeline-postform').css('padding-bottom', '30px');
     $('#timeline-textarea').attr('rows', '3');
     $('#timeline-submit-area').css('display', 'inline');
+    if ($.browser.msie && $.browser.version > 6)
+    {
+      $('#timeline-upload-photo-button').remove();
+      $('#timeline-submit-upload').css('display', 'inline');
+      $('#timeline-submit-upload').css('position', 'relative');
+      $('#timeline-submit-upload').css('left', '0px');
+      $('#timeline-submit-upload').css('top', '-40px');
+      $('#timeline-submit-upload').css('width', '150px');
+      $('#timeline-public-flag').css('display', 'inline');
+      $('#timeline-public-flag').css('position', 'relative');
+      $('#timeline-public-flag').css('top', '-2px');
+      $('#timeline-public-flag').css('left', '200px');
+    }
   });
 });
 </script>
