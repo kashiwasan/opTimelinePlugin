@@ -318,9 +318,9 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      returnData = JSON.parse(res);
+      alert(res);
 
-      alert(returnData);
+      returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
 
