@@ -331,21 +331,21 @@ function tweetByData(data)
           tweet: '投稿に失敗しました'
         };
 
-        var errorType = returnData.type;
-
-        $('#timeline-submit-error').text(errorMessages[errorType]);
-        $('#timeline-submit-error').show();
-
-      } else {
-        $('#timeline-submit-error').text('');
-        timelineAllLoad();
-      }
-
-      $('#timeline-submit-upload').val('');
-      $('#timeline-textarea').val('');
-      $('#timeline-submit-loader').hide();
-      $('#timeline-textarea').val('');
-      $('#counter').text(MAXLENGTH);
+//        var errorType = returnData.type;
+//
+//        $('#timeline-submit-error').text(errorMessages[errorType]);
+//        $('#timeline-submit-error').show();
+//
+//      } else {
+//        $('#timeline-submit-error').text('');
+//        timelineAllLoad();
+//      }
+//
+//      $('#timeline-submit-upload').val('');
+//      $('#timeline-textarea').val('');
+//      $('#timeline-submit-loader').hide();
+//      $('#timeline-textarea').val('');
+//      $('#counter').text(MAXLENGTH);
 
     },
     'text' //なぜかJSON形式でうけとることができなかった
