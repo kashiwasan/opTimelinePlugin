@@ -11,6 +11,7 @@ var gorgon = {
     };
 var MAXLENGTH = 140;
 var viewPhoto = '<?php echo $viewPhoto; ?>';
+var fileMaxSize = '<?php echo $fileMaxSize ?>';
 
 //]]>
 </script>
@@ -51,7 +52,7 @@ $(function(){
             <option value="<?php echo $value ?>"><?php echo __($text) ?></option>
           <?php endforeach; ?>
           </select>
-          <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data"> <?php echo $fileMaxSize ?>
+          <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
         </div>
       </div>
