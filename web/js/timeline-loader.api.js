@@ -318,19 +318,19 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      $("h3").text(res);
-
-      returnData = JSON.parse(res);
-
-      if (returnData.status === "error") {
-
-        var errorMessages = {
-          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
-          upload: 'アップロードに失敗しました',
-          not_image: '画像をアップロードしてください',
-          tweet: '投稿に失敗しました'
-        };
-
+//      $("h3").text(res);
+//
+//      returnData = JSON.parse(res);
+//
+//      if (returnData.status === "error") {
+//
+//        var errorMessages = {
+//          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
+//          upload: 'アップロードに失敗しました',
+//          not_image: '画像をアップロードしてください',
+//          tweet: '投稿に失敗しました'
+//        };
+//
 //        var errorType = returnData.type;
 //
 //        $('#timeline-submit-error').text(errorMessages[errorType]);
@@ -338,7 +338,7 @@ function tweetByData(data)
 //
 //      } else {
 //        $('#timeline-submit-error').text('');
-//        timelineAllLoad();
+        timelineAllLoad();
 //      }
 //
 //      $('#timeline-submit-upload').val('');
