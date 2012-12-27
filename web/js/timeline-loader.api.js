@@ -318,11 +318,11 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
 
-      alert(res);
-
-      res = res.match(/\{.*\}/);
+//      res = res.match(/\{.*\}/);
 
       returnData = JSON.parse(res);
+
+      console.log(returnData);
 
       if (returnData.status === "error") {
 

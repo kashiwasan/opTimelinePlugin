@@ -31,7 +31,7 @@ class timelineActions extends opJsonApiActions
 
     if (!empty($errorInfo))
     {
-      return $this->renderJSON($errorInfo);
+      return $this->_renderJSONDirect($errorInfo);
     }
 
     if ((int) $_FILES['timeline-submit-upload']['size'] !== 0)
@@ -42,7 +42,7 @@ class timelineActions extends opJsonApiActions
 
       if (!empty($errorFileInfo))
       {
-        return $this->renderJSON($errorFileInfo);
+        return $this->_renderJSONDirect($errorFileInfo);
       }
     }
 
@@ -52,13 +52,17 @@ class timelineActions extends opJsonApiActions
     {
       $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
 
-      return $this->renderJSON(array('status' => 'success', 'message' => 'file up success'));
+      return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'file up success'));
     }
 
-    return $this->renderJSON(array('status' => 'success', 'message' => 'tweet success'));
+    return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success'));
   }
 
-  public function renderJSON(array $datas)
+
+  /**
+   * なぜかPOSTAPIだとJSONレンダーがうまくうごかなかった
+   */
+  private function _renderJSONDirect(array $datas)
   {
     //header("Content-Type: application/json; charset=utf-8");
     echo json_encode($datas);
