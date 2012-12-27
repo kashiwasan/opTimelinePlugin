@@ -60,7 +60,7 @@ class timelineActions extends opJsonApiActions
 
   public function renderJSON(array $datas)
   {
-    header("Content-Type: application/json; charset=utf-8");
+    //header("Content-Type: application/json; charset=utf-8");
     echo json_encode($datas);
     exit;
   }
