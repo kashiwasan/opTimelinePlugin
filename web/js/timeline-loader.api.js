@@ -320,9 +320,6 @@ function tweetByData(data)
 
       $("h3").text(res);
 
-      console.log($("h3"));
-
-
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
