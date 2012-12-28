@@ -5,6 +5,7 @@ var gorgon = {
       'activity_id': <?php echo $activity->getId() ?>,
       'count': 1,
     };
+var viewPhoto = '<?php echo $viewPhoto; ?>';
 //]]>
 </script>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>

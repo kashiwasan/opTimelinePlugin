@@ -20,8 +20,8 @@ var gorgon = {
       'timer': '5000',
     };
 var MAXLENGTH = 140;
-var viewPhoto = <?php echo $viewPhoto ?>;
-var fileMaxSize = <?php echo $fileMaxSize ?>;
+var viewPhoto = '<?php echo $viewPhoto ?>';
+var fileMaxSize = '<?php echo $fileMaxSize ?>';
 //]]>
 </script>
 
