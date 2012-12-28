@@ -76,8 +76,8 @@ $(function(){
         'count': commentLength + 20
       },
       success: function(json){
-        commentlist.children('.timeline-post-comment').remove();
-        $('#timelineCommentTemplate').tmpl(json.data.reverse()).prependTo('#commentlist-' + timelineId);
+        commentlist.children().remove();
+        $('#timelineCommentTemplate').tmpl(json.data.reverse()).prependTo(commentlist);
         $('#timeline-comment-loader-' + timelineId).hide();
 
         if (json.data.length < commentLength + 20)
@@ -86,7 +86,7 @@ $(function(){
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
-        $('#commentlist-' + timelineId).hide();
+        $(commentlist).hide();
       }  
     }); 
   });
