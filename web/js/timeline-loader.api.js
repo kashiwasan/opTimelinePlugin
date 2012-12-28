@@ -345,9 +345,9 @@ function autoLinker(json)
   {
     if (!json.data[i].body_html.match(/img.*src=/))
     {
-      if (json.data[i].body.match(/\.(jpg|jpeg|bmg|png|gif)/gi))
+      if (json.data[i].body.match(/\.(jpg|jpeg|png|gif)/))
       {
-        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|bmg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+.(jpg|jpeg|png|gif))/gi, '<div><a href="$1"><img src="$1"></img></a></div>');
       }
       else if (json.data[i].body.match(/((http:|https:)\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+))/))
       {
@@ -355,7 +355,16 @@ function autoLinker(json)
         var iframe = '<iframe width="370" height="277" src="http://www.youtube.com/embed/' + youtubeId + '" frameborder="0" allowfullscreen></iframe>';
         json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+))/gi, '<div>' + iframe + '</div>');
       }
-      else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi))
+      else if (json.data[i].body.match(/((http:|https:)\/\/www\.amazon\..*\/([a-zA-Z0-9_\-]+)\/.*)/))
+      {
+        var match_id = json.data[i].body.match(/(?:ASIN|product|dp)\/([^\/]+)/i);
+        if (match_id) {
+          id = RegExp.$1;
+        }
+        var url = 'http://amazon.openpne.jp/?id=' + id + '&tag=';
+        json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/www\.amazon\..*\/([a-zA-Z0-9_\-]+)\/.*)/, '<div><iframe MARGINWIDTH="0" MARGINHEIGHT="0" HSPACE="0" VSPACE="0" FRAMEBORDER="0" SCROLLING="no" BORDERCOLOR="#000000" src="' + url + '" name="sample" width="360" height="320">この部分はインラインフレームを使用しています。</iframe></div>');
+      }
+      else if (json.data[i].body.match(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/))
       {
         json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
       }

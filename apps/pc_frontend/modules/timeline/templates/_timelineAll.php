@@ -30,7 +30,7 @@ $(function(){
     $('.timeline-postform').css('padding-bottom', '30px');
     $('#timeline-textarea').attr('rows', '3');
     $('#timeline-submit-area').css('display', 'inline');
-    if ($.browser.msie && $.browser.version > 6)
+    if (($.browser.msie && $.browser.version > 6) || $.browser.opera)
     {
       $('#timeline-upload-photo-button').remove();
       $('#timeline-submit-upload').css('display', 'inline');
