@@ -306,6 +306,8 @@ function tweetByData(data)
     function (res) {
       returnData = JSON.parse(res);
 
+      alert(res);
+
       if (returnData.status === "error") {
 
         var errorMessages = {

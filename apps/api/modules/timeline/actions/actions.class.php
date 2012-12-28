@@ -27,6 +27,8 @@ class timelineActions extends opJsonApiActions
 
   public function executePost(sfWebRequest $request)
   {
+    return $this->_renderJSONDirect($this->_createFileInfo($request));
+
     $errorInfo = $this->_checkParameterReturnArray($request);
 
     if (!empty($errorInfo))
@@ -190,6 +192,7 @@ class timelineActions extends opJsonApiActions
   private function _isImageUploadByFileInfo(array $fileInfo)
   {
     $file = new File();
+
     $file->setType($fileInfo['type']);
 
     return $file->isImage();
