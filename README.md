@@ -8,7 +8,6 @@ opTimelinePlugin
 <img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/002.png" height="200" />
 <img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/003.png" height="200" />
 
-
 ## 機能概要
 アクティビティ機能をさらに使いやすくします。   
    追加される機能には以下のものがあります。
