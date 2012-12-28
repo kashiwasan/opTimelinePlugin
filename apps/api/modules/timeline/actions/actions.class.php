@@ -187,12 +187,18 @@ class timelineActions extends opJsonApiActions
   }
 
 
+
   private function _isImageUploadByFileInfo(array $fileInfo)
   {
-    $file = new File();
-    $file->setType($fileInfo['type']);
+    foreach (opTimelinePluginUtil::getUploadAllowImageTypeList() as $type) {
+      $contentType = 'image/'.$type;
+      
+      if ($fileInfo['type'] === $contentType) {
+        return true;
+      }
+    }
 
-    return $file->isImage();
+    return false;
   }
 
   /**
