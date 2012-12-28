@@ -33,7 +33,14 @@ opTimelinePlugin
 * PC版で公開範囲を指定してつぶやくことができるようになりました
  * 全員に公開 マイフレンドに公開 公開しないの中から選択できます
 * PC版でURLを貼りつけたサイトのサムネイルを取得するできるようになりました
-
+  
+## インストール方法
+* 以下のコマンドを実行して下さい。
+ プラグインをダウンロードします。  
+    ./symfony opPlugin:install opTimelinePlugin -r 1.1.1  
+ モデルとデータベースを更新します。  
+    ./symfony opTimelinePlugin:install  
+  
 ## 要望・フィードバック
 要望・フィードバックは #opTimelinePlugin のハッシュタグをつけてつぶやいてください。    
    GitHubのアカウントを持っている人は [issues](https://github.com/kashiwasan/opTimelinePlugin/issues)に
