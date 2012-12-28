@@ -2,8 +2,8 @@ opTimelinePlugin
 ================
 
 ## スクリーンショット
-<img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/004.png" height="200" />
-<img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/005.png" height="200" />
+<img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/004.png" height="200" width="200" />
+<img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/005.png" height="200" width="200" />
 <img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/001.png" height="200" />
 <img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/002.png" height="200" />
 <img src="https://raw.github.com/ichikawatatsuya/opTimelinePlugin/gh-pages/images/003.png" height="200" />
