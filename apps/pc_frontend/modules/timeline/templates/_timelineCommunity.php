@@ -51,6 +51,7 @@ $(function(){
       $('#timeline-public-flag').css('position', 'relative');
       $('#timeline-public-flag').css('top', '-2px');
       $('#timeline-public-flag').css('left', '200px');
+      $('#photo-file-name').remove();
     }
   });
 });
