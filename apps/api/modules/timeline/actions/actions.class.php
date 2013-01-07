@@ -76,8 +76,6 @@ class timelineActions extends opJsonApiActions
     $fileInfo['stream'] = fopen($fileInfo['tmp_name'], 'r');
     $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
     $fileInfo['binary'] = stream_get_contents($fileInfo['stream']);
-    $fileInfo['actvity_id'] = $_POST['id'];
-
     $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
 
     return $fileInfo;
