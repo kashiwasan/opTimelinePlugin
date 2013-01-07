@@ -33,6 +33,13 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}
             </div>
+            <div class="timeline-post-control">
+              {{if public_status == 'friend' }}
+              <span class="public-flag">公開範囲:マイフレンドまで公開</span>
+              {{else public_status == 'private' }}
+              <span class="public-flag">公開範囲:公開しない</span>
+              {{/if}}
+            </div>
           </div>
 
           <div class="timeline-post-control">

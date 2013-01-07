@@ -31,8 +31,8 @@ $(function(){
         target: gorgon.post.foreign,
         target_id: gorgon.post.foreignId,
         apiKey: openpne.apiKey,
-        //public_flag: $('#timeline-public-flag option:selected').val()
-        public_flag: 1 //まだpublic_flagを設定するところがないので
+        public_flag: $('#timeline-public-flag option:selected').val()
+        
       };
     }
     else
@@ -44,7 +44,6 @@ $(function(){
     }
 
     tweetByData(data);
-
 
   });
 
