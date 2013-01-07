@@ -6,7 +6,11 @@ var gorgon = {
       'post': {
       }
     };
+    
+var MAXLENGTH = 140;
 var viewPhoto = <?php echo $viewPhoto ?>;
+var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
+
 //]]>
 </script>
 <?php op_smt_use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>

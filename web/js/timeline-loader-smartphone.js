@@ -1,4 +1,5 @@
 $(function(){
+
   var timerID;
   var timerArray = new Array();
   var timer;
@@ -13,8 +14,42 @@ $(function(){
   }
   timerID = setInterval('timelineDifferenceLoad()', timer);
  
-  $('#tosaka_postform_submit').click( function() {
+  $('#timeline_postform_submit').click( function() {
     setTimeout('timelineDifferenceLoad()', 1500);
+
+    $('#timeline-submit-error').text('');
+    $('#timeline-submit-error').hide();
+    $('#timeline-submit-loader').show();
+    $('#photo-file-name').text('');
+
+    var body = $('#tosaka_postform_body').val();
+
+    if (gorgon)
+    {
+      var data = {
+        body: body,
+        target: gorgon.post.foreign,
+        target_id: gorgon.post.foreignId,
+        apiKey: openpne.apiKey,
+        //public_flag: $('#timeline-public-flag option:selected').val()
+        public_flag: 1 //まだpublic_flagを設定するところがないので
+      };
+    }
+    else
+    {
+      var data = {
+        body: body,
+        apiKey: openpne.apiKey
+      };
+    }
+
+    tweetByData(data);
+
+
+  });
+
+  $('#timeline-upload-photo-button').click(function() {
+    $('#timeline-submit-upload').click();
   });
 
   $('#gorgon-loadmore').click( function() {
@@ -229,4 +264,42 @@ function convertTag(str) {
   str = str.replace(/</g,'&lt;');
   str = str.replace(/>/g,'&gt;');
   return str;
+}
+
+function tweetByData(data)
+{
+  //reference　http://lagoscript.org/jquery/upload/documentation
+  $('#timeline-submit-upload').upload(
+    openpne.apiBase + 'timeline/post.json', data,
+    function (res) {
+      returnData = JSON.parse(res);
+      console.log(returnData);
+
+      if (returnData.status === "error") {
+
+        var errorMessages = {
+          file_size: 'ファイルサイズは' + fileMaxSize + 'までです',
+          upload: 'アップロードに失敗しました',
+          not_image: '画像をアップロードしてください',
+          tweet: '投稿に失敗しました'
+        };
+
+        var errorType = returnData.type;
+
+        $('#timeline-submit-error').text(errorMessages[errorType]);
+        $('#timeline-submit-error').show();
+
+      } else {
+        $('#timeline-submit-error').text('');
+        timelineAllLoad();
+      }
+
+      $('#timeline-submit-upload').val('');
+      $('#tosaka_postform_body').val('');
+      $('#timeline-submit-loader').hide();
+      $('#counter').text(MAXLENGTH);
+
+    },
+    'text' //なぜかJSON形式でうけとることができなかった
+    );
 }
