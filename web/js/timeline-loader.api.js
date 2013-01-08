@@ -254,7 +254,6 @@ function renderJSON(json, mode) {
     {
       if(json.data[i].replies)
       {
-        console.log(json);
         $('#timelineCommentTemplate').tmpl(json.data[i].replies.reverse()).prependTo('#commentlist-' +json.data[i].id);
         $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
