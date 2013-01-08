@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file and the NOTICE file that were distributed with this source code.
  */
-class timelineActions extends opJsonApiActions
+class activityActions extends opJsonApiActions
 {
 
   const TWEET_MAX_LENGTH = 140;
@@ -35,7 +35,7 @@ class timelineActions extends opJsonApiActions
       return $this->_renderJSONDirect($errorInfo);
     }
 
-    if ((int) $_FILES['timeline-submit-upload']['size'] !== 0)
+    if (!empty($_FILES) && (int) $_FILES['timeline-submit-upload']['size'] !== 0)
     {
       $fileInfo = $this->_createFileInfo($request);
 
@@ -49,14 +49,27 @@ class timelineActions extends opJsonApiActions
 
     $this->_operateTweet($request);
 
-    if ((int) $_FILES['timeline-submit-upload']['size'] !== 0)
-    {
-      $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
+    $this->_loadHelperForUseopJsonAPI();
+    $acEntity = op_api_activity($this->activity);
 
-      return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'file up success'));
+    $replies = $this->activity->getReplies();
+    if (0 !== count($replies))
+    {
+      $acEntity['replies'] = array();
+
+      foreach ($replies as $reply)
+      {
+        $acEntity['replies'][] = op_api_activity($reply);
+      }
     }
 
-    return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success'));
+    if (!empty($_FILES) && (int) $_FILES['timeline-submit-upload']['size'] !== 0)
+    {
+      $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
+      return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'file up success', 'data' => $acEntity));
+    }
+
+    return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success', 'data' => $acEntity));
   }
 
   /**
@@ -382,18 +395,6 @@ class timelineActions extends opJsonApiActions
     $this->getContext()->getConfiguration()->loadHelpers('sfImage');
   }
 
-  private function fetchApiData($apiName)
-  {
-    $moduleName = sfContext::getInstance()->getModuleName();
-    $actionName = sfContext::getInstance()->getActionName();
-    $currentApiName = $moduleName.'/'.$actionName;
-
-    $currentUrl = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-    $callApiUrl = str_replace($currentApiName, $apiName, $currentUrl);
-
-    return file_get_contents($callApiUrl);
-  }
-
   private function forward400IfInvalidTarget(array $params)
   {
     $validTargets = array('friend', 'community');
@@ -407,6 +408,104 @@ class timelineActions extends opJsonApiActions
     {
       $this->forward400Unless($params['target_id'], 'target_id parameter not specified.');
     }
+  }
+
+  public function executeMember(sfWebRequest $request)
+  {
+    if ($request['id'])
+    {
+      $request['member_id'] = $request['id'];
+    }
+
+    if (isset($request['target']))
+    {
+      unset($request['target']);
+    }
+
+    $this->forward('activity', 'search');
+  }
+
+  public function executeFriends(sfWebRequest $request)
+  {
+    $request['target'] = 'friend';
+
+    if (isset($request['member_id']))
+    {
+      $request['target_id'] = $request['member_id'];
+      unset($request['member_id']);
+    }
+    elseif (isset($request['id']))
+    {
+      $request['target_id'] = $request['id'];
+      unset($request['id']);
+    }
+
+    $this->forward('activity', 'search');
+  }
+
+  public function executeCommunity(sfWebRequest $request)
+  {
+    $request['target'] = 'community';
+
+    if (isset($request['community_id']))
+    {
+      $request['target_id'] = $request['community_id'];
+      unset($request['community_id']);
+    }
+    elseif (isset($request['id']))
+    {
+      $request['target_id'] = $request['id'];
+      unset($request['id']);
+    }
+    else
+    {
+      $this->forward400('community_id parameter not specified.');
+    }
+
+    $this->forward('activity', 'search');
+  }
+
+  public function executeDelete(sfWebRequest $request)
+  {
+    if (isset($request['activity_id']))
+    {
+      $activityId = $request['activity_id'];
+    }
+    elseif (isset($request['id']))
+    {
+      $activityId = $request['id'];
+    }
+    else
+    {
+      $this->forward400('activity_id parameter not specified.');
+    }
+
+    $activity = Doctrine::getTable('ActivityData')->find($activityId);
+
+    $this->forward404Unless($activity, 'Invalid activity id.');
+
+    $this->forward403Unless($activity->getMemberId() === $this->getUser()->getMemberId());
+
+    $activity->delete();
+
+    return $this->renderJSON(array('status' => 'success'));
+  }
+
+  public function executeMentions(sfWebRequest $request)
+  {
+    $builder = opActivityQueryBuilder::create()
+                    ->setViewerId($this->getUser()->getMemberId())
+                    ->includeMentions();
+
+    $query = $builder->buildQuery()
+                    ->andWhere('in_reply_to_activity_id IS NULL')
+                    ->andWhere('foreign_table IS NULL')
+                    ->andWhere('foreign_id IS NULL')
+                    ->limit(20);
+
+    $this->activityData = $query->execute();
+
+    $this->setTemplate('array');
   }
 
 }

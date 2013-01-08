@@ -96,7 +96,7 @@ $(function(){
 
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'timeline/commentSearch.json?apiKey=' + openpne.apiKey,
+      url: openpne.apiBase + 'activity/commentSearch.json?apiKey=' + openpne.apiKey,
       data: {
         'timeline_id': timelineId,
         'count': commentLength + 20,
@@ -124,8 +124,7 @@ function timelineAllLoad() {
     gorgon.apiKey = openpne.apiKey;
     $.ajax({
       type: 'GET',
-      url: openpne.apiBase + 'timeline/search.json',
-      //url: openpne.apiBase + 'activity/search.json',
+      url: openpne.apiBase + 'activity/search.json',
       data: gorgon,
       success: function (json){
         renderJSON(json, 'all');
@@ -143,8 +142,7 @@ function timelineAllLoad() {
   {
     $.ajax({
       type: 'GET',
-      //url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
-      url: openpne.apiBase + 'timeline/search.json?apiKey=' + openpne.apiKey,
+      url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
       success: function (json){
         renderJSON(json, 'all');
       },
@@ -152,7 +150,7 @@ function timelineAllLoad() {
         $('#timeline-list-loader').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
-      },
+      }
     });
   }
 }
@@ -168,7 +166,7 @@ function timelineDifferenceLoad() {
     gorgon = {apiKey: openpne.apiKey,}
   }
   //$.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
-  $.getJSON( openpne.apiBase + 'timeline/search.json?count=20&since_id=' + lastId, gorgon, function(json){
+  $.getJSON( openpne.apiBase + 'activity/search.json?count=20&since_id=' + lastId, gorgon, function(json){
     renderJSON(json, 'diff');
   });
 }
@@ -188,7 +186,7 @@ function timelineLoadmore() {
 
   $.ajax({
     type: 'GET',
-    url: openpne.apiBase + 'timeline/search.json',
+    url: openpne.apiBase + 'activity/search.json',
     //url: openpne.apiBase + 'activity/search.json',
     data: gorgon,
     success: function(json){
@@ -298,7 +296,7 @@ function tweetByData(data)
 {
   //reference　http://lagoscript.org/jquery/upload/documentation
   $('#timeline-submit-upload').upload(
-    openpne.apiBase + 'timeline/post.json', data,
+    openpne.apiBase + 'activity/post.json', data,
     function (res) {
       returnData = JSON.parse(res);
 
