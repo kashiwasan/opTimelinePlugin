@@ -11,11 +11,39 @@ class activityActions extends opJsonApiActions
 {
 
   const TWEET_MAX_LENGTH = 140;
+  const COMMENT_DEFAULT_LIMIT = 15;
+
+  /**
+   * POSTAPIで作成されたアクティブデータモデル
+   * 
+   */
+  private $_createdActivity;
+
+  /**
+   * @var opTimeline
+   */
+  private $_timeline;
+
+  public function preExecute()
+  {
+    parent::preExecute();
+
+    $this->_timeline = new opTimeline();
+  }
 
   public function executeCommentSearch(sfWebRequest $request)
   {
-    $this->forward400If(!isset($request['timeline_id']) || '' === (string) $request['timeline_id'], 'timeline id is not specified');
-    $limit = isset($request['count']) ? $request['count'] : sfConfig::get('op_json_api_limit', 15);
+    if (!isset($request['timeline_id']))
+    {
+      $this->forward400('timeline id is not specified');
+    }
+
+    if ('' === (string) $request['timeline_id'])
+    {
+      $this->forward400('timeline id is not specified');
+    }
+
+    $limit = isset($request['count']) ? $request['count'] : sfConfig::get('op_json_api_limit', self::COMMENT_DEFAULT_LIMIT);
 
     $timelineId = $request['timeline_id'];
     $activity = Doctrine::getTable('ActivityData')->find($timelineId);
@@ -28,48 +56,81 @@ class activityActions extends opJsonApiActions
 
   public function executePost(sfWebRequest $request)
   {
-    $errorInfo = $this->_checkParameterReturnArray($request);
+    $errorResponse = $this->_getErrorResponseIfBadRequestOfPost($request);
+
+    if (!is_null($errorResponse))
+    {
+      return $this->_renderJSONDirect($errorResponse);
+    }
+
+    $this->_createActivityDataByRequest($request);
+    
+    $responseData = $this->_createResponActivityDataOfPost();
+
+    if ($this->_isUploadImagePost())
+    {
+      return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'file up success', 'data' => $responseData));
+    }
+
+    return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success', 'data' => $responseData));
+  }
+
+  private function _isUploadImagePost()
+  {
+    return (!empty($_FILES) && (int) $_FILES['timeline-submit-upload']['size'] !== 0);
+  }
+
+  private function _getErrorResponseIfBadRequestOfPost(sfWebRequest $request)
+  {
+    $errorInfo = $this->_getErrorResponseIfBadRequestOfTweetPost($request);
 
     if (!empty($errorInfo))
     {
-      return $this->_renderJSONDirect($errorInfo);
+      return $errorInfo;
     }
 
-    if (!empty($_FILES) && (int) $_FILES['timeline-submit-upload']['size'] !== 0)
+    if ($this->_isUploadImagePost())
     {
       $fileInfo = $this->_createFileInfo($request);
 
-      $errorFileInfo = $this->_checkImageUploadByFileInfoReturnArray($fileInfo);
-
-      if (!empty($errorFileInfo))
+      if ($fileInfo['size'] >= opTimelinePluginUtil::getFileSizeMax())
       {
-        return $this->_renderJSONDirect($errorFileInfo);
+        return array('status' => 'error', 'message' => 'file size over', 'type' => 'file_size');
+      }
+
+      $stream = fopen($fileInfo['tmp_name'], 'r');
+
+      if ($stream === false)
+      {
+        return array('status' => 'error', 'message' => 'file upload error', 'type' => 'upload');
+      }
+
+      if (!$this->_isImageUploadByFileInfo($fileInfo))
+      {
+        return array('status' => 'error', 'message' => 'not image', 'type' => 'not_image');
       }
     }
 
-    $this->_operateTweet($request);
+    return null;
+  }
 
-    $this->_loadHelperForUseopJsonAPI();
-    $acEntity = op_api_activity($this->activity);
+  private function _createResponActivityDataOfPost()
+  {
+    $this->_loadHelperForUseOpJsonAPI();
+    $activity = op_api_activity($this->_createdActivity);
 
-    $replies = $this->activity->getReplies();
+    $replies = $this->_createdActivity->getReplies();
     if (0 !== count($replies))
     {
-      $acEntity['replies'] = array();
+      $activity['replies'] = array();
 
       foreach ($replies as $reply)
       {
-        $acEntity['replies'][] = op_api_activity($reply);
+        $activity['replies'][] = op_api_activity($reply);
       }
     }
 
-    if (!empty($_FILES) && (int) $_FILES['timeline-submit-upload']['size'] !== 0)
-    {
-      $fileUploadInfo = $this->_saveFileByFileInfo($fileInfo);
-      return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'file up success', 'data' => $acEntity));
-    }
-
-    return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success', 'data' => $acEntity));
+    return $activity;
   }
 
   /**
@@ -94,56 +155,30 @@ class activityActions extends opJsonApiActions
     return $fileInfo;
   }
 
-  //activityのpostアクションをコピーしている
-  private function _operateTweet(sfWebRequest $request)
+  private function _createActivityDataByRequest(sfWebRequest $request)
   {
-    $body = (string) $request['body'];
+    if ($request->isMethod('get'))
+    {
+      $saveData = $request->getGetParameters();
+    }
+    else
+    {
+      $saveData = $request->getPostParameters();
+    }
 
     $memberId = $this->getUser()->getMemberId();
-    $options = array();
 
-    if (isset($request['public_flag']))
+    $this->_createdActivity = $this->_timeline->createPostActivityFromAPIByApiDataAndMemberId($saveData, $memberId);
+
+    if ($this->_isUploadImagePost())
     {
-      $options['public_flag'] = $request['public_flag'];
+      $fileInfo = $this->_createFileInfo($request);
+      $this->_timeline->createActivityImagesaveByFileInfoAndActivityId($fileInfo, $this->_createdActivity->getId());
     }
 
-    if (isset($request['in_reply_to_activity_id']))
-    {
-      $options['in_reply_to_activity_id'] = $request['in_reply_to_activity_id'];
-    }
-
-    if (isset($request['uri']))
-    {
-      $options['uri'] = $request['uri'];
-    }
-    elseif (isset($request['url']))
-    {
-      $options['uri'] = $request['url'];
-    }
-
-    if (isset($request['target']) && 'community' === $request['target'])
-    {
-      $options['foreign_table'] = 'community';
-      $options['foreign_id'] = $request['target_id'];
-    }
-
-    $options['source'] = 'API';
-
-    $this->activity = Doctrine::getTable('ActivityData')->updateActivity($memberId, $body, $options);
-
-    $this->activityId = $this->activity->getId();
-
-    if ('1' === $request['forceHtml'])
-    {
-      // workaround for some browsers (see #3201)
-      $this->getRequest()->setRequestFormat('html');
-      $this->getResponse()->setContentType('text/html');
-    }
-
-    $this->setTemplate('object');
   }
 
-  private function _checkParameterReturnArray(sfWebRequest $request)
+  private function _getErrorResponseIfBadRequestOfTweetPost(sfWebRequest $request)
   {
     $body = (string) $request['body'];
 
@@ -173,28 +208,6 @@ class activityActions extends opJsonApiActions
     return null;
   }
 
-  private function _checkImageUploadByFileInfoReturnArray(array $fileInfo)
-  {
-    if ($fileInfo['size'] >= opTimelinePluginUtil::getFileSizeMax())
-    {
-      return array('status' => 'error', 'message' => 'file size over', 'type' => 'file_size');
-    }
-
-    $stream = fopen($fileInfo['tmp_name'], 'r');
-
-    if ($stream === false)
-    {
-      return array('status' => 'error', 'message' => 'file upload error', 'type' => 'upload');
-    }
-
-    if (!$this->_isImageUploadByFileInfo($fileInfo))
-    {
-      return array('status' => 'error', 'message' => 'not image', 'type' => 'not_image');
-    }
-
-    return array();
-  }
-
   private function _isImageUploadByFileInfo(array $fileInfo)
   {
     foreach (opTimelinePluginUtil::getUploadAllowImageTypeList() as $type)
@@ -210,56 +223,6 @@ class activityActions extends opJsonApiActions
     return false;
   }
 
-  /**
-   *
-   * TODO
-   * ファイル画像をOpenPNE方式に変更する
-   *
-   * @todo ファイル画像の保存方式をOpenPNE方式に変更する
-   * @todo ファイル画像の容量をリサイズする
-   */
-  private function _saveFileByFileInfo(array $fileInfo)
-  {
-
-    $file = new File();
-    $file->setOriginalFilename(basename($fileInfo['name']));
-    $file->setType($fileInfo['type']);
-
-    $filename = md5(time()).'.'.$file->getImageFormat();
-
-    $file->setName($fileInfo['dir_name'].'/'.$filename);
-    $file->setFilesize($fileInfo['size']);
-
-    $bin = new FileBin();
-    $bin->setBin($fileInfo['binary']);
-    $file->setFileBin($bin);
-
-    $file->save();
-
-    //@todo OpenPNEの保存形式に変更する
-
-    $uploadBasePath = '/cache/img/'.$file->getImageFormat();
-
-    $uploadDirPath = sfConfig::get('sf_web_dir').$uploadBasePath;
-
-    if (!file_exists($uploadDirPath))
-    {
-      mkdir($uploadDirPath, 0777, true);
-    }
-
-    $fileSavePath = $uploadDirPath.'/'.$filename;
-
-    copy($fileInfo['tmp_name'], $fileSavePath);
-
-    $activityImage = new ActivityImage();
-    $activityImage->setActivityDataId($this->activityId);
-    $activityImage->setFileId($file->getId());
-    $activityImage->setUri($fileInfo['web_base_path'].$uploadBasePath.'/'.$filename);
-    $activityImage->setMimeType($file->type);
-    $activityImage->save();
-
-    return true;
-  }
 
   public function executeSearch(sfWebRequest $request)
   {
@@ -272,17 +235,13 @@ class activityActions extends opJsonApiActions
     }
 
     $activityDatas = $this->_activitySearchAPI($request);
-    $timeline = new opTimeline();
 
-    $activityDatas = $timeline->addPublicFlagForActivityDatas($activityDatas);
-    $activityDatas = $timeline->addImageUrlForContent($activityDatas);
+    $activityDatas = $this->_timeline->addPublicFlagForActivityDatas($activityDatas);
+    $activityDatas = $this->_timeline->addImageUrlForContent($activityDatas);
 
     return $this->renderJSON(array('status' => 'success', 'data' => $activityDatas));
   }
 
-  /**
-   *
-   */
   private function _activitySearchAPI(sfWebRequest $request)
   {
     $builder = opActivityQueryBuilder::create()
@@ -361,7 +320,7 @@ class activityActions extends opJsonApiActions
 
     $ac = array();
 
-    $this->_loadHelperForUseopJsonAPI();
+    $this->_loadHelperForUseOpJsonAPI();
     foreach ($activityData as $activity)
     {
       $acEntity = op_api_activity($activity);
@@ -384,7 +343,7 @@ class activityActions extends opJsonApiActions
     return $ac;
   }
 
-  private function _loadHelperForUseopJsonAPI()
+  private function _loadHelperForUseOpJsonAPI()
   {
     //op_api_activityを使用するために必要なヘルパーを読み込む
     $this->getContext()->getConfiguration()->loadHelpers('opJsonApi');
