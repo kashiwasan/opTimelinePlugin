@@ -147,3 +147,20 @@
   left: 50px;
   width: 200px;
 }
+
+#timeline-submit-error {
+  display: none;
+  color: red;
+  padding-left: 5px;
+}
+
+#timeline-public-flag {
+  position: relative;
+  width: 100px;
+  left: 70px;
+}
+
+#timeline_postform_submit {
+  float: right;
+}
+

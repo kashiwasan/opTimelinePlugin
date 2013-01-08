@@ -101,7 +101,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
                   <a class="like-post">いいね！</a>
                   <a class="like-cancel">いいね！を取り消す</a>
                 </span>
-                  <span class="span3" style="text-align: center;">
+                  <span class="span5" style="text-align: center;">
                   <a class="like-list"></a>
                 </span>
               </div>

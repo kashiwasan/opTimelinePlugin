@@ -17,9 +17,8 @@ $(function(){
   $('#timeline_postform_submit').click( function() {
     setTimeout('timelineDifferenceLoad()', 1500);
 
-    $('#timeline-submit-error').text('');
-    $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
+    $('#timeline-submit-error').hide();
     $('#photo-file-name').text('');
 
     var body = $('#tosaka_postform_body').val();
@@ -42,9 +41,7 @@ $(function(){
         apiKey: openpne.apiKey
       };
     }
-
     tweetByData(data);
-
   });
 
   $('#timeline-upload-photo-button').click(function() {
@@ -272,7 +269,6 @@ function tweetByData(data)
     openpne.apiBase + 'timeline/post.json', data,
     function (res) {
       returnData = JSON.parse(res);
-      console.log(returnData);
 
       if (returnData.status === "error") {
 
@@ -289,7 +285,7 @@ function tweetByData(data)
         $('#timeline-submit-error').show();
 
       } else {
-        $('#timeline-submit-error').text('');
+        $(".postform").toggle();
         timelineAllLoad();
       }
 
