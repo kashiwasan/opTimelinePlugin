@@ -37,7 +37,7 @@ $(function(){
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
-          <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
+          <button id="timeline-submit-button" class="btn btn-primary timeline-submit" disabled="disabled">投稿</button>
         </div>
       </div>
 

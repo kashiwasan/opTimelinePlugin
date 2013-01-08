@@ -106,6 +106,17 @@ $(function(){
   $('#timeline-upload-photo-button').click(function() {
     $('#timeline-submit-upload').click();
   });
+
+  $('#timeline-textarea').keyup( function() {
+    if (0 < $.trim($(this).val().length) && MAXLENGTH >= $(this).val().length)
+    {
+      $('#timeline-submit-button').removeAttr('disabled');
+    }
+    else
+    {
+      $('#timeline-submit-button').attr('disabled','disabled');
+    }
+  });
 });
 
 function timelineAllLoad() {
@@ -285,18 +296,6 @@ function convertTag(str) {
   str = str.replace(/</g,'&lt;');
   str = str.replace(/>/g,'&gt;');
   return str;
-}
-
-function lengthCheck(obj)
-{
-  if (MAXLENGTH < obj.value.length)
-  {
-    $('#timeline-submit-button').attr('disabled','disabled');
-  }
-  else if ($('#timeline-submit-button').attr('disabled'))
-  {
-    $('#timeline-submit-button').removeAttr('disabled');
-  }
 }
 
 function tweetByData(data)

@@ -60,7 +60,7 @@ $(function(){
 <div class="partsHeading"><h3>コミュニティタイムライン</h3></div>
     <div class="timeline">
       <div class="timeline-postform well">
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeyup="lengthCheck(this);"></textarea>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？"></textarea>
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
@@ -73,7 +73,7 @@ $(function(){
           <?php endforeach; ?>
           </select>
           <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
-          <button id="timeline-submit-button" class="btn btn-primary timeline-submit">投稿</button>
+          <button id="timeline-submit-button" class="btn btn-primary timeline-submit" disabled="disabled">投稿</button>
         </div>
       </div>
 

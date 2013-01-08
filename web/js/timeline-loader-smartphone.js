@@ -116,6 +116,17 @@ $(function(){
       },  
     }); 
   });
+  
+  $('#tosaka_postform_body').keyup( function() {
+    if (0 < $.trim($(this).val()).length && 140 >= $(this).val().length)
+    {
+      $('#timeline_postform_submit').removeAttr('disabled');
+    }
+    else
+    {
+      $('#timeline_postform_submit').attr('disabled', 'disabled');
+    }
+  });
 });
 
 function timelineAllLoad() {

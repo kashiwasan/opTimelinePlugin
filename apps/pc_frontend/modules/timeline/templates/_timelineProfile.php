@@ -25,7 +25,7 @@ var viewPhoto = '<?php echo $viewPhoto ?>';
 <div class="partsHeading"><h3>メンバーのタイムライン</h3></div>
 
 <div class="timeline">
-  <div style="display: none" id="timeline-submit-button" class="btn btn-primary timeline-submit"></div>
+  <div style="display: none" id="timeline-submit-button" class="btn btn-primary timeline-submit" disabled="disabled"></div>
   <div id="timeline-loading" style="text-align: center;"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
 
   <div id="timeline-list" data-last-id=""data-loadmore-id="">
