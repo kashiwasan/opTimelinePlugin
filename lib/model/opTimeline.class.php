@@ -6,20 +6,19 @@ class opTimeline
   public function addPublicFlagForActivityDatas($activityDatas)
   {
     $ids = array();
-    foreach ($activityDatas['data'] as $data)
+    foreach ($activityDatas as $data)
     {
-      $ids[] = $data->id;
+      $ids[] = $data['id'];
     }
 
     $publicStatusList = $this->getPublicStatusListByIds($ids);
 
     $returnDatas = array();
-    $returnDatas['status'] = $activityDatas['status'];
 
-    foreach ($activityDatas['data'] as $data)
+    foreach ($activityDatas as $data)
     {
-      $data->public_status = $publicStatusList[$data->id];
-      $returnDatas['data'][] = $data;
+      $data['public_status'] = $publicStatusList[$data['id']];
+      $returnDatas[] = $data;
     }
 
     return $returnDatas;
@@ -54,9 +53,9 @@ class opTimeline
   public function addImageUrlForContent(array $apiDatas)
   {
     $ids = array();
-    foreach ($apiDatas['data'] as $data)
+    foreach ($apiDatas as $data)
     {
-      $ids[] = $data->id;
+      $ids[] = $data['id'];
     }
 
     if (empty($ids))
@@ -76,13 +75,13 @@ class opTimeline
       $imageUrls[$row['activity_data_id']] = $row['uri'];
     }
 
-    foreach ($apiDatas['data'] as &$data)
+    foreach ($apiDatas as &$data)
     {
-      $id = $data->id;
+      $id = $data['id'];
       
       if (isset($imageUrls[$id])) {
-        $data->body = $data->body.' '.$imageUrls[$id];
-        $data->body_html = $data->body_html.'<div><img src="'.$imageUrls[$id].'"></div>';
+        $data['body'] = $data['body'].' '.$imageUrls[$id];
+        $data['body_html'] = $data['body_html'].'<div><img src="'.$imageUrls[$id].'"></div>';
       }
 
     }

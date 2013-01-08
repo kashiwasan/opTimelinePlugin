@@ -9,6 +9,7 @@
  */
 class timelineActions extends opJsonApiActions
 {
+
   const TWEET_MAX_LENGTH = 140;
 
   public function executeCommentSearch(sfWebRequest $request)
@@ -57,7 +58,6 @@ class timelineActions extends opJsonApiActions
 
     return $this->_renderJSONDirect(array('status' => 'success', 'message' => 'tweet success'));
   }
-
 
   /**
    * なぜかPOSTAPIだとJSONレンダーがうまくうごかなかった
@@ -130,8 +130,6 @@ class timelineActions extends opJsonApiActions
     $this->setTemplate('object');
   }
 
-  
-
   private function _checkParameterReturnArray(sfWebRequest $request)
   {
     $body = (string) $request['body'];
@@ -149,7 +147,7 @@ class timelineActions extends opJsonApiActions
       $errorInfo['message'] = 'The body text is too long.';
       return $errorInfo;
     }
-    
+
     if (isset($request['target']) && 'community' === $request['target'])
     {
       if (!isset($request['target_id']))
@@ -184,14 +182,14 @@ class timelineActions extends opJsonApiActions
     return array();
   }
 
-
-
   private function _isImageUploadByFileInfo(array $fileInfo)
   {
-    foreach (opTimelinePluginUtil::getUploadAllowImageTypeList() as $type) {
+    foreach (opTimelinePluginUtil::getUploadAllowImageTypeList() as $type)
+    {
       $contentType = 'image/'.$type;
-      
-      if ($fileInfo['type'] === $contentType) {
+
+      if ($fileInfo['type'] === $contentType)
+      {
         return true;
       }
     }
@@ -252,6 +250,7 @@ class timelineActions extends opJsonApiActions
 
   public function executeSearch(sfWebRequest $request)
   {
+
     $parameters = $request->getGetParameters();
 
     if (isset($parameters['target']))
@@ -259,16 +258,128 @@ class timelineActions extends opJsonApiActions
       $this->forward400IfInvalidTarget($parameters);
     }
 
-    //実行の仕方自体はアクティビティの検索と同じなので、アクティビティ検索APIを使用する
-    //@todo 本体のアクティビティ検索の部分をmodel化して同じクラスを使用するようにする
-    $apiDatas = (array) json_decode($this->fetchApiData('activity/search'));
-
+    $activityDatas = $this->_activitySearchAPI($request);
     $timeline = new opTimeline();
 
-    $returnDatas = $timeline->addPublicFlagForActivityDatas($apiDatas);
-    $returnDatas = $timeline->addImageUrlForContent($apiDatas);
+    $activityDatas = $timeline->addPublicFlagForActivityDatas($activityDatas);
+    $activityDatas = $timeline->addImageUrlForContent($activityDatas);
 
-    return $this->renderJson($returnDatas);
+    return $this->renderJSON(array('status' => 'success', 'data' => $activityDatas));
+  }
+
+  /**
+   *
+   */
+  private function _activitySearchAPI(sfWebRequest $request)
+  {
+    $builder = opActivityQueryBuilder::create()
+                    ->setViewerId($this->getUser()->getMemberId());
+
+    if (isset($request['target']))
+    {
+      if ('friend' === $request['target'])
+      {
+        $builder->includeFriends($request['target_id'] ? $request['target_id'] : null);
+      }
+      elseif ('community' === $request['target'])
+      {
+        $this->forward400Unless($request['target_id'], 'target_id parameter not specified.');
+        $builder
+                ->includeSelf()
+                ->includeFriends()
+                ->includeSns()
+                ->setCommunityId($request['target_id']);
+      }
+      else
+      {
+        $this->forward400('target parameter is invalid.');
+      }
+    }
+    else
+    {
+      if (isset($request['member_id']))
+      {
+        $builder->includeMember($request['member_id']);
+      }
+      else
+      {
+        $builder
+                ->includeSns()
+                ->includeFriends()
+                ->includeSelf();
+      }
+    }
+
+    $query = $builder->buildQuery();
+
+    if (isset($request['keyword']))
+    {
+      $query->andWhereLike('body', $request['keyword']);
+    }
+
+    $globalAPILimit = sfConfig::get('op_json_api_limit', 20);
+    if (isset($request['count']) && (int) $request['count'] < $globalAPILimit)
+    {
+      $query->limit($request['count']);
+    }
+    else
+    {
+      $query->limit($globalAPILimit);
+    }
+
+    if (isset($request['max_id']))
+    {
+      $query->addWhere('id <= ?', $request['max_id']);
+    }
+
+    if (isset($request['since_id']))
+    {
+      $query->addWhere('id > ?', $request['since_id']);
+    }
+
+    if (isset($request['activity_id']))
+    {
+      $query->addWhere('id = ?', $request['activity_id']);
+    }
+
+    $activityData = $query
+                    ->andWhere('in_reply_to_activity_id IS NULL')
+                    ->execute();
+
+    $ac = array();
+
+    $this->_loadHelperForUseopJsonAPI();
+    foreach ($activityData as $activity)
+    {
+      $acEntity = op_api_activity($activity);
+
+      $replies = $activity->getReplies();
+      if (0 !== count($replies))
+      {
+        $acEntity['replies'] = array();
+
+        $acEntity['repliesCount'] = $activity->getRepliesCount();
+        foreach ($replies as $reply)
+        {
+          $acEntity['replies'][] = op_api_activity($reply);
+        }
+      }
+
+      $ac[] = $acEntity;
+    }
+
+    return $ac;
+  }
+
+  private function _loadHelperForUseopJsonAPI()
+  {
+    //op_api_activityを使用するために必要なヘルパーを読み込む
+    $this->getContext()->getConfiguration()->loadHelpers('opJsonApi');
+    $this->getContext()->getConfiguration()->loadHelpers('opUtil');
+    $this->getContext()->getConfiguration()->loadHelpers('Asset');
+    $this->getContext()->getConfiguration()->loadHelpers('Helper');
+    $this->getContext()->getConfiguration()->loadHelpers('Tag');
+    $this->getContext()->getConfiguration()->loadHelpers('sfImage');
   }
 
   private function fetchApiData($apiName)
