@@ -13,15 +13,47 @@ $(function(){
     timer = 15000;
   }
   timerID = setInterval('timelineDifferenceLoad()', timer);
+  
+  $('.basic-mode').remove();
+  $('.timeline-mode').show();
  
   $('#timeline_postform_submit').click( function() {
-    setTimeout('timelineDifferenceLoad()', 1500);
-
     $('#timeline-submit-loader').show();
     $('#timeline-submit-error').hide();
     $('#photo-file-name').text('');
 
     var body = $('#tosaka_postform_body').val();
+
+    var faceName = $('.face-name').text();
+    var faceImg = $('#face').children('.span2').children('img').attr('src');
+    var timestamp = new Date(jQuery.now()).toLocaleString();
+    var publicFlug = $('#timeline-public-flag option:selected').val();
+    1 == publicFlug ? publicFlug = "" : publicFlug = $('#timeline-public-flag option:selected').text();
+    var flashTimelineDom = 
+          '<div class="timeline-post" style="padding-bottom: 70px;">'
+          + '<div class="timeline-post-member-image">'
+            + '<img src="' + faceImg + '" alt="member-image" width="23">'
+          + '</div>'
+          + '<div class="timeline-post-content">'
+            + '<div class="timeline-member-name">'
+              + '<a>' + faceName + '</a>'
+              + '<span class="timestamp">' + timestamp +'</span>'
+            + '</div>'
+            + '<div class="timeline-post-body">' + body + '</div>'
+            + '<span class="timeline-post-control">'
+              + publicFlug
+              + '<img style="float: right; padding-right: 20px;" src="/images/ajax-loader.gif">'
+            + '</span>'
+          + '</div>'
+          + '<div class="timeline-post-control">'
+            + '<a class="timeline-comment-link"></a>'
+          + '</div>'
+        + '</div>';
+
+    if (0 < jQuery.trim(body).length)
+    {
+      $('#timeline-list').prepend(flashTimelineDom);
+    }
 
     if (gorgon)
     {
