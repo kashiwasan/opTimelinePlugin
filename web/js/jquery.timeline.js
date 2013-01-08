@@ -46,7 +46,10 @@
             }
             else
             {
-              alert(data.message);
+              $timelineLoader.hide();
+              $timelineLoader.next().text('投稿に失敗しました');
+              $timelineLoader.next().show();
+              $timelineLoader.prev().show();
             }
           },
           error: function(x, r, t) {
