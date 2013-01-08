@@ -118,14 +118,11 @@ $(function(){
   });
   
   $('#tosaka_postform_body').keyup( function() {
-    if (0 < $.trim($(this).val()).length && 140 >= $(this).val().length)
-    {
-      $('#timeline_postform_submit').removeAttr('disabled');
-    }
-    else
-    {
-      $('#timeline_postform_submit').attr('disabled', 'disabled');
-    }
+    lengthCheck($(this), $('#timeline_postform_submit'));
+  });
+  
+  $('.timeline-post-comment-form-input').live('keyup', function() {
+    lengthCheck($(this), $('button[data-timeline-id=' + $(this).attr('data-timeline-id') + ']'));
   });
 });
 
@@ -338,4 +335,16 @@ function tweetByData(data)
     },
     'text' //なぜかJSON形式でうけとることができなかった
     );
+}
+
+function lengthCheck(obj, target)
+{
+  if (0 < $.trim(obj.val()).length && 140 >= obj.val().length)
+  {
+    target.removeAttr('disabled');
+  }
+  else
+  {
+    target.attr('disabled', 'disabled');
+  }
 }

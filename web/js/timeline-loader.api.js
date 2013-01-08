@@ -108,14 +108,11 @@ $(function(){
   });
 
   $('#timeline-textarea').keyup( function() {
-    if (0 < $.trim($(this).val().length) && MAXLENGTH >= $(this).val().length)
-    {
-      $('#timeline-submit-button').removeAttr('disabled');
-    }
-    else
-    {
-      $('#timeline-submit-button').attr('disabled','disabled');
-    }
+    lengthCheck($(this), $('#timeline-submit-button'));
+  });
+
+  $('.timeline-post-comment-form-input').live('keyup', function() {
+    lengthCheck($(this), $('button[data-timeline-id=' + $(this).attr('data-timeline-id') + ']'));
   });
 });
 
@@ -369,5 +366,17 @@ function autoLinker(json)
         json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
       }
     }
+  }
+}
+
+function lengthCheck(obj, target)
+{
+  if (0 < $.trim(obj.val()).length && 140 >= obj.val().length)
+  {
+    target.removeAttr('disabled');
+  }
+  else
+  {
+    target.attr('disabled', 'disabled');
   }
 }
