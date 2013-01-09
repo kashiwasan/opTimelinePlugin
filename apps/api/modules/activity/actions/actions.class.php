@@ -236,6 +236,11 @@ class activityActions extends opJsonApiActions
 
     $activityDatas = $this->_activitySearchAPI($request);
 
+    //一回も投稿していない
+    if (empty($activityDatas)) {
+      return $this->renderJSON(array('status' => 'success', 'data' => array()));
+    }
+
     $activityDatas = $this->_timeline->addPublicFlagForActivityDatas($activityDatas);
     $activityDatas = $this->_timeline->addImageUrlForContent($activityDatas);
 
@@ -249,22 +254,33 @@ class activityActions extends opJsonApiActions
 
     if (isset($request['target']))
     {
+      if ('community' === $request['target'])
+      {
+        $this->forward400If(empty($request['target_id']), 'target_id parameter not specified.');
+      }
+
+      $allowTargets = array('friend', 'community');
+
+      if (!in_array($allowTargets, $request['target'])) {
+        $this->forward400('target parameter is invalid.');
+      }
+    }
+
+
+    if (isset($request['target']))
+    {
       if ('friend' === $request['target'])
       {
         $builder->includeFriends($request['target_id'] ? $request['target_id'] : null);
       }
-      elseif ('community' === $request['target'])
+
+      if ('community' === $request['target'])
       {
-        $this->forward400Unless($request['target_id'], 'target_id parameter not specified.');
         $builder
                 ->includeSelf()
                 ->includeFriends()
                 ->includeSns()
                 ->setCommunityId($request['target_id']);
-      }
-      else
-      {
-        $this->forward400('target parameter is invalid.');
       }
     }
     else
