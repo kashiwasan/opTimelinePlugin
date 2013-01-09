@@ -18,7 +18,6 @@ class activityActions extends opJsonApiActions
    * 
    */
   private $_createdActivity;
-
   /**
    * @var opTimeline
    */
@@ -64,7 +63,7 @@ class activityActions extends opJsonApiActions
     }
 
     $this->_createActivityDataByRequest($request);
-    
+
     $responseData = $this->_createResponActivityDataOfPost();
 
     if ($this->_isUploadImagePost())
@@ -175,7 +174,6 @@ class activityActions extends opJsonApiActions
       $fileInfo = $this->_createFileInfo($request);
       $this->_timeline->createActivityImagesaveByFileInfoAndActivityId($fileInfo, $this->_createdActivity->getId());
     }
-
   }
 
   private function _getErrorResponseIfBadRequestOfTweetPost(sfWebRequest $request)
@@ -223,7 +221,6 @@ class activityActions extends opJsonApiActions
     return false;
   }
 
-
   public function executeSearch(sfWebRequest $request)
   {
 
@@ -231,132 +228,33 @@ class activityActions extends opJsonApiActions
 
     if (isset($parameters['target']))
     {
-      $this->forward400IfInvalidTarget($parameters);
+      $this->_forward400IfInvalidTargetForSearchAPI($parameters);
     }
 
     $activityDatas = $this->_activitySearchAPI($request);
 
     //一回も投稿していない
-    if (empty($activityDatas)) {
+    if (empty($activityDatas))
+    {
       return $this->renderJSON(array('status' => 'success', 'data' => array()));
     }
-
-    $activityDatas = $this->_timeline->addPublicFlagForActivityDatas($activityDatas);
-    $activityDatas = $this->_timeline->addImageUrlForContent($activityDatas);
 
     return $this->renderJSON(array('status' => 'success', 'data' => $activityDatas));
   }
 
   private function _activitySearchAPI(sfWebRequest $request)
   {
-    $builder = opActivityQueryBuilder::create()
-                    ->setViewerId($this->getUser()->getMemberId());
-
-    if (isset($request['target']))
-    {
-      if ('community' === $request['target'])
-      {
-        $this->forward400If(empty($request['target_id']), 'target_id parameter not specified.');
-      }
-
-      $allowTargets = array('friend', 'community');
-
-      if (!in_array($allowTargets, $request['target'])) {
-        $this->forward400('target parameter is invalid.');
-      }
-    }
-
-
-    if (isset($request['target']))
-    {
-      if ('friend' === $request['target'])
-      {
-        $builder->includeFriends($request['target_id'] ? $request['target_id'] : null);
-      }
-
-      if ('community' === $request['target'])
-      {
-        $builder
-                ->includeSelf()
-                ->includeFriends()
-                ->includeSns()
-                ->setCommunityId($request['target_id']);
-      }
-    }
-    else
-    {
-      if (isset($request['member_id']))
-      {
-        $builder->includeMember($request['member_id']);
-      }
-      else
-      {
-        $builder
-                ->includeSns()
-                ->includeFriends()
-                ->includeSelf();
-      }
-    }
-
-    $query = $builder->buildQuery();
-
-    if (isset($request['keyword']))
-    {
-      $query->andWhereLike('body', $request['keyword']);
-    }
-
-    $globalAPILimit = sfConfig::get('op_json_api_limit', 20);
-    if (isset($request['count']) && (int) $request['count'] < $globalAPILimit)
-    {
-      $query->limit($request['count']);
-    }
-    else
-    {
-      $query->limit($globalAPILimit);
-    }
-
-    if (isset($request['max_id']))
-    {
-      $query->addWhere('id <= ?', $request['max_id']);
-    }
-
-    if (isset($request['since_id']))
-    {
-      $query->addWhere('id > ?', $request['since_id']);
-    }
-
-    if (isset($request['activity_id']))
-    {
-      $query->addWhere('id = ?', $request['activity_id']);
-    }
-
-    $activityData = $query
-                    ->andWhere('in_reply_to_activity_id IS NULL')
-                    ->execute();
-
-    $ac = array();
+    $activityDatas = $this->_timeline->searchActivityDatasByAPIRequestDatasAndMemberId(
+                    $request->getGetParameters(), $this->getUser()->getMemberId());
 
     $this->_loadHelperForUseOpJsonAPI();
-    foreach ($activityData as $activity)
-    {
-      $acEntity = op_api_activity($activity);
+    $responseDatas = $this->_timeline->createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI(
+                    $activityDatas, $this->getUser()->getMemberId());
 
-      $replies = $activity->getReplies();
-      if (0 !== count($replies))
-      {
-        $acEntity['replies'] = array();
+    $responseDatas = $this->_timeline->addPublicFlagByActivityDatasForSearchAPIByActivityDatas($responseDatas, $activityDatas);
+    $responseDatas = $this->_timeline->addImageUrlToContentForSearchAPI($responseDatas);
 
-        $acEntity['repliesCount'] = $activity->getRepliesCount();
-        foreach ($replies as $reply)
-        {
-          $acEntity['replies'][] = op_api_activity($reply);
-        }
-      }
-
-      $ac[] = $acEntity;
-    }
-
-    return $ac;
+    return $responseDatas;
   }
 
   private function _loadHelperForUseOpJsonAPI()
@@ -370,7 +268,7 @@ class activityActions extends opJsonApiActions
     $this->getContext()->getConfiguration()->loadHelpers('sfImage');
   }
 
-  private function forward400IfInvalidTarget(array $params)
+  private function _forward400IfInvalidTargetForSearchAPI(array $params)
   {
     $validTargets = array('friend', 'community');
 

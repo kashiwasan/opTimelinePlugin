@@ -3,27 +3,439 @@
 class opTimeline
 {
 
-  public function addPublicFlagForActivityDatas($activityDatas)
+  public function addPublicFlagByActivityDatasForSearchAPIByActivityDatas(array $responseDatas, $activityDatas)
   {
-    $ids = array();
-    foreach ($activityDatas as $data)
+    $publicFlags = array();
+    foreach ($activityDatas as $activity)
     {
-      $ids[] = $data['id'];
+      $publicFlags[$activity->getId()] = $activity->getPublicFlag();
     }
 
-    $publicStatusList = $this->getPublicStatusListByIds($ids);
+    $publicStatusTextList = array(
+        ActivityDataTable::PUBLIC_FLAG_OPEN => 'open',
+        ActivityDataTable::PUBLIC_FLAG_SNS => 'sns',
+        ActivityDataTable::PUBLIC_FLAG_FRIEND => 'friend',
+        ActivityDataTable::PUBLIC_FLAG_PRIVATE => 'private'
+    );
 
-    $returnDatas = array();
-
-    foreach ($activityDatas as $data)
+    foreach ($responseDatas as &$data)
     {
-      $data['public_status'] = $publicStatusList[$data['id']];
-      $returnDatas[] = $data;
+      $publicFlag = $publicFlags[$data['id']];
+      $data['public_status'] = $publicStatusTextList[$publicFlag];
     }
+    unset($data);
 
-    return $returnDatas;
+    return $responseDatas;
   }
 
+  /**
+   * メソッドを実行する前にopJsonApiをロードしておく必要がある
+   *
+   * @todo 整形というには大仕事をしすぎているので名前をcreateにする
+   */
+  public function createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI($activityDatas, $viewerMemberId)
+  {
+    $memberIds = array();
+    $activityIds = array();
+
+    foreach ($activityDatas as $activity)
+    {
+      $memberIds[] = $activity->getMemberId();
+      $activityIds[] = $activity->getId();
+    }
+
+    $memberIds = array_unique($memberIds);
+
+    $activityImageUrls = $this->findActivityImageUrlsByActivityIds($activityIds);
+    $memberDatas = $this->createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds);
+
+    $responseDatas = array();
+    foreach ($activityDatas as $activity)
+    {
+      if (isset($activityImageUrls[$activity->getId()]))
+      {
+        //@todo symfonyの形式に変更させる
+        //$activityImageUrl = sf_image_path($activityImageUrls[$activity->getId()], array(), true);
+
+        $activityImageUrl = $activityImageUrls[$activity->getId()];
+      }
+      else
+      {
+        $activityImageUrl = null;
+      }
+
+      $responseData['id'] = $activity->getId();
+      $responseData['member'] = $memberDatas[$activity->getMemberId()];
+
+      $responseData['body'] = $activity->getBody();
+      $responseData['body_html'] = op_activity_linkification(nl2br(op_api_force_escape($activity->getBody())));
+      $responseData['uri'] = $activity->getUri();
+      $responseData['source'] = $activity->getSource();
+      $responseData['source_uri'] = $activity->getSourceUri();
+
+      //@todo イメージサイズを縮小したのを取得できるようにする
+      $responseData['image_url'] = $activityImageUrl;
+      $responseData['image_large_url'] = $activityImageUrl;
+      $responseData['created_at'] = date('r', strtotime($activity->getCreatedAt()));
+
+      $responseDatas[] = $responseData;
+    }
+
+
+    return $responseDatas;
+  }
+
+  public function createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds)
+  {
+
+    $freindAndBlocks = $this->findFriendMemberIdsAndBlockMemberIdsByMemberId($viewerMemberId);
+    $imageUrls = $this->findImageFileUrlsByMemberIds($memberIds);
+
+    $introductionId = $this->findIntroductionIdFromProfile();
+    $introductions = $this->findMemberIntroductionByMemberIdsAndIntroductionId($memberIds, $introductionId);
+
+    $firendCounts = $this->findFriendCountByMemberIds($memberIds);
+
+    $memberNames = $this->findMemberNamesByMemberIds($memberIds);
+
+    $memberDatas = array();
+
+    foreach ($memberIds as $memberId)
+    {
+      $memberData = array();
+      $memberData['id'] = $memberId;
+      $memberData['profile_image'] = $imageUrls[$memberId];
+      $memberData['screen_name'] = $memberNames[$memberId];
+      $memberData['name'] = $memberNames[$memberId];
+      $memberData['profile_url'] = op_api_member_profile_url($memberId);
+      $memberData['friend'] = isset($freindAndBlocks['friend'][$memberId]);
+      $memberData['blocking'] = isset($freindAndBlocks['block'][$memberId]);
+      $memberData['self'] = $viewerMemberId === $memberId;
+      $memberData['friends_count'] = $firendCounts[$memberId];
+      $memberData['self_introduction'] = $introductions[$memberId] ? (string) $introductions[$memberId] : null;
+
+      $memberDatas[$memberId] = $memberData;
+    }
+
+    return $memberDatas;
+  }
+
+  public function findMemberNamesByMemberIds(array $memberIds)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+      $q = Doctrine_Query::create();
+      $q->from('Member m');
+      $q->select("name");
+
+      $q->whereIn('id', $memberIds);
+      $searchResult = $q->fetchArray();
+
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    $names = array();
+    foreach ($searchResult as $row)
+    {
+      $names[$row['id']] = $row['name'];
+    }
+
+    return $names;
+  }
+
+  /**
+   *
+   * @param array $memberIds
+   * @return array (member_id => freind_count)
+   */
+  public function findFriendCountByMemberIds(array $memberIds)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+
+      //innerjoinをするとエラーが出てしまったので、２回SQLを実行する
+      $inactiveIds = Doctrine::getTable('Member')->getInactiveMemberIds();
+
+      $q = Doctrine_Query::create();
+      $q->from('MemberRelationship mr');
+      $q->select("member_id_to as member_id, COUNT('*')");
+
+      $q->whereIn('member_id_to', $memberIds);
+      $q->AndWhereNotIn('member_id_from', $inactiveIds);
+      $q->groupBy('member_id_to');
+
+      $searchResult = $q->fetchArray();
+
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    $friendCounts = array();
+    foreach ($searchResult as $row)
+    {
+      $friendCounts[$row['member_id']] = $row['COUNT'];
+    }
+
+    return $friendCounts;
+  }
+
+  public function findIntroductionIdFromProfile()
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+      $q->from('Profile');
+      $q->select('id');
+      $q->where("name = 'op_preset_self_introduction'");
+
+      $searchResult = $q->fetchArray();
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    if (empty($searchResult))
+    {
+      return false;
+    }
+
+    return $searchResult[0]['id'];
+  }
+
+  /**
+   *
+   * @return array
+   *  (memberId => Introducton)
+   */
+  public function findMemberIntroductionByMemberIdsAndIntroductionId(array $memberIds, $introductionId)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+      $q->from('MemberProfile');
+      $q->select('value, member_id');
+      $q->where('profile_id = ?', $introductionId);
+      $q->andWhereIn('member_id', $memberIds);
+
+      $searchResult = $q->fetchArray();
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    $profiles = array();
+    foreach ($searchResult as $row)
+    {
+      $profiles[$row['member_id']] = $row['value'];
+    }
+
+    return $profiles;
+  }
+
+  /**
+   *
+   * @return array
+   *   (memberId => imagePath...)
+   */
+  public function findImageFileUrlsByMemberIds($memberIds)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+      $q->from('MemberImage mi, mi.File f');
+      $q->select('mi.member_id, f.name');
+
+      $searchResult = $q->fetchArray();
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    $imageUrls = array();
+
+    foreach ($searchResult as $row)
+    {
+      $image = sf_image_path($row['File']['name'], array('size' => '48x48'), true);
+      $imageUrls[$row['member_id']] = $image;
+    }
+
+    //画像を設定していないユーザーはno_imageにする
+    foreach ($memberIds as $id)
+    {
+      if (!isset($imageUrls[$id]))
+      {
+        $imageUrls[] = op_image_path('no_image.gif', true);
+      }
+    }
+
+    return $imageUrls;
+  }
+
+  /**
+   *
+   * @return array
+   *   freind => array(memberId...)
+   *   block  => array(memberId...)
+   */
+  public function findFriendMemberIdsAndBlockMemberIdsByMemberId($memberId)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create()->from('MemberRelationship mr');
+    $q->select('member_id_from, is_friend, is_access_block');
+
+    $q->where('member_id_to = ?', $memberId);
+    $q->andWhere('is_friend = 1 OR is_access_block = 1 ');
+
+    if (!$queryCacheHash)
+    {
+      $searchResult = $q->fetchArray();
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+
+      $searchResult = $q->fetchArray();
+    }
+
+
+    $friendIds = array();
+    $blockIds = array();
+
+    foreach ($searchResult as $row)
+    {
+      if ($row['is_friend'])
+      {
+        $friendIds[] = $row['member_id_from'];
+      }
+
+      if ($row['is_access_block'])
+      {
+        $blockIds[] = $row['member_id_from'];
+      }
+    }
+
+    return array('friend' => $friendIds, 'block' => $blockIds);
+  }
+
+  public function formattedActivityDataByActivityData(array $activityData)
+  {
+    
+  }
+
+  public function searchActivityDatasByAPIRequestDatasAndMemberId($requestDatas, $memberId)
+  {
+    $builder = opActivityQueryBuilder::create()
+                    ->setViewerId($memberId);
+
+    if (isset($requestDatas['target']))
+    {
+      if ('friend' === $requestDatas['target'])
+      {
+        $builder->includeFriends($requestDatas['target_id'] ? $requestDatas['target_id'] : null);
+      }
+
+      if ('community' === $requestDatas['target'])
+      {
+        $builder
+                ->includeSelf()
+                ->includeFriends()
+                ->includeSns()
+                ->setCommunityId($requestDatas['target_id']);
+      }
+    }
+    else
+    {
+      if (isset($requestDatas['member_id']))
+      {
+        $builder->includeMember($requestDatas['member_id']);
+      }
+      else
+      {
+        $builder
+                ->includeSns()
+                ->includeFriends()
+                ->includeSelf();
+      }
+    }
+
+    $query = $builder->buildQuery();
+
+    if (isset($requestDatas['keyword']))
+    {
+      $query->andWhereLike('body', $requestDatas['keyword']);
+    }
+
+    $globalAPILimit = sfConfig::get('op_json_api_limit', 20);
+    if (isset($requestDatas['count']) && (int) $requestDatas['count'] < $globalAPILimit)
+    {
+      $query->limit($requestDatas['count']);
+    }
+    else
+    {
+      $query->limit($globalAPILimit);
+    }
+
+    if (isset($requestDatas['max_id']))
+    {
+      $query->addWhere('id <= ?', $requestDatas['max_id']);
+    }
+
+    if (isset($requestDatas['since_id']))
+    {
+      $query->addWhere('id > ?', $requestDatas['since_id']);
+    }
+
+    if (isset($requestDatas['activity_id']))
+    {
+      $query->addWhere('id = ?', $requestDatas['activity_id']);
+    }
+
+    $query->andWhere('in_reply_to_activity_id IS NULL');
+
+    return $query->execute();
+  }
+
+  /**
+   *
+   * @todo 削除する
+   */
   public function getPublicStatusListByIds($ids)
   {
     $query = new opDoctrineQuery();
@@ -34,12 +446,6 @@ class opTimeline
 
     $fetchData = $query->fetchArray();
 
-    $publicStatusTextList = array(
-        ActivityDataTable::PUBLIC_FLAG_OPEN => 'open',
-        ActivityDataTable::PUBLIC_FLAG_SNS => 'sns',
-        ActivityDataTable::PUBLIC_FLAG_FRIEND => 'friend',
-        ActivityDataTable::PUBLIC_FLAG_PRIVATE => 'private'
-    );
 
     $publicFlags = array();
     foreach ($fetchData as $data)
@@ -50,43 +456,46 @@ class opTimeline
     return $publicStatues;
   }
 
-  public function addImageUrlForContent(array $apiDatas)
+  public function findActivityImageUrlsByActivityIds(array $actvityIds)
   {
-    $ids = array();
-    foreach ($apiDatas as $data)
-    {
-      $ids[] = $data['id'];
-    }
-
-    if (empty($ids))
-    {
-      return $apiDatas;
-    }
-
     $query = new opDoctrineQuery();
     $query->select('activity_data_id, uri');
     $query->from('ActivityImage');
-    $query->andWhereIn('activity_data_id', $ids);
+    $query->andWhereIn('activity_data_id', $actvityIds);
 
     $searchResult = $query->fetchArray();
 
     $imageUrls = array();
-    foreach ($searchResult as $row) {
+    foreach ($searchResult as $row)
+    {
       $imageUrls[$row['activity_data_id']] = $row['uri'];
     }
 
-    foreach ($apiDatas as &$data)
+    return $imageUrls;
+  }
+
+  public function addImageUrlToContentForSearchAPI(array $responseDatas)
+  {
+
+    $imageUrls = array();
+    foreach ($responseDatas as $row)
+    {
+      $imageUrls[$row['id']] = $row['image_url'];
+    }
+
+    foreach ($responseDatas as &$data)
     {
       $id = $data['id'];
-      
-      if (isset($imageUrls[$id])) {
+
+      if (isset($imageUrls[$id]))
+      {
         $data['body'] = $data['body'].' '.$imageUrls[$id];
         $data['body_html'] = $data['body_html'].'<div><img src="'.$imageUrls[$id].'"></div>';
       }
-
     }
+    unset($data);
 
-    return $apiDatas;
+    return $responseDatas;
   }
 
   public function createPostActivityFromAPIByApiDataAndMemberId($apiData, $memberId)
@@ -125,7 +534,7 @@ class opTimeline
     return Doctrine::getTable('ActivityData')->updateActivity($memberId, $body, $options);
   }
 
-    /**
+  /**
    *
    * TODO
    * ファイル画像をOpenPNE方式に変更する
@@ -176,7 +585,6 @@ class opTimeline
     return $activityImage;
   }
 
-
   public function getViewPhoto()
   {
     $viewPhoto = Doctrine::getTable('SnsConfig')->get('op_timeline_plugin_view_photo', false);
@@ -186,4 +594,5 @@ class opTimeline
     }
     return 1;
   }
+
 }
