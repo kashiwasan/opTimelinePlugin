@@ -24,6 +24,7 @@
         $timelineLoader.next().hide();
         $timelineLoader.show();
         $(this).parent().hide();
+        $(this).attr('disabled', 'disabled');
         $.ajax({
           url: openpne.apiBase + 'activity/post.json',
           type: 'POST',

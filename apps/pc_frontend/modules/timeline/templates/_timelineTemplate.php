@@ -98,7 +98,10 @@
                 </span>
                 </div>
                 <div class="timeline-post-comment-control">
-                {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+                {{if member.self==true }}
+                <a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | 
+                {{/if}} 
+                <span class="timestamp">${created_at}</span>
                 </div>
               </div>
               {{if member.self==true }}

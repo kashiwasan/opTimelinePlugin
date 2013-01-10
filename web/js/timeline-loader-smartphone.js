@@ -21,6 +21,7 @@ $(function(){
     $('#timeline-submit-loader').show();
     $('#timeline-submit-error').hide();
     $('#photo-file-name').text('');
+    $('#timeline_postform_submit').attr('disabled', 'disabled');
 
     var body = $('#tosaka_postform_body').val();
 
@@ -30,14 +31,14 @@ $(function(){
     var publicFlug = $('#timeline-public-flag option:selected').val();
     1 == publicFlug ? publicFlug = "" : publicFlug = $('#timeline-public-flag option:selected').text();
     var flashTimelineDom = 
-          '<div class="timeline-post" style="padding-bottom: 70px;">'
+          '<div class="timeline-post" style="padding-bottom: 100px;">'
           + '<div class="timeline-post-member-image">'
             + '<img src="' + faceImg + '" alt="member-image" width="23">'
           + '</div>'
           + '<div class="timeline-post-content">'
             + '<div class="timeline-member-name">'
               + '<a>' + faceName + '</a>'
-              + '<span class="timestamp">' + timestamp +'</span>'
+              + '<div class="timestamp">' + timestamp +'</div>'
             + '</div>'
             + '<div class="timeline-post-body">' + body + '</div>'
             + '<span class="timeline-post-control">'
@@ -153,6 +154,7 @@ function timelineAllLoad() {
       url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
       success: function (json){
         renderJSON(json, 'all');
+        $('#timeline-list-loader').hide();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
         $('#timeline-list-loader').hide();

@@ -5,7 +5,9 @@ var gorgon = {
       'activity_id': <?php echo $activity->getId() ?>,
       'count': 1,
     };
-var viewPhoto = '<?php echo $viewPhoto; ?>';
+var viewPhoto = '<?php echo $viewPhoto ?>';
+var MAXLENGTH = 140;
+var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 //]]>
 </script>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>

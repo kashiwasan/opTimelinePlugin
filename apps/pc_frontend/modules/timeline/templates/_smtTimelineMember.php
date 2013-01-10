@@ -4,6 +4,9 @@
 var gorgon = {
       'member_id': <?php echo $id; ?>,
     };
+var viewPhoto = '<?php echo $viewPhoto ?>';
+var MAXLENGTH = 140;
+var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 //]]>
 </script>
 <?php op_smt_use_stylesheet('/opTimelinePlugin/css/jquery.colorbox.css') ?>
@@ -14,6 +17,9 @@ var gorgon = {
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
         <div class="timeline-post">
+        {{if public_status != 'sns' }}
+        <div class="only-border-top"></div>
+        {{/if}}
           <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
             <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" /></a>
@@ -21,21 +27,24 @@ var gorgon = {
           <div class="timeline-post-content">
             <div class="timeline-member-name">
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
+              <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}">
+              <div class="timestamp">${created_at}</div>
+              </a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}
-            </div>
-            <div class="timeline-post-control">
-              {{if public_status == 'friend' }}
-              <span class="public-flag">公開範囲:マイフレンドまで公開</span>
-              {{else public_status == 'private' }}
-              <span class="public-flag">公開範囲:公開しない</span>
-              {{/if}}
             </div>
           </div>
 
           <div class="timeline-post-control">
             <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
+            <span class="timeline-post-control-show">
+              {{if public_status == 'friend' }}
+              <span class="public-flag">マイフレンドまで</span>
+              {{else public_status == 'private' }}
+              <span class="public-flag">公開しない</span>
+              {{/if}}
+            </span>
           </div>
 
           <div class="timeline-post-comments" id="commentlist-${id}">
@@ -47,6 +56,9 @@ var gorgon = {
               <?php echo op_image_tag('ajax-loader.gif', array()) ?>
             </div>
           </div>
+        {{if public_status != 'sns' }}
+        <div class="only-border-bottom"></div>
+        {{/if}}
         </div>
 </script>
 
@@ -58,14 +70,12 @@ var gorgon = {
               </div>
               <div class="timeline-post-comment-content">
                 <div class="timeline-post-comment-name-and-body">
-                <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
-                <span class="timeline-post-comment-body">
-                {{html body_html}}
-                </span>
+                  <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
                 </div>
               </div>
-              <div class="timeline-post-comment-control">
-              ${created_at}
+              <div class="timestamp timeline-post-control">${created_at}</div>
+              <div class="timeline-post-comment-body">
+              {{html body_html}}
               </div>
             </div>
 </script>

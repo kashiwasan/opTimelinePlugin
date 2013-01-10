@@ -8,7 +8,7 @@ var gorgon = {
     };
     
 var MAXLENGTH = 140;
-var viewPhoto = <?php echo $viewPhoto ?>;
+var viewPhoto = '<?php echo $viewPhoto ?>';
 var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 
 //]]>
@@ -21,6 +21,9 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
         <div class="timeline-post">
+          {{if public_status != 'sns' }}
+          <div class="only-border-top"></div>
+          {{/if}}
           <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
             <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" /></a>
@@ -28,30 +31,34 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
           <div class="timeline-post-content">
             <div class="timeline-member-name">
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
-            <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+              <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}">
+                <div class="timestamp">${created_at}</div>
+              </a>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}
-            </div>
-            <div class="timeline-post-control">
-              {{if public_status == 'friend' }}
-              <span class="public-flag">公開範囲:マイフレンドまで公開</span>
-              {{else public_status == 'private' }}
-              <span class="public-flag">公開範囲:公開しない</span>
-              {{/if}}
             </div>
           </div>
 
           <div class="timeline-post-control">
             <a href="#timeline-${id}" class="timeline-comment-link">コメントする</a>
+            <span class="timeline-public-flag-show">
+              {{if public_status == 'friend' }}
+              <span class="icon-lock"></span>
+              <span class="public-flag">マイフレンドまで</span>
+              {{else public_status == 'private' }}
+              <span class="icon-lock"></span>
+              <span class="public-flag">公開しない</span>
+              {{/if}}
+            </span>
           </div>
           <!--Like Plugin -->
-          <div class="row like-wrapper" data-like-id="${id}" data-like-target="A" member-id="${member.id}" style="text-align: center; display: none;">
+          <div class="row like-wrapper" data-like-id="${id}" data-like-target="A" member-id="${member.id}" style="display: none; margin-left: 28px;">
             <span class="span6" style="text-align: center;"> 
               <a class="like-post">いいね！</a>
               <a class="like-cancel">いいね！を取り消す</a>
             </span>
-              <span class="span6" style="text-align: center;">
+            <span class="span5" style="text-align: center;">
               <a class="like-list"></a>
             </span>
           </div>
@@ -75,6 +82,9 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
           </div>
 
 
+          {{if public_status != 'sns' }}
+          <div class="only-border-bottom"></div>
+          {{/if}}
         </div>
 </script>
 
@@ -86,22 +96,20 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
               </div>
               <div class="timeline-post-comment-content">
                 <div class="timeline-post-comment-name-and-body">
-                <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
-                <span class="timeline-post-comment-body">
-                {{html body_html}}
-                </span>
+                  <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
                 </div>
               </div>
-              <div class="timeline-post-comment-control">
-              ${created_at}
+              <div class="timestamp timeline-post-control">${created_at}</div>
+              <div class="timeline-post-comment-body">
+              {{html body_html}}
               </div>
               <!-- Like Plugin -->
-              <div class="row like-wrapper" data-like-id="${id}" data-like-target="A" member-id="${member.id}" style="display: none;">
+              <div class="row like-wrapper" data-like-id="${id}" data-like-target="A" member-id="${member.id}" style="display: none; margin-left: 28px;">
                 <span class="span5" style="text-align: center;"> 
                   <a class="like-post">いいね！</a>
                   <a class="like-cancel">いいね！を取り消す</a>
                 </span>
-                  <span class="span5" style="text-align: center;">
+                <span class="span4" style="text-align: center;">
                   <a class="like-list"></a>
                 </span>
               </div>
