@@ -164,9 +164,9 @@
 }
 
 #timeline-public-flag {
-  position: relative;
+  margin: -3px 0 0 70px;
   width: 100px;
-  left: 70px;
+  height: 28px;
 }
 
 #timeline_postform_submit {
@@ -191,4 +191,14 @@
   font-size: small;
   color: #999!important;
   padding-left: 8px;
+}
+
+#timeline-upload-photo-button {
+  padding: 6px 7px;
+}
+
+.timeline-community-name {
+  padding-left: 60px;
+  color: #fff;
+  font-size: 13px;
 }

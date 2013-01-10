@@ -23,13 +23,13 @@ $(function(){
     $('#photo-file-name').text('');
     $('#timeline_postform_submit').attr('disabled', 'disabled');
 
-    var body = $('#tosaka_postform_body').val();
+    var body = $.trim($('#tosaka_postform_body').val());
 
     var faceName = $('.face-name').text();
     var faceImg = $('#face').children('.span2').children('img').attr('src');
     var timestamp = new Date(jQuery.now()).toLocaleString();
-    var publicFlug = $('#timeline-public-flag option:selected').val();
-    1 == publicFlug ? publicFlug = "" : publicFlug = $('#timeline-public-flag option:selected').text();
+    var publicFlagText = $('#timeline-public-flag option:selected').val();
+    1 == publicFlagText ? publicFlagText = "" : publicFlagText = $('#timeline-public-flag option:selected').text();
     var flashTimelineDom = 
           '<div class="timeline-post" style="padding-bottom: 100px;">'
           + '<div class="timeline-post-member-image">'
@@ -42,7 +42,7 @@ $(function(){
             + '</div>'
             + '<div class="timeline-post-body">' + body + '</div>'
             + '<span class="timeline-post-control">'
-              + publicFlug
+              + publicFlagText
               + '<img style="float: right; padding-right: 20px;" src="/images/ajax-loader.gif">'
             + '</span>'
           + '</div>'
@@ -58,13 +58,18 @@ $(function(){
 
     if (gorgon)
     {
+      var publicFlag = 1;
+      if ('community' != gorgon.target)
+      {
+        publicFlag = $('#timeline-public-flag option:selected').val()
+      }
+
       var data = {
         body: body,
         target: gorgon.post.foreign,
         target_id: gorgon.post.foreignId,
         apiKey: openpne.apiKey,
-        public_flag: $('#timeline-public-flag option:selected').val()
-        
+        public_flag: publicFlag
       };
     }
     else

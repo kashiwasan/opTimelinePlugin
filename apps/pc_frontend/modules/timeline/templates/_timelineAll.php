@@ -18,7 +18,6 @@ var fileMaxSize = '<?php echo $fileMaxSize ?>';
 
 <?php use_javascript('/opTimelinePlugin/js/jquery.upload-1.0.2.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
-
 <?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
@@ -54,7 +53,7 @@ $(function(){
 
     <div class="timeline">
       <div class="timeline-postform well">
-        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" onkeypress="return (this.value.length < 1139)"></textarea>
+        <textarea id="timeline-textarea" class="input-xlarge" rows="1" placeholder="今何してる？" tabindex="1" onkeypress="return (this.value.length < 1139)"></textarea>
         <div id="timeline-submit-loader"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
         <div id="timeline-submit-error"></div>
         <div id="timeline-upload-error"></div>
@@ -68,7 +67,7 @@ $(function(){
           <?php endforeach; ?>
           </select>
           <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
-          <button id="timeline-submit-button" class="btn btn-primary timeline-submit" disabled="disabled">投稿</button>
+          <button id="timeline-submit-button" class="btn btn-primary timeline-submit" tabindex="2" disabled="disabled">投稿</button>
         </div>
       </div>
 

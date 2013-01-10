@@ -26,8 +26,6 @@ $(function(){
   }
 
   $('#timeline-submit-button').click( function() {
-
-
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
@@ -37,12 +35,18 @@ $(function(){
 
     if (gorgon)
     {
+      var publicFlag = 1;
+      if ('community' != gorgon.target)
+      {
+        publicFlag = $('#timeline-public-flag option:selected').val()
+      }
+  
       var data = {
         body: body,
         target: gorgon.post.foreign,
         target_id: gorgon.post.foreignId,
         apiKey: openpne.apiKey,
-        public_flag: $('#timeline-public-flag option:selected').val()
+        public_flag: publicFlag
       };
     }
     else
