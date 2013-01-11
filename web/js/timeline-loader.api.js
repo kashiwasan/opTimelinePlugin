@@ -129,8 +129,19 @@ function timelineAllLoad() {
       type: 'GET',
       url: openpne.apiBase + 'activity/search.json',
       data: gorgon,
-      success: function(json){
-        renderJSON(json, 'all');
+      success: function(response){
+
+        if ($.isEmptyObject(response.data))
+        {
+          $('#timeline-loading').hide();
+          $('#timeline-list').text('タイムラインは投稿されていません。');
+          $('#timeline-list').show();
+        }
+        else
+        {
+          renderJSON(response, 'all');
+        }
+        
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
         $('#timeline-loading').hide();
@@ -144,8 +155,19 @@ function timelineAllLoad() {
     $.ajax({
       type: 'GET',
       url: openpne.apiBase + 'activity/search.json?apiKey=' + openpne.apiKey,
-      success: function(json){
-        renderJSON(json, 'all');
+      success: function(response){
+
+        if ($.isEmptyObject(response.data))
+        {
+          $('#timeline-loading').hide();
+          $('#timeline-list').text('タイムラインは投稿されていません。');
+          $('#timeline-list').show();
+        }
+        else
+        {
+          renderJSON(response, 'all');
+        }
+
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
         $('#timeline-loading').hide();
@@ -255,7 +277,6 @@ function renderJSON(json, mode) {
     {
       if(json.data[i].replies)
       {
-        console.log(json);
         $('#timelineCommentTemplate').tmpl(json.data[i].replies.reverse()).prependTo('#commentlist-' +json.data[i].id);
         $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
