@@ -490,7 +490,7 @@ class opTimeline
       if (isset($imageUrls[$id]))
       {
         $data['body'] = $data['body'].' '.$imageUrls[$id];
-        $data['body_html'] = $data['body_html'].'<div><img src="'.$imageUrls[$id].'"></div>';
+        $data['body_html'] = $data['body_html'].'<a href="'.$imageUrls[$id].'" rel="lightbox"><div><img src="'.$imageUrls[$id].'"></div></a>';
       }
     }
     unset($data);
