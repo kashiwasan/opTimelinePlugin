@@ -31,7 +31,7 @@ $(function(){
     var publicFlagText = $('#timeline-public-flag option:selected').val();
     1 == publicFlagText ? publicFlagText = "" : publicFlagText = $('#timeline-public-flag option:selected').text();
     var flashTimelineDom = 
-          '<div class="timeline-post" style="padding-bottom: 100px;">'
+          '<div>'
           + '<div class="timeline-post-member-image">'
             + '<img src="' + faceImg + '" alt="member-image" width="23">'
           + '</div>'
@@ -296,6 +296,7 @@ function renderJSON(json, mode) {
     $('#timeline-loadmore').show();
     $('#timeline-loadmore-loading').hide();
   }
+  $('.timeago').timeago();
 }
 
 function convertTag(str) {

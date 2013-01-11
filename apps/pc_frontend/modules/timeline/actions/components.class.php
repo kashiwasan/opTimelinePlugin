@@ -118,6 +118,23 @@ class timelineComponents extends sfComponents
     }
   }
 
+  public function executeSmtTimelineBy1(sfWebRequest $request)
+  {
+    $this->activityData =  Doctrine_Query::create()
+       ->from('ActivityData ad')
+       ->where('ad.in_reply_to_activity_id IS NULL')
+       ->andWhere('ad.foreign_table IS NULL')
+       ->andWhere('ad.public_flag = ?', 1)
+       ->orderBy('ad.id DESC')
+       ->limit(1)
+       ->execute();
+    if ($this->activityData)
+    {
+      $this->createdAt = $this->activityData[0]->getCreatedAt();
+      $this->body = $this->activityData[0]->getBody();
+    }
+  }
+
   public function executeSmtTimelineMember(sfWebRequest $request)
   {
     $this->id = $request->getParameter('id');

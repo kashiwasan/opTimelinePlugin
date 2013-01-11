@@ -19,6 +19,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 <?php op_smt_use_stylesheet('/opTimelinePlugin/css/timeline-smartphone.css', 'last') ?>
 <?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.colorbox.js', 'last') ?>
 <?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
+<?php op_smt_use_javascript('/opTimelinePlugin/js/jquery.timeago.js', 'last') ?>
 <?php op_smt_use_javascript('/opTimelinePlugin/js/timeline-loader-smartphone.js', 'last') ?>
 
 <script id="timelineTemplate" type="text/x-jquery-tmpl">
@@ -33,7 +34,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
           <div class="timeline-post-content">
             <div class="timeline-member-name">
               <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
-              <div class="timestamp">${created_at}</div>
+              <div class="timestamp timeago" title="${created_at}"></div>
             </div>
             <div class="timeline-post-body" id="timeline-body-context-${id}">
               {{html body_html}}
@@ -101,7 +102,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
                 <a href="${member.profile_url}">{{if member.screen_name}} ${member.screen_name} {{else}} ${member.name} {{/if}}</a>
                 </div>
               </div>
-              <div class="timeline-post-comment-control timestamp">${created_at}</div>
+              <div class="timeline-post-comment-control timestamp timeago" title="${created_at}"></div>
               <div class="timeline-post-comment-body">
               {{html body_html}}
               </div>
