@@ -288,6 +288,7 @@ function renderJSON(json, mode) {
     $('#timeline-loadmore').show();
     $('#timeline-loadmore-loading').hide();
   }
+  $('.timeago').timeago();
 }
 
 function convertTag(str) {

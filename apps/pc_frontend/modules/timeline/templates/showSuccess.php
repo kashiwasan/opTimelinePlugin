@@ -11,6 +11,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 //]]>
 </script>
 <?php use_javascript('/opTimelinePlugin/js/jquery.timeline.js', 'last') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.timeago.js', 'last') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js', 'last') ?>
 <?php use_javascript('/opLikePlugin/js/like.js', 'last') ?>
 <?php use_stylesheet('/opLikePlugin/css/like.css', 'last') ?>

@@ -19,6 +19,7 @@ var fileMaxSize = '<?php echo $fileMaxSize ?>';
 <?php use_javascript('/opTimelinePlugin/js/jquery.upload-1.0.2.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/timeline-loader.api.js') ?>
 <?php use_javascript('/opTimelinePlugin/js/counter.js') ?>
+<?php use_javascript('/opTimelinePlugin/js/jquery.timeago.js', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/bootstrap.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/timeline.css', 'last') ?>
 <?php use_stylesheet('/opTimelinePlugin/css/counter.css', 'last') ?>
