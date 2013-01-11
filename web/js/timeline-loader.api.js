@@ -26,6 +26,7 @@ $(function(){
   }
 
   $('#timeline-submit-button').click( function() {
+    $(this).attr('disabled', 'disabled');
     $('#timeline-submit-error').text('');
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
