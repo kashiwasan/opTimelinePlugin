@@ -151,10 +151,16 @@
 }
 
 #photo-file-name {
-  position: absolute;
-  bottom: 10px;
-  left: 50px;
   width: 200px;
+  color: #fff;
+}
+
+#photo-remove {
+  cursor: pointer;
+}
+
+.photo-info {
+  margin: 7px 0 0 7px;
 }
 
 #timeline-submit-error {
@@ -164,7 +170,7 @@
 }
 
 #timeline-public-flag {
-  margin: -3px 0 0 70px;
+  margin: -5px 0 0 75px;
   width: 100px;
   height: 28px;
 }

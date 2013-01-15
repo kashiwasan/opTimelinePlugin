@@ -62,7 +62,7 @@ $(function(){
         <div id="timeline-upload-error"></div>
         <div id="timeline-submit-area">
           <span id="timeline-upload-photo-button" class="btn"><i class="icon-camera"></i></span>
-          <span id="photo-file-name"></span>
+          <span id="photo-remove"><span class="icon-remove"></span></span><span id="photo-file-name"></span>
           <span id="counter"></span>
           <select id="timeline-public-flag">
           <?php foreach ($publicFlags as $value => $text): ?>

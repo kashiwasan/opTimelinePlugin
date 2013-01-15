@@ -240,8 +240,16 @@ a.screen-name:link {
 #photo-file-name {
   position: absolute;
   bottom: 10px;
-  left: 50px;
+  left: 68px;
   width: 200px;
+}
+
+#photo-remove {
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 12px;
+  left: 53px;
 }
 
 #timeline-submit-button {

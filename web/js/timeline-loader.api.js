@@ -31,6 +31,7 @@ $(function(){
     $('#timeline-submit-error').hide();
     $('#timeline-submit-loader').show();
     $('#photo-file-name').text('');
+    $('#photo-remove').hide();
 
     var body = $('#timeline-textarea').val();
 
@@ -110,6 +111,7 @@ $(function(){
 
   $('#timeline-upload-photo-button').click(function() {
     $('#timeline-submit-upload').click();
+    $('#photo-remove').show();
   });
 
   $('#timeline-textarea').keyup( function() {
@@ -118,6 +120,12 @@ $(function(){
 
   $('.timeline-post-comment-form-input').live('keyup', function() {
     lengthCheck($(this), $('button[data-timeline-id=' + $(this).attr('data-timeline-id') + ']'));
+  });
+  
+  $('#photo-remove').click( function() {
+    $('#timeline-submit-upload').val('');
+    $('#photo-file-name').text('');
+    $(this).hide();
   });
 });
 
@@ -364,7 +372,6 @@ function tweetByData(data)
       $('#timeline-submit-upload').val('');
       $('#timeline-textarea').val('');
       $('#timeline-submit-loader').hide();
-      $('#timeline-textarea').val('');
       $('#counter').text(MAXLENGTH);
 
     },

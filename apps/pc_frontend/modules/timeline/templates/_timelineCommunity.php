@@ -68,7 +68,7 @@ $(function(){
         <div id="timeline-submit-error"></div>
         <div id="timeline-submit-area">
           <span id="timeline-upload-photo-button" class="btn"><i class="icon-camera"></i></span>
-          <span id="photo-file-name"></span>
+          <span id="photo-remove"><span class="icon-remove"></span></span><span id="photo-file-name"></span>
           <span id="counter"></span>
           <input id="timeline-submit-upload" type="file" name="timeline-submit-upload" enctype="multipart/form-data">
           <button id="timeline-submit-button" class="btn btn-primary timeline-submit" tabindex="2" disabled="disabled">投稿</button>

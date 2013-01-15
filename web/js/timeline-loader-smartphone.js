@@ -7,7 +7,7 @@ $(function(){
  
   $('#timeline_postform_submit').click( function() {
     $('#timeline-submit-error').hide();
-    $('#photo-file-name').text('');
+    $('.photo-info').hide();
     $('#timeline_postform_submit').attr('disabled', 'disabled');
 
     var body = $.trim($('#tosaka_postform_body').val());
@@ -67,6 +67,7 @@ $(function(){
 
   $('#timeline-upload-photo-button').click(function() {
     $('#timeline-submit-upload').click();
+    $('#photo-remove').show();
   });
 
   $('#gorgon-loadmore').click( function() {
@@ -112,6 +113,26 @@ $(function(){
   
   $('.timeline-post-comment-form-input').live('keyup', function() {
     lengthCheck($(this), $('button[data-timeline-id=' + $(this).attr('data-timeline-id') + ']'));
+  });
+  
+  $('#timeline-submit-upload').change(function() {
+    var fileName = $('#timeline-submit-upload').val();
+    var dom = $('#photo-file-name');
+    if (20 > fileName.length)
+    {
+      dom.text(fileName);
+    }
+    else
+    {
+      dom.text(fileName.substring(0, 19) + '…');
+    }
+    $('.photo-info').show();
+  });
+  
+  $('#photo-remove').click( function() {
+    $('#timeline-submit-upload').val('');
+    $('#photo-file-name').text('');
+    $(this).hide();
   });
 });
 
