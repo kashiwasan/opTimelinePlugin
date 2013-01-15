@@ -1,24 +1,11 @@
 $(function(){
 
-  var timerID;
-  var timerArray = new Array();
-  var timer;
   timelineAllLoad();
-  if ( gorgon.timer != undefined )
-  {
-    timer = gorgon.timer;
-  }
-  else
-  {
-    timer = 15000;
-  }
-  timerID = setInterval('timelineDifferenceLoad()', timer);
   
   $('.basic-mode').remove();
   $('.timeline-mode').show();
  
   $('#timeline_postform_submit').click( function() {
-    $('#timeline-submit-loader').show();
     $('#timeline-submit-error').hide();
     $('#photo-file-name').text('');
     $('#timeline_postform_submit').attr('disabled', 'disabled');
@@ -27,22 +14,18 @@ $(function(){
 
     var faceName = $('.face-name').text();
     var faceImg = $('#face').children('.span2').children('img').attr('src');
-    var timestamp = new Date(jQuery.now()).toLocaleString();
-    var publicFlagText = $('#timeline-public-flag option:selected').val();
-    1 == publicFlagText ? publicFlagText = "" : publicFlagText = $('#timeline-public-flag option:selected').text();
     var flashTimelineDom = 
-          '<div>'
+          '<div class="flashTimelineDom">'
           + '<div class="timeline-post-member-image">'
             + '<img src="' + faceImg + '" alt="member-image" width="23">'
           + '</div>'
           + '<div class="timeline-post-content">'
             + '<div class="timeline-member-name">'
               + '<a>' + faceName + '</a>'
-              + '<div class="timestamp">' + timestamp +'</div>'
+              + '<div class="timestamp">1分前</div>'
             + '</div>'
             + '<div class="timeline-post-body">' + body + '</div>'
             + '<span class="timeline-post-control">'
-              + publicFlagText
               + '<img style="float: right; padding-right: 20px;" src="/images/ajax-loader.gif">'
             + '</span>'
           + '</div>'
@@ -148,6 +131,7 @@ function timelineAllLoad() {
         $('#timeline-list-loader').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
+        $('.flashTimelineDom').remove();
       },
     });
 
@@ -165,6 +149,7 @@ function timelineAllLoad() {
         $('#timeline-list-loader').hide();
         $('#timeline-list').text('タイムラインは投稿されていません。');
         $('#timeline-list').show();
+        $('.flashTimelineDom').remove();
       }
     });
   }
@@ -329,6 +314,7 @@ function tweetByData(data)
 
         $('#timeline-submit-error').text(errorMessages[errorType]);
         $('#timeline-submit-error').show();
+        $('.flashTimelineDom').remove();
 
       } else {
         $(".postform").toggle();
