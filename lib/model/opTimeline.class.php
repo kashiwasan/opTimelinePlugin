@@ -414,7 +414,7 @@ class opTimeline
     {
       if (!isset($imageUrls[$id]))
       {
-        $imageUrls[] = op_image_path('no_image.gif', true);
+        $imageUrls[$id] = op_image_path('no_image.gif', true);
       }
     }
 
