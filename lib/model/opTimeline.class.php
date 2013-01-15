@@ -2,6 +2,7 @@
 
 class opTimeline
 {
+  const COMMENT_DISPLAY_MAX = 10;
 
   public function addPublicFlagByActivityDatasForSearchAPIByActivityDatas(array $responseDatas, $activityDatas)
   {
@@ -35,19 +36,70 @@ class opTimeline
    */
   public function createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI($activityDatas, $viewerMemberId)
   {
-    $memberIds = array();
     $activityIds = array();
 
     foreach ($activityDatas as $activity)
     {
-      $memberIds[] = $activity->getMemberId();
       $activityIds[] = $activity->getId();
+    }
+
+    $replayActivityDatas = $this->findReplayActivityDatasByActivityIdsGroupByActivityId($activityIds);
+
+    $memberIds = $this->_extractionMemberIdByActivitieyDatasAndReplayActivityDataRows(
+                    $activityDatas, $replayActivityDatas);
+    $memberDatas = $this->createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds);
+
+    $responseDatas = $this->_createActivityDatasByActivityDatasAndMemberDatasForSearchAPI($activityDatas, $memberDatas);
+
+    foreach ($responseDatas as &$response)
+    {
+      $id = $response['id'];
+
+      if (isset($replayActivityDatas[$id]))
+      {
+        $replaies = $replayActivityDatas[$id];
+        $response['replies'] = $this->_createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($replaies, $memberDatas);
+      }
+      else
+      {
+        $response['replies'] = null;
+      }
+
+    }
+    unset($response);
+
+    return $responseDatas;
+  }
+
+  private function _extractionMemberIdByActivitieyDatasAndReplayActivityDataRows($activities, $replayActivitiyRows)
+  {
+    $memberIds = array();
+    foreach ($activities as $activity)
+    {
+      $memberIds[] = $activity->getMemberId();
+    }
+
+    foreach ($replayActivitiyRows as $ActivityDatas)
+    {
+      foreach ($ActivityDatas as $activityData)
+      {
+        $memberIds[] = $activityData['member_id'];
+      }
     }
 
     $memberIds = array_unique($memberIds);
 
+    return $memberIds;
+  }
+
+  private function _createActivityDatasByActivityDatasAndMemberDatasForSearchAPI($activityDatas, $memberDatas)
+  {
+    foreach ($activityDatas as $activity)
+    {
+      $activityIds[] = $activity->getId();
+    }
+
     $activityImageUrls = $this->findActivityImageUrlsByActivityIds($activityIds);
-    $memberDatas = $this->createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds);
 
     $responseDatas = array();
     foreach ($activityDatas as $activity)
@@ -81,9 +133,35 @@ class opTimeline
       $responseDatas[] = $responseData;
     }
 
+    return $responseDatas;
+  }
+
+  private function _createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($activityDataRows, $memberDatas)
+  {
+
+    $responseDatas = array();
+    foreach ($activityDataRows as $row)
+    {
+      $responseData['id'] = $row['id'];
+      $responseData['member'] = $memberDatas[$row['member_id']];
+
+      $responseData['body'] = $row['body'];
+      $responseData['body_html'] = op_activity_linkification(nl2br(op_api_force_escape($row['body'])));
+      $responseData['uri'] = $row['uri'];
+      $responseData['source'] = $row['source'];
+      $responseData['source_uri'] = $row['source_uri'];
+
+      //コメントでは画像を投稿できない
+      $responseData['image_url'] = null;
+      $responseData['image_large_url'] = null;
+      $responseData['created_at'] = date('r', strtotime($row['created_at']));
+
+      $responseDatas[] = $responseData;
+    }
 
     return $responseDatas;
   }
+
 
   public function createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds)
   {
@@ -112,12 +190,49 @@ class opTimeline
       $memberData['blocking'] = isset($freindAndBlocks['block'][$memberId]);
       $memberData['self'] = $viewerMemberId === $memberId;
       $memberData['friends_count'] = $firendCounts[$memberId];
-      $memberData['self_introduction'] = $introductions[$memberId] ? (string) $introductions[$memberId] : null;
+      $memberData['self_introduction'] = isset($introductions[$memberId]) ? (string) $introductions[$memberId] : null;
 
       $memberDatas[$memberId] = $memberData;
     }
 
     return $memberDatas;
+  }
+
+  public function findReplayActivityDatasByActivityIdsGroupByActivityId(array $activityIds)
+  {
+    static $queryCacheHash;
+
+    $q = Doctrine_Query::create();
+
+    if (!$queryCacheHash)
+    {
+      $q = Doctrine_Query::create();
+      $q->from('ActivityData ad');
+      $q->whereIn('in_reply_to_activity_id', $activityIds);
+      $q->orderBy('in_reply_to_activity_id, created_at DESC');
+      $searchResult = $q->fetchArray();
+
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $searchResult = $q->fetchArray();
+    }
+
+    $replaies = array();
+    foreach ($searchResult as $row)
+    {
+      $targetId = $row['in_reply_to_activity_id'];
+
+      if (!isset($replaies[$targetId]) || count($replaies[$targetId]) < self::COMMENT_DISPLAY_MAX)
+      {
+        $replaies[$targetId][] = $row;
+      }
+
+    }
+
+    return $replaies;
   }
 
   public function findMemberNamesByMemberIds(array $memberIds)
