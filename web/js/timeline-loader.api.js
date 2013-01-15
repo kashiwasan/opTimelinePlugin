@@ -344,6 +344,9 @@ function tweetByData(data)
         $('#timeline-submit-loader').hide();
         return;
       }
+
+      //jquery.uploadだとbrタグがなぜか<br ="">みたいな感じでレスポンスが戻ってきた API自体は問題ないが
+      res = res.replace(/<br \\=\"\">/g,  '<br />');
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
