@@ -27,7 +27,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
           {{/if}}
           <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
-            <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" /></a>
+            <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" class="rad6" /></a>
           </div>
           <div class="timeline-post-content">
             <div class="timeline-member-name">
@@ -93,7 +93,7 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
             <div class="timeline-post-comment">
 
               <div class="timeline-post-comment-member-image">
-                <a href="${member.profile_url}"><img src="${member.profile_image}" alt="" width="23" /></a>
+                <a href="${member.profile_url}"><img src="${member.profile_image}" alt="" width="23" class="rad6" /></a>
               </div>
               <div class="timeline-post-comment-content">
                 <div class="timeline-post-comment-name-and-body">

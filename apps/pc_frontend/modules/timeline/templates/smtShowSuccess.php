@@ -23,7 +23,7 @@ var viewPhoto = '<?php echo $viewPhoto ?>';
           {{/if}}
           <a name="timeline-${id}"></a>
           <div class="timeline-post-member-image">
-            <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" /></a>
+            <a href="${member.profile_url}"><img src="${member.profile_image}" alt="member-image" width="23" class="red6" /></a>
           </div>
           <div class="timeline-post-content">
             <div class="timeline-member-name">
@@ -89,7 +89,7 @@ var viewPhoto = '<?php echo $viewPhoto ?>';
             <div class="timeline-post-comment">
 
               <div class="timeline-post-comment-member-image">
-                <a href="${member.profile_url}"><img src="${member.profile_image}" alt="" width="23" /></a>
+                <a href="${member.profile_url}"><img src="${member.profile_image}" alt="" width="23" class="red6" /></a>
               </div>
               <div class="timeline-post-comment-content">
                 <div class="timeline-post-comment-name-and-body">
