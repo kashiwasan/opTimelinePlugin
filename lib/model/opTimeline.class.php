@@ -2,7 +2,24 @@
 
 class opTimeline
 {
+
+  /**
+   * @var opTimelineUser
+   */
+  private $_user;
+
+  private $_imageContentSize;
+
+  public function __construct(opTimelineUser $user, array $params)
+  {
+    $this->_user = $user;
+
+    $this->_imageContentSize = $params['image_size'];
+  }
+
   const COMMENT_DISPLAY_MAX = 10;
+  const MINIMUM_IMAGE_WIDTH = 285;
+  const MINIMUM_IMAGE_DIR = 'w285_h285';
 
   public function addPublicFlagByActivityDatasForSearchAPIByActivityDatas(array $responseDatas, $activityDatas)
   {
@@ -36,6 +53,9 @@ class opTimeline
    */
   public function createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI($activityDatas, $viewerMemberId)
   {
+
+
+
     $activityIds = array();
 
     foreach ($activityDatas as $activity)
@@ -47,7 +67,7 @@ class opTimeline
 
     $memberIds = $this->_extractionMemberIdByActivitieyDatasAndReplayActivityDataRows(
                     $activityDatas, $replayActivityDatas);
-    $memberDatas = $this->createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds);
+    $memberDatas = $this->_user->createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds);
 
     $responseDatas = $this->_createActivityDatasByActivityDatasAndMemberDatasForSearchAPI($activityDatas, $memberDatas);
 
@@ -67,7 +87,6 @@ class opTimeline
         $response['replies'] = null;
         $response['replies_count'] = 0;
       }
-
     }
     unset($response);
 
@@ -82,9 +101,9 @@ class opTimeline
       $memberIds[] = $activity->getMemberId();
     }
 
-    foreach ($replayActivitiyRows as $ActivityDatas)
+    foreach ($replayActivitiyRows as $activityDatas)
     {
-      foreach ($ActivityDatas as $activityData)
+      foreach ($activityDatas['data'] as $activityData)
       {
         $memberIds[] = $activityData['member_id'];
       }
@@ -119,6 +138,8 @@ class opTimeline
         $activityImageUrl = null;
       }
 
+      $imageUrls = $this->_getImageUrlInfoByImageUrl($activityImageUrl);
+
       $responseData['id'] = $activity->getId();
       $responseData['member'] = $memberDatas[$activity->getMemberId()];
 
@@ -128,15 +149,69 @@ class opTimeline
       $responseData['source'] = $activity->getSource();
       $responseData['source_uri'] = $activity->getSourceUri();
 
-      //@todo イメージサイズを縮小したのを取得できるようにする
-      $responseData['image_url'] = $activityImageUrl;
-      $responseData['image_large_url'] = $activityImageUrl;
+      $responseData['image_url'] = $imageUrls['small'];
+      $responseData['image_large_url'] = $imageUrls['large'];
       $responseData['created_at'] = date('r', strtotime($activity->getCreatedAt()));
 
       $responseDatas[] = $responseData;
     }
 
     return $responseDatas;
+  }
+
+  private function _getImageUrlInfoByImageUrl($imageUrl)
+  {
+    if ($imageUrl === null)
+    {
+      return array(
+          'large' => null,
+          'small' => null,
+      );
+    }
+
+
+    $imagePath = $this->_convertImageUrlToImagePath($imageUrl);
+
+    if (!file_exists($imagePath))
+    {
+      return array(
+          'large' => opTimelineImage::getNotImageUrl(),
+          'small' => opTimelineImage::getNotImageUrl(),
+      );
+    }
+
+    $basePath = pathinfo($imagePath, PATHINFO_DIRNAME);
+    $minimumDirPath = $basePath.'/'.self::MINIMUM_IMAGE_DIR;
+
+    $imageName = pathinfo($imagePath, PATHINFO_BASENAME);
+    $minimumImagePath = $minimumDirPath.'/'.$imageName;
+
+    if (!file_exists($minimumImagePath))
+    {
+      return array(
+          'large' => $imageUrl,
+          'small' => $imageUrl,
+      );
+    }
+
+    $imageUrlInfo = pathinfo($imageUrl);
+
+    $minimumImageUrl = $imageUrlInfo['dirname'].'/'.self::MINIMUM_IMAGE_DIR.'/'.$imageUrlInfo['basename'];
+
+    return array(
+        'large' => $imageUrl,
+        'small' => $minimumImageUrl,
+    );
+  }
+
+  private function _convertImageUrlToImagePath($imageUrl)
+  {
+    $webPath = str_replace("plugins/opTimelinePlugin/lib/model/opTimeline.class.php", 'web', __FILE__);
+
+    $match = array();
+    preg_match("/(http:\/\/.*)(\/cache)/", $imageUrl, $match);
+
+    return str_replace($match[1], $webPath, $imageUrl);
   }
 
   private function _createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($activityDataRows, $memberDatas)
@@ -163,42 +238,6 @@ class opTimeline
     }
 
     return $responseDatas;
-  }
-
-
-  public function createMemberDatasByViewerMemberIdAndMemberIdsForAPIResponse($viewerMemberId, $memberIds)
-  {
-
-    $freindAndBlocks = $this->findFriendMemberIdsAndBlockMemberIdsByMemberId($viewerMemberId);
-    $imageUrls = $this->findImageFileUrlsByMemberIds($memberIds);
-
-    $introductionId = $this->findIntroductionIdFromProfile();
-    $introductions = $this->findMemberIntroductionByMemberIdsAndIntroductionId($memberIds, $introductionId);
-
-    $firendCounts = $this->findFriendCountByMemberIds($memberIds);
-
-    $memberNames = $this->findMemberNamesByMemberIds($memberIds);
-
-    $memberDatas = array();
-
-    foreach ($memberIds as $memberId)
-    {
-      $memberData = array();
-      $memberData['id'] = $memberId;
-      $memberData['profile_image'] = $imageUrls[$memberId];
-      $memberData['screen_name'] = $memberNames[$memberId];
-      $memberData['name'] = $memberNames[$memberId];
-      $memberData['profile_url'] = op_api_member_profile_url($memberId);
-      $memberData['friend'] = isset($freindAndBlocks['friend'][$memberId]);
-      $memberData['blocking'] = isset($freindAndBlocks['block'][$memberId]);
-      $memberData['self'] = $viewerMemberId === $memberId;
-      $memberData['friends_count'] = $firendCounts[$memberId];
-      $memberData['self_introduction'] = isset($introductions[$memberId]) ? (string) $introductions[$memberId] : null;
-
-      $memberDatas[$memberId] = $memberData;
-    }
-
-    return $memberDatas;
   }
 
   public function findReplayActivityDatasByActivityIdsGroupByActivityId(array $activityIds)
@@ -244,245 +283,6 @@ class opTimeline
     }
 
     return $replaies;
-  }
-
-  public function findMemberNamesByMemberIds(array $memberIds)
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create();
-
-    if (!$queryCacheHash)
-    {
-      $q = Doctrine_Query::create();
-      $q->from('Member m');
-      $q->select("name");
-
-      $q->whereIn('id', $memberIds);
-      $searchResult = $q->fetchArray();
-
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-      $searchResult = $q->fetchArray();
-    }
-
-    $names = array();
-    foreach ($searchResult as $row)
-    {
-      $names[$row['id']] = $row['name'];
-    }
-
-    return $names;
-  }
-
-  /**
-   *
-   * @param array $memberIds
-   * @return array (member_id => freind_count)
-   */
-  public function findFriendCountByMemberIds(array $memberIds)
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create();
-
-    if (!$queryCacheHash)
-    {
-
-      //innerjoinをするとエラーが出てしまったので、２回SQLを実行する
-      $inactiveIds = Doctrine::getTable('Member')->getInactiveMemberIds();
-
-      $q = Doctrine_Query::create();
-      $q->from('MemberRelationship mr');
-      $q->select("member_id_to as member_id, COUNT('*')");
-
-      $q->whereIn('member_id_to', $memberIds);
-      $q->AndWhereNotIn('member_id_from', $inactiveIds);
-      $q->groupBy('member_id_to');
-
-      $searchResult = $q->fetchArray();
-
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-      $searchResult = $q->fetchArray();
-    }
-
-    $friendCounts = array();
-    foreach ($searchResult as $row)
-    {
-      $friendCounts[$row['member_id']] = $row['COUNT'];
-    }
-
-    return $friendCounts;
-  }
-
-  public function findIntroductionIdFromProfile()
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create();
-
-    if (!$queryCacheHash)
-    {
-      $q->from('Profile');
-      $q->select('id');
-      $q->where("name = 'op_preset_self_introduction'");
-
-      $searchResult = $q->fetchArray();
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-      $searchResult = $q->fetchArray();
-    }
-
-    if (empty($searchResult))
-    {
-      return false;
-    }
-
-    return $searchResult[0]['id'];
-  }
-
-  /**
-   *
-   * @return array
-   *  (memberId => Introducton)
-   */
-  public function findMemberIntroductionByMemberIdsAndIntroductionId(array $memberIds, $introductionId)
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create();
-
-    if (!$queryCacheHash)
-    {
-      $q->from('MemberProfile');
-      $q->select('value, member_id');
-      $q->where('profile_id = ?', $introductionId);
-      $q->andWhereIn('member_id', $memberIds);
-
-      $searchResult = $q->fetchArray();
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-      $searchResult = $q->fetchArray();
-    }
-
-    $profiles = array();
-    foreach ($searchResult as $row)
-    {
-      $profiles[$row['member_id']] = $row['value'];
-    }
-
-    return $profiles;
-  }
-
-  /**
-   *
-   * @return array
-   *   (memberId => imagePath...)
-   */
-  public function findImageFileUrlsByMemberIds($memberIds)
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create();
-
-    if (!$queryCacheHash)
-    {
-      $q->from('MemberImage mi, mi.File f');
-      $q->select('mi.member_id, f.name');
-
-      $searchResult = $q->fetchArray();
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-      $searchResult = $q->fetchArray();
-    }
-
-    $imageUrls = array();
-
-    foreach ($searchResult as $row)
-    {
-      $image = sf_image_path($row['File']['name'], array('size' => '48x48'), true);
-      $imageUrls[$row['member_id']] = $image;
-    }
-
-    //画像を設定していないユーザーはno_imageにする
-    foreach ($memberIds as $id)
-    {
-      if (!isset($imageUrls[$id]))
-      {
-        $imageUrls[$id] = op_image_path('no_image.gif', true);
-      }
-    }
-
-    return $imageUrls;
-  }
-
-  /**
-   *
-   * @return array
-   *   freind => array(memberId...)
-   *   block  => array(memberId...)
-   */
-  public function findFriendMemberIdsAndBlockMemberIdsByMemberId($memberId)
-  {
-    static $queryCacheHash;
-
-    $q = Doctrine_Query::create()->from('MemberRelationship mr');
-    $q->select('member_id_from, is_friend, is_access_block');
-
-    $q->where('member_id_to = ?', $memberId);
-    $q->andWhere('is_friend = 1 OR is_access_block = 1 ');
-
-    if (!$queryCacheHash)
-    {
-      $searchResult = $q->fetchArray();
-      $queryCacheHash = $q->calculateQueryCacheHash();
-    }
-    else
-    {
-      $q->setCachedQueryCacheHash($queryCacheHash);
-
-      $searchResult = $q->fetchArray();
-    }
-
-
-    $friendIds = array();
-    $blockIds = array();
-
-    foreach ($searchResult as $row)
-    {
-      if ($row['is_friend'])
-      {
-        $friendIds[] = $row['member_id_from'];
-      }
-
-      if ($row['is_access_block'])
-      {
-        $blockIds[] = $row['member_id_from'];
-      }
-    }
-
-    return array('friend' => $friendIds, 'block' => $blockIds);
-  }
-
-  public function formattedActivityDataByActivityData(array $activityData)
-  {
-    
   }
 
   public function searchActivityDatasByAPIRequestDatasAndMemberId($requestDatas, $memberId)
@@ -558,30 +358,6 @@ class opTimeline
     return $query->execute();
   }
 
-  /**
-   *
-   * @todo 削除する
-   */
-  public function getPublicStatusListByIds($ids)
-  {
-    $query = new opDoctrineQuery();
-
-    $query->select('id, public_flag');
-    $query->from('ActivityData');
-    $query->andWhereIn('id', $ids);
-
-    $fetchData = $query->fetchArray();
-
-
-    $publicFlags = array();
-    foreach ($fetchData as $data)
-    {
-      $publicStatues[$data['id']] = $publicStatusTextList[(int) $data['public_flag']];
-    }
-
-    return $publicStatues;
-  }
-
   public function findActivityImageUrlsByActivityIds(array $actvityIds)
   {
     $query = new opDoctrineQuery();
@@ -600,13 +376,23 @@ class opTimeline
     return $imageUrls;
   }
 
-  public function addImageUrlToContentForSearchAPI(array $responseDatas)
+  public function embedImageUrlToContentForSearchAPI(array $responseDatas)
   {
-
     $imageUrls = array();
     foreach ($responseDatas as $row)
     {
-      $imageUrls[$row['id']] = $row['image_url'];
+      if ($row['image_url'] !== null)
+      {
+        if ($this->_imageContentSize === 'large')
+        {
+          $imageUrls[$row['id']] = $row['image_large_url'];
+        }
+        else
+        {
+          $imageUrls[$row['id']] = $row['image_url'];
+        }
+        
+      }
     }
 
     foreach ($responseDatas as &$data)
@@ -666,9 +452,8 @@ class opTimeline
    * ファイル画像をOpenPNE方式に変更する
    *
    * @todo ファイル画像の保存方式をOpenPNE方式に変更する
-   * @todo ファイル画像の容量をリサイズする
    */
-  public function createActivityImagesaveByFileInfoAndActivityId(array $fileInfo, $activityId)
+  public function createActivityImageByFileInfoAndActivityId(array $fileInfo, $activityId)
   {
 
     $file = new File();
@@ -686,9 +471,26 @@ class opTimeline
 
     $file->save();
 
-    //@todo OpenPNEの保存形式に変更する
-
     $uploadBasePath = '/cache/img/'.$file->getImageFormat();
+
+    $activityImage = new ActivityImage();
+    $activityImage->setActivityDataId($activityId);
+    $activityImage->setFileId($file->getId());
+    $activityImage->setUri($fileInfo['web_base_path'].$uploadBasePath.'/'.$filename);
+    $activityImage->setMimeType($file->type);
+    $activityImage->save();
+
+    $this->_createUploadImageFileByFileInfoAndSaveFileName($fileInfo, $filename);
+
+    return $activityImage;
+  }
+
+  private function _createUploadImageFileByFileInfoAndSaveFileName($fileInfo, $filename)
+  {
+    $extension = pathinfo($fileInfo['name'], PATHINFO_EXTENSION);
+
+    //@todo OpenPNEの保存形式に変更する
+    $uploadBasePath = '/cache/img/'.$extension;
 
     $uploadDirPath = sfConfig::get('sf_web_dir').$uploadBasePath;
 
@@ -701,14 +503,28 @@ class opTimeline
 
     copy($fileInfo['tmp_name'], $fileSavePath);
 
-    $activityImage = new ActivityImage();
-    $activityImage->setActivityDataId($activityId);
-    $activityImage->setFileId($file->getId());
-    $activityImage->setUri($fileInfo['web_base_path'].$uploadBasePath.'/'.$filename);
-    $activityImage->setMimeType($file->type);
-    $activityImage->save();
+    $minimumDirPath = dirname($fileSavePath).'/'.self::MINIMUM_IMAGE_DIR.'/';
 
-    return $activityImage;
+    if (!file_exists($minimumDirPath))
+    {
+      mkdir($minimumDirPath, 0777, true);
+    }
+
+    $imageSize = opTimelineImage::getImageSizeByPath($fileSavePath);
+    //画像が縮小サイズより小さい場合は縮小した画像を作成しない
+    if ($imageSize['width'] <= self::MINIMUM_IMAGE_WIDTH)
+    {
+      return true;
+    }
+
+    $minimumPath = $minimumDirPath.basename($fileSavePath);
+
+    $paths = array(
+        'resource' => $fileSavePath,
+        'save' => $minimumPath,
+    );
+
+    opTimelineImage::createMinimumImageByWidthSizeAndPaths(self::MINIMUM_IMAGE_WIDTH, $paths);
   }
 
   public function getViewPhoto()
