@@ -58,11 +58,14 @@ class opTimeline
       if (isset($replayActivityDatas[$id]))
       {
         $replaies = $replayActivityDatas[$id];
-        $response['replies'] = $this->_createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($replaies, $memberDatas);
+
+        $response['replies'] = $this->_createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($replaies['data'], $memberDatas);
+        $response['replies_count'] = $replaies['count'];
       }
       else
       {
         $response['replies'] = null;
+        $response['replies_count'] = 0;
       }
 
     }
@@ -225,11 +228,19 @@ class opTimeline
     {
       $targetId = $row['in_reply_to_activity_id'];
 
-      if (!isset($replaies[$targetId]) || count($replaies[$targetId]) < self::COMMENT_DISPLAY_MAX)
+      if (!isset($replaies[$targetId]['data']) || count($replaies[$targetId]['data']) < self::COMMENT_DISPLAY_MAX)
       {
-        $replaies[$targetId][] = $row;
+        $replaies[$targetId]['data'][] = $row;
       }
 
+      if (isset($replaies[$targetId]['count']))
+      {
+        $replaies[$targetId]['count']++;
+      }
+      else
+      {
+        $replaies[$targetId]['count'] = 1;
+      }
     }
 
     return $replaies;
