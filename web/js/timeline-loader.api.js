@@ -328,6 +328,14 @@ function tweetByData(data)
   $('#timeline-submit-upload').upload(
     openpne.apiBase + 'activity/post.json', data,
     function (res) {
+      var resCheck = responceCheck(res);
+      if (false !== resCheck)
+      {
+        $('#timeline-submit-error').text(resCheck);
+        $('#timeline-submit-error').show();
+        $('#timeline-submit-loader').hide();
+        return;
+      }
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
@@ -346,6 +354,7 @@ function tweetByData(data)
         {
         }
         $('#timeline-submit-error').show();
+        $('#timeline-submit-loader').hide();
 
       } else {
         $('#timeline-submit-error').text('');
@@ -406,4 +415,13 @@ function lengthCheck(obj, target)
   {
     target.attr('disabled', 'disabled');
   }
+}
+
+function responceCheck(res)
+{
+  if (0 <= res.indexOf('\<pre'))
+  {
+    return 'エラーが発生しました。再度読み込んで下さい。';
+  }
+  return false;
 }

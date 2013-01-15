@@ -266,7 +266,7 @@ function renderJSON(json, mode) {
         $('#timelineCommentTemplate').tmpl(json.data[i].replies.reverse()).prependTo('#commentlist-' +json.data[i].id);
         $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
-      if(10 < parseInt(json.data[i].repliesCount))
+      if(10 < parseInt(json.data[i].replies_count))
       {
         $('#timeline-comment-loadmore-' + json.data[i].id).show();
       }
@@ -299,6 +299,15 @@ function tweetByData(data)
   $('#timeline-submit-upload').upload(
     openpne.apiBase + 'activity/post.json', data,
     function (res) {
+      var resCheck = responceCheck(res);
+      if (false !== resCheck)
+      {
+        $('#timeline-submit-error').text(resCheck);
+        $('#timeline-submit-error').show();
+        $('.flashTimelineDom').remove();
+        return;
+      }
+
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
@@ -341,4 +350,13 @@ function lengthCheck(obj, target)
   {
     target.attr('disabled', 'disabled');
   }
+}
+
+function responceCheck(res)
+{
+  if (0 <= res.indexOf('\<pre'))
+  {
+    return 'エラーが発生しました。再度読み込んで下さい。';
+  }
+  return false;
 }
