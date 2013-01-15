@@ -64,6 +64,8 @@ class timelineActions extends sfActions
   public function executeSns(opWebRequest $request)
   {
     $this->forwardIf($request->isSmartphone(), 'timeline', 'smtSns');
+    $this->forward('default', 'error');
+
     return sfView::SUCCESS; 
   }
 
