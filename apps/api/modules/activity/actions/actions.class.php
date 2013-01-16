@@ -34,6 +34,9 @@ class activityActions extends opJsonApiActions
     $params = array();
     $params['image_size'] = $this->getRequestParameter('image_size', self::DEFAULT_IMAGE_SIZE);
 
+    $request = sfContext::getInstance()->getRequest();
+    $params['base_url'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
+
     $this->_timeline = new opTimeline($user, $params);
 
     $this->_loadHelperForUseOpJsonAPI();
@@ -151,14 +154,20 @@ class activityActions extends opJsonApiActions
     exit;
   }
 
-  private function _createFileInfo(sfWebRequest $request)
+  /**
+   * @todo ファイル情報じゃないのが含まれているので、それを分ける
+   */
+  private function _createFileInfo()
   {
+    $request = sfContext::getInstance()->getRequest();
+
     //開発を簡単にするためにコメントアウト
     $fileInfo = $_FILES['timeline-submit-upload'];
     $fileInfo['stream'] = fopen($fileInfo['tmp_name'], 'r');
     $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
     $fileInfo['binary'] = stream_get_contents($fileInfo['stream']);
     $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
+    $fileInfo['member_id'] = $this->getUser()->getMemberId();
 
     return $fileInfo;
   }

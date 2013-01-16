@@ -9,17 +9,19 @@ class opTimeline
   private $_user;
 
   private $_imageContentSize;
+  private $_baseUrl;
+
 
   public function __construct(opTimelineUser $user, array $params)
   {
     $this->_user = $user;
 
     $this->_imageContentSize = $params['image_size'];
+    $this->_baseUrl = $params['base_url'];
   }
 
   const COMMENT_DISPLAY_MAX = 10;
   const MINIMUM_IMAGE_WIDTH = 285;
-  const MINIMUM_IMAGE_DIR = 'w285_h285';
 
   public function addPublicFlagByActivityDatasForSearchAPIByActivityDatas(array $responseDatas, $activityDatas)
   {
@@ -169,7 +171,6 @@ class opTimeline
       );
     }
 
-
     $imagePath = $this->_convertImageUrlToImagePath($imageUrl);
 
     if (!file_exists($imagePath))
@@ -180,9 +181,7 @@ class opTimeline
       );
     }
 
-    $basePath = pathinfo($imagePath, PATHINFO_DIRNAME);
-    $minimumDirPath = $basePath.'/'.self::MINIMUM_IMAGE_DIR;
-
+    $minimumDirPath = opTimelineImage::findUploadDirPath($imagePath, self::MINIMUM_IMAGE_WIDTH);
     $imageName = pathinfo($imagePath, PATHINFO_BASENAME);
     $minimumImagePath = $minimumDirPath.'/'.$imageName;
 
@@ -194,9 +193,7 @@ class opTimeline
       );
     }
 
-    $imageUrlInfo = pathinfo($imageUrl);
-
-    $minimumImageUrl = $imageUrlInfo['dirname'].'/'.self::MINIMUM_IMAGE_DIR.'/'.$imageUrlInfo['basename'];
+    $minimumImageUrl = str_replace(sfConfig::get('sf_web_dir'), $this->_baseUrl, $minimumImagePath);
 
     return array(
         'large' => $imageUrl,
@@ -206,12 +203,10 @@ class opTimeline
 
   private function _convertImageUrlToImagePath($imageUrl)
   {
-    $webPath = str_replace("plugins/opTimelinePlugin/lib/model/opTimeline.class.php", 'web', __FILE__);
-
     $match = array();
     preg_match("/(http:\/\/.*)(\/cache)/", $imageUrl, $match);
 
-    return str_replace($match[1], $webPath, $imageUrl);
+    return str_replace($match[1], sfConfig::get('sf_web_dir'), $imageUrl);
   }
 
   private function _createActivityDatasByActivityDataRowsAndMemberDatasForSearchAPI($activityDataRows, $memberDatas)
@@ -448,35 +443,27 @@ class opTimeline
 
   /**
    *
-   * TODO
-   * ファイル画像をOpenPNE方式に変更する
-   *
-   * @todo ファイル画像の保存方式をOpenPNE方式に変更する
    */
   public function createActivityImageByFileInfoAndActivityId(array $fileInfo, $activityId)
   {
-
     $file = new File();
     $file->setOriginalFilename(basename($fileInfo['name']));
     $file->setType($fileInfo['type']);
 
-    $filename = md5(time()).'.'.$file->getImageFormat();
+    $fileBaseName = md5(time()).'_'.$file->getImageFormat();
+    $filename = 'ac_'.$fileInfo['member_id'].'_'.$fileBaseName;
 
-    $file->setName($fileInfo['dir_name'].'/'.$filename);
+    $file->setName($filename);
     $file->setFilesize($fileInfo['size']);
-
     $bin = new FileBin();
     $bin->setBin($fileInfo['binary']);
     $file->setFileBin($bin);
-
     $file->save();
-
-    $uploadBasePath = '/cache/img/'.$file->getImageFormat();
 
     $activityImage = new ActivityImage();
     $activityImage->setActivityDataId($activityId);
     $activityImage->setFileId($file->getId());
-    $activityImage->setUri($fileInfo['web_base_path'].$uploadBasePath.'/'.$filename);
+    $activityImage->setUri($this->_getActivityImageUriByfileInfoAndFilename($fileInfo, $filename));
     $activityImage->setMimeType($file->type);
     $activityImage->save();
 
@@ -485,30 +472,24 @@ class opTimeline
     return $activityImage;
   }
 
+  private function _getActivityImageUriByfileInfoAndFilename($fileInfo, $filename)
+  {
+    //ファイルテーブルの名前だと拡張式がついていない
+    $filename = opTimelineImage::addExtensionToBasenameForFileTable($filename);
+    $uploadPath = opTimelineImage::findUploadDirPath($filename);
+    $uploadBasePath = str_replace(sfConfig::get('sf_web_dir'), '', $uploadPath);
+
+    return $fileInfo['web_base_path'].$uploadBasePath.'/'.$filename;
+  }
+
   private function _createUploadImageFileByFileInfoAndSaveFileName($fileInfo, $filename)
   {
-    $extension = pathinfo($fileInfo['name'], PATHINFO_EXTENSION);
-
-    //@todo OpenPNEの保存形式に変更する
-    $uploadBasePath = '/cache/img/'.$extension;
-
-    $uploadDirPath = sfConfig::get('sf_web_dir').$uploadBasePath;
-
-    if (!file_exists($uploadDirPath))
-    {
-      mkdir($uploadDirPath, 0777, true);
-    }
+    $filename = opTimelineImage::addExtensionToBasenameForFileTable($filename);
+    $uploadDirPath = opTimelineImage::findUploadDirPath($fileInfo['name']);
 
     $fileSavePath = $uploadDirPath.'/'.$filename;
 
-    copy($fileInfo['tmp_name'], $fileSavePath);
-
-    $minimumDirPath = dirname($fileSavePath).'/'.self::MINIMUM_IMAGE_DIR.'/';
-
-    if (!file_exists($minimumDirPath))
-    {
-      mkdir($minimumDirPath, 0777, true);
-    }
+    opTimelineImage::copyByResourcePathAndTargetPath($fileInfo['tmp_name'], $fileSavePath);
 
     $imageSize = opTimelineImage::getImageSizeByPath($fileSavePath);
     //画像が縮小サイズより小さい場合は縮小した画像を作成しない
@@ -517,11 +498,12 @@ class opTimeline
       return true;
     }
 
-    $minimumPath = $minimumDirPath.basename($fileSavePath);
+    $minimumDirPath = opTimelineImage::findUploadDirPath($fileInfo['name'], self::MINIMUM_IMAGE_WIDTH);
+    $minimumPath = $minimumDirPath.'/'.basename($fileSavePath);
 
     $paths = array(
         'resource' => $fileSavePath,
-        'save' => $minimumPath,
+        'target' => $minimumPath,
     );
 
     opTimelineImage::createMinimumImageByWidthSizeAndPaths(self::MINIMUM_IMAGE_WIDTH, $paths);
