@@ -4,6 +4,9 @@ $(function(){
   var timerID;
   var timerArray = new Array();
   var timer;
+
+  gorgon.image_size = 'large';
+
   timelineAllLoad();
 
   if ( gorgon.timer != undefined )
@@ -130,6 +133,7 @@ $(function(){
 });
 
 function timelineAllLoad() {
+
   if (gorgon)
   {
     gorgon.apiKey = openpne.apiKey;

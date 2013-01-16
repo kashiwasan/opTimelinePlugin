@@ -1,4 +1,5 @@
 $(function(){
+  gorgon.image_size = 'small';
 
   timelineAllLoad();
   
