@@ -9,16 +9,14 @@
 <?php if (!isset($isOperation) || $isOperation): ?>
   <div align="right">
 <?php $replies = $activity->getReplies() ?>
-<a href="<?php echo '/timeline/comment?id='.$activity->getId() ?>">
 <?php if (0 !== count($replies)): ?>
-<?php echo 'ｺﾒﾝﾄ' . count($replies) . '件' ?>
+<?php echo link_to('ｺﾒﾝﾄ'.count($replies).'件', '@comment_timeline?id='.$activity->getId()) ?>
 <?php else: ?>
-<?php echo 'ｺﾒﾝﾄする' ?>
+<?php echo link_to('ｺﾒﾝﾄする', '@comment_timeline?id='.$activity->getId()) ?>
 <?php endif; ?>
-</a>
 &nbsp;&nbsp;
 <?php if ($activity->getMemberId() === $sf_user->getMemberId()): ?>
-<?php echo link_to(__('Delete'), 'timeline/deleteTimeline?id='.$activity->getId()) ?>
+<?php echo link_to(__('Delete'), '@delete_timeline?id='.$activity->getId()) ?>
 <?php endif; ?>
 </div>
 <?php endif; ?>

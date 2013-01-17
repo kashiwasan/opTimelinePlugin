@@ -9,6 +9,6 @@
   'body' => get_slot('activity'),
   'yes_form' => new BaseForm(),
   'no_method' => 'get',
-  'no_url' => url_for('friend/showActivity'),
+  'no_url' => url_for('@homepage'),
   'align' => 'center',
 )) ?>

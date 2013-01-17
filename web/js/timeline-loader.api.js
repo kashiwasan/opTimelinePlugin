@@ -288,7 +288,7 @@ function renderJSON(json, mode) {
         $('#timelineCommentTemplate').tmpl(json.data[i].replies.reverse()).prependTo('#commentlist-' +json.data[i].id);
         $('#timeline-post-comment-form-' + json.data[i].id, $timelineData).show();
       }
-      if(10 < parseInt(json.data[i].repliesCount))
+      if(10 < parseInt(json.data[i].replies_count))
       {
         $('#timeline-comment-loadmore-' + json.data[i].id).show();
       }

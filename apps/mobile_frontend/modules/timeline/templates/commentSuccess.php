@@ -13,7 +13,7 @@
 
 <?php if (isset($form)): ?>
 <?php slot('activity_form') ?>
-<?php echo $form->renderFormTag(url_for('timeline/updateTimeline')) ?>
+<?php echo $form->renderFormTag(url_for('@update_timeline')) ?>
 <?php echo $form['body'] ?>
 <?php echo $form->renderHiddenFields() ?>
 <input type="submit" value="<?php echo 'ｺﾒﾝﾄする' ?>" />

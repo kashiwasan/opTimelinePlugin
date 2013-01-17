@@ -59,4 +59,19 @@ class timelineActions extends opTimelineAction
       parent::updateTimeline($request);
     }
   }
+
+  public function executeSns(sfWebRequest $request)
+  {
+    $this->form = new ActivityDataForm();
+
+    $this->size = 15;
+    $this->pager = new opNonCountQueryPager('ActivityData', $this->size);
+    $q = Doctrine::getTable('ActivityData')->createQuery()
+      ->where('public_flag = 1')
+      ->andWhere('foreign_table is null')
+      ->orderBy('id desc');
+    $this->pager->setQuery($q);
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
+  }
 }

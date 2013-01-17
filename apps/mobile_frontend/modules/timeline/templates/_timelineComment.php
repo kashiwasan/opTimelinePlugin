@@ -10,7 +10,7 @@
   <div align="right">
 <?php $replies = $activity->getReplies() ?>
 <?php if ($activity->getMemberId() === $sf_user->getMemberId()): ?>
-<?php echo link_to(__('Delete'), 'timeline/deleteTimeline?id='.$activity->getId()) ?>
+<?php echo link_to(__('Delete'), '@delete_timeline?id='.$activity->getId()) ?>
 <?php endif; ?>
 </div>
 <?php endif; ?>

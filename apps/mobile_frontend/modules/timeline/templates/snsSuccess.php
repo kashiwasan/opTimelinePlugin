@@ -1,3 +1,8 @@
+<?php if ($pager->getNbResults()): ?>
+<center>
+<?php op_include_pager_total($pager); ?>
+</center>
+
 <?php $list = array() ?>
 <?php if (isset($form)): ?>
 <?php slot('activity_form') ?>
@@ -12,7 +17,7 @@
 <?php endif; ?>
 
 <?php $ac = array() ?>
-<?php foreach ($activities as $activity): ?>
+<?php foreach ($pager->getResults() as $activity): ?>
 <?php $list[] = get_partial('timeline/timelineRecord', array('activity' => $activity)) ?>
 <?php endforeach; ?>
 
@@ -21,9 +26,7 @@
   'list' => $list,
   'border' => true,
 ) ?>
-<?php if (isset($gadget)): ?>
-<?php $params['moreInfo'] = array(
-  link_to(__('More'), isset($moreUrl) ? $moreUrl : '@sns_timeline'),
-) ?>
-<?php endif; ?>
 <?php op_include_parts('list', 'ActivityBox', $params) ?>
+
+<?php op_include_pager_navigation($pager, '@sns_timeline?page=%d', array('is_total' => false, 'use_current_query_string' => true)) ?>
+<?php endif; ?>

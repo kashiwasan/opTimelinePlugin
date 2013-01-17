@@ -11,3 +11,7 @@ comment_timeline:
 update_timeline:
   url: /timeline/updateTimeline
   param: { module: timeline, action: updateTimeline }
+
+sns_timeline:
+  url: /sns/timeline
+  param: { module: timeline, action: sns }
