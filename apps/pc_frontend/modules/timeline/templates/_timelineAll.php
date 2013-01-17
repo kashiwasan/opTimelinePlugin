@@ -38,7 +38,7 @@ $(function(){
       $('#timeline-submit-upload').css('display', 'inline');
       $('#timeline-submit-upload').css('position', 'relative');
       $('#timeline-submit-upload').css('left', '0px');
-      $('#timeline-submit-upload').css('top', '-40px');
+      $('#timeline-submit-upload').css('top', '-30px');
       $('#timeline-submit-upload').css('width', '150px');
       $('#timeline-public-flag').css('display', 'inline');
       $('#timeline-public-flag').css('position', 'relative');

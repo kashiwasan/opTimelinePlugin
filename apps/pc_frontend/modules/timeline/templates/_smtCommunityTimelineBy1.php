@@ -1,3 +1,4 @@
+<?php if ($community->isPrivilegeBelong($memberId)): ?>
 <?php use_helper('opUtil', 'opTimeline'); ?>
 <div class="row">
 <div class="gadget_header span12">最新のタイムライン</div>
@@ -14,3 +15,4 @@
   <?php echo link_to('もっと見る', '@community_timeline?id='.$communityId); ?>
   </div>
 </div>
+<?php endif; ?>

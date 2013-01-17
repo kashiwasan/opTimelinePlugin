@@ -102,6 +102,7 @@ $(function(){
 
   $('#timeline-submit-upload').change(function() {
     var fileName = $('#timeline-submit-upload').val();
+    $('#photo-remove').show();
     if (20 > fileName.length)
     {
       $('#photo-file-name').text(fileName);
@@ -114,7 +115,6 @@ $(function(){
 
   $('#timeline-upload-photo-button').click(function() {
     $('#timeline-submit-upload').click();
-    $('#photo-remove').show();
   });
 
   $('#timeline-textarea').keyup( function() {
@@ -377,6 +377,7 @@ function tweetByData(data)
       }
 
       $('#timeline-submit-upload').val('');
+      $('#timeline-submit-upload').text('');
       $('#timeline-textarea').val('');
       $('#timeline-submit-loader').hide();
       $('#counter').text(MAXLENGTH);

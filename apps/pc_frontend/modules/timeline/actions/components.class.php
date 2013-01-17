@@ -51,6 +51,7 @@ class timelineComponents extends sfComponents
     $this->publicFlags = Doctrine::getTable('ActivityData')->getPublicFlags();
     $this->viewPhoto = opTimeline::getViewPhoto();
     $this->fileMaxSize = opTimelinePluginUtil::getFileSizeMaxOfFormat();
+    $this->memberId = $this->getUser()->getMember()->getId();
   }
 
   public function executeCommunityTimelineBy5(sfWebRequest $request)
@@ -116,6 +117,8 @@ class timelineComponents extends sfComponents
       $this->createdAt = $this->activityData[0]->getCreatedAt();
       $this->body = $this->activityData[0]->getBody();
     }
+    $this->memberId = $this->getUser()->getMemberId();
+    $this->community = Doctrine::getTable('Community')->find($this->communityId);
   }
 
   public function executeSmtTimelineBy1(sfWebRequest $request)

@@ -131,4 +131,3 @@ var fileMaxSize = '<?php echo opTimelinePluginUtil::getFileSizeMax() ?>';
 <div class="row">
   <button class="span12 btn small" id="gorgon-loadmore">もっと読む</button>
 </div>
-

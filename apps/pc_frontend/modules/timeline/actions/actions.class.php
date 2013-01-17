@@ -108,6 +108,7 @@ class timelineActions extends sfActions
   {
     $this->communityId = (int)$request->getParameter('id');
     $this->community = Doctrine::getTable('Community')->find($this->communityId);
+    $this->forward404If(!$this->community->isPrivilegeBelong($this->getUser()->getMemberId()));
     opSmartphoneLayoutUtil::setLayoutParameters(array('community' => $this->community));
     $this->setTemplate('smtCommunity');
 
