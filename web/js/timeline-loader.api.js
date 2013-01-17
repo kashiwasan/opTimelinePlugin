@@ -4,6 +4,9 @@ $(function(){
   var timerID;
   var timerArray = new Array();
   var timer;
+
+  gorgon.image_size = 'large';
+
   timelineAllLoad();
 
   if ( gorgon.timer != undefined )
@@ -130,6 +133,7 @@ $(function(){
 });
 
 function timelineAllLoad() {
+
   if (gorgon)
   {
     gorgon.apiKey = openpne.apiKey;
@@ -344,6 +348,9 @@ function tweetByData(data)
         $('#timeline-submit-loader').hide();
         return;
       }
+
+      //jquery.uploadだとbrタグがなぜか<br ="">みたいな感じでレスポンスが戻ってきた API自体は問題ないが
+      res = res.replace(/<br \\=\"\">/g,  '<br />');
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {

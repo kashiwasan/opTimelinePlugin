@@ -23,11 +23,23 @@ class activityActions extends opJsonApiActions
    */
   private $_timeline;
 
+  const DEFAULT_IMAGE_SIZE = 'large';
+
   public function preExecute()
   {
     parent::preExecute();
 
-    $this->_timeline = new opTimeline();
+    $user = new opTimelineUser();
+    
+    $params = array();
+    $params['image_size'] = $this->getRequestParameter('image_size', self::DEFAULT_IMAGE_SIZE);
+
+    $request = sfContext::getInstance()->getRequest();
+    $params['base_url'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
+
+    $this->_timeline = new opTimeline($user, $params);
+
+    $this->_loadHelperForUseOpJsonAPI();
   }
 
   public function executeCommentSearch(sfWebRequest $request)
@@ -142,14 +154,20 @@ class activityActions extends opJsonApiActions
     exit;
   }
 
-  private function _createFileInfo(sfWebRequest $request)
+  /**
+   * @todo ファイル情報じゃないのが含まれているので、それを分ける
+   */
+  private function _createFileInfo()
   {
+    $request = sfContext::getInstance()->getRequest();
+
     //開発を簡単にするためにコメントアウト
     $fileInfo = $_FILES['timeline-submit-upload'];
     $fileInfo['stream'] = fopen($fileInfo['tmp_name'], 'r');
     $fileInfo['dir_name'] = '/a'.$this->getUser()->getMember()->getId();
     $fileInfo['binary'] = stream_get_contents($fileInfo['stream']);
     $fileInfo['web_base_path'] = $request->getUriPrefix().$request->getRelativeUrlRoot();
+    $fileInfo['member_id'] = $this->getUser()->getMemberId();
 
     return $fileInfo;
   }
@@ -172,7 +190,7 @@ class activityActions extends opJsonApiActions
     if ($this->_isUploadImagePost())
     {
       $fileInfo = $this->_createFileInfo($request);
-      $this->_timeline->createActivityImagesaveByFileInfoAndActivityId($fileInfo, $this->_createdActivity->getId());
+      $this->_timeline->createActivityImageByFileInfoAndActivityId($fileInfo, $this->_createdActivity->getId());
     }
   }
 
@@ -247,12 +265,12 @@ class activityActions extends opJsonApiActions
     $activityDatas = $this->_timeline->searchActivityDatasByAPIRequestDatasAndMemberId(
                     $request->getGetParameters(), $this->getUser()->getMemberId());
 
-    $this->_loadHelperForUseOpJsonAPI();
+    
     $responseDatas = $this->_timeline->createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI(
                     $activityDatas, $this->getUser()->getMemberId());
 
     $responseDatas = $this->_timeline->addPublicFlagByActivityDatasForSearchAPIByActivityDatas($responseDatas, $activityDatas);
-    $responseDatas = $this->_timeline->addImageUrlToContentForSearchAPI($responseDatas);
+    $responseDatas = $this->_timeline->embedImageUrlToContentForSearchAPI($responseDatas);
 
     return $responseDatas;
   }
