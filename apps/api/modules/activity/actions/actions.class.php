@@ -77,6 +77,8 @@ class activityActions extends opJsonApiActions
     $this->_createActivityDataByRequest($request);
 
     $responseData = $this->_createResponActivityDataOfPost();
+    $responseData['body'] = htmlspecialchars($responseData['body'], ENT_QUOTES);
+    $responseData['body_html'] = htmlspecialchars($responseData['body_html'], ENT_QUOTES);
 
     if ($this->_isUploadImagePost())
     {

@@ -330,6 +330,7 @@ function tweetByData(data)
         return;
       }
 
+      res = res.replace(/<br \\=\"\">/g,  '<br />');
       returnData = JSON.parse(res);
 
       if (returnData.status === "error") {
