@@ -130,12 +130,17 @@ class opTimelineImage
         return imagepng($resource, $savePath);
         break;
 
+      case 'jpg':
       case 'jpeg':
         return imagejpeg($resource, $savePath);
         break;
 
       case 'gif':
         return imagegif($resource, $savePath);
+        break;
+
+      default:
+        throw new RuntimeException($extension.'という拡張子は画像ではありません');
         break;
     }
   }
