@@ -27,7 +27,7 @@ class opTimelineImage
   public static function addExtensionToBasenameForFileTable($basename)
   {
     $match = array();
-    preg_match('/.*_(png|jpeg|gif)$/', $basename, $match);
+    preg_match('/.*_(png|jpeg|jpg|gif)$/', $basename, $match);
 
     if (!isset($match[1]))
     {
