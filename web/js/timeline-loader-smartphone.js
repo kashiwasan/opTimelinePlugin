@@ -71,6 +71,26 @@ $(function(){
     $('#photo-remove').show();
   });
 
+  $('#timeline-submit-upload').change(function() {
+
+      $('#timeline-submit-error').hide();
+      $('#timeline-submit-error').text('');
+
+      var size = this.files[0].size;
+
+      if (size >= fileMaxSizeInfo['size']) {
+        $('#timeline-submit-error').show();
+
+        var errorMessage = 'ファイルは' + fileMaxSizeInfo['format'] + '以上はアップロードできません';
+        $('#timeline-submit-error').text(errorMessage);
+
+        $('#timeline-submit-upload').val('');
+        $('#photo-file-name').text('');
+
+      }
+
+  });
+
   $('#gorgon-loadmore').click( function() {
     $('#timeline-list-loader').show();
     $('#gorgon-loadmore').hide();

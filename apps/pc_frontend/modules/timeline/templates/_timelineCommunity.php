@@ -22,7 +22,12 @@ var gorgon = {
     };
 var MAXLENGTH = 140;
 var viewPhoto = '<?php echo $viewPhoto ?>';
-var fileMaxSize = '<?php echo $fileMaxSize ?>';
+
+var fileMaxSizeInfo = {
+  'format': '<?php echo $fileMaxSize['format'] ?>',
+  'size'  : '<?php echo $fileMaxSize['size'] ?>'
+}
+
 //]]>
 </script>
 
