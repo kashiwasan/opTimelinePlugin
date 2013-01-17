@@ -63,9 +63,31 @@ class opTimelineImage
   {
     $dirPath = pathinfo($path, PATHINFO_DIRNAME);
 
-    if (!file_exists($dirPath))
+    if (file_exists($dirPath))
     {
-      mkdir($dirPath, 0777, true);
+      return true;
+    }
+
+    $createDirPath = str_replace(sfConfig::get('sf_web_dir'), '', $dirPath);
+    $createDirPaths = explode('/', $createDirPath);
+
+    $targetPath = sfConfig::get('sf_web_dir');
+    foreach ($createDirPaths as $path)
+    {
+      if (empty($path))
+      {
+        continue;
+      }
+
+      $targetPath .= '/'.$path;
+
+      if (file_exists($targetPath))
+      {
+        continue;
+      }
+
+      mkdir($targetPath, 0777, true);
+      chmod($targetPath, 0777);
     }
 
     return true;
