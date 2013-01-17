@@ -297,6 +297,11 @@ class activityActions extends opJsonApiActions
 
     if ($params['target'] === 'community')
     {
+      $this->forward400Unless(
+              Doctrine::getTable('CommunityMember')->isMember($this->getUser()->getMemberId(), $params['target_id']),
+              'You are not community member'
+              );
+
       $this->forward400Unless($params['target_id'], 'target_id parameter not specified.');
     }
   }
