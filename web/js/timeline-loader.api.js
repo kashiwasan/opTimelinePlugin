@@ -438,6 +438,7 @@ function autoLinker(json)
         json.data[i].body_html = json.data[i].body.replace(/((http:|https:)\/\/[\x21-\x26\x28-\x7e]+)/gi, '<a href="$1"><div class="urlBlock"><img src="http://mozshot.nemui.org/shot?$1"><br />$1</div></a>');
       }
     }
+    json.data[i].body_html = json.data[i].body_html.replace(/&lt;br \/&gt;/g, '<br />');
   }
 }
 

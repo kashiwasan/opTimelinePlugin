@@ -89,8 +89,7 @@ class opTimeline
         $response['replies'] = null;
         $response['replies_count'] = 0;
       }
-      $response['body'] = htmlspecialchars($response['body'], ENT_QUOTES);
-      $response['body_html'] = htmlspecialchars($response['body_html'], ENT_QUOTES);
+      $response['body_html'] = htmlspecialchars($response['body_html'], ENT_QUOTES, 'UTF-8', false);
     }
     unset($response);
 
