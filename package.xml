@@ -64,10 +64,10 @@ $ ./symfony opTimelinePlugin:install
   <active>yes</active>
  </developer>
  <date>2013-01-18</date>
- <time>15:17:08</time>
+ <time>15:30:02</time>
  <version>
-  <release>1.1.2.1</release>
-  <api>1.1.2.1</api>
+  <release>1.1.3</release>
+  <api>1.1.3</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -75,7 +75,7 @@ $ ./symfony opTimelinePlugin:install
  </stability>
  <license>Apache</license>
  <notes>
-1.1.2.1 alpha release.
+1.1.3 alpha release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -220,13 +220,13 @@ $ ./symfony opTimelinePlugin:install
    <file baseinstalldir="/" md5sum="3c72e5622664560f4f2c1bcfd1cacc00" name="web/js/jquery.timeline.js" role="data" />
    <file baseinstalldir="/" md5sum="94466a640d5b6830cd9724d071a8e9bf" name="web/js/jquery.upload-1.0.2.js" role="data" />
    <file baseinstalldir="/" md5sum="3063792fd8f0c850fc8f609533f954f5" name="web/js/lightbox.js" role="data" />
-   <file baseinstalldir="/" md5sum="f44f698330b2f28903323a62a9c0178e" name="web/js/timeline-loader-smartphone.js" role="data" />
+   <file baseinstalldir="/" md5sum="2e7a11d0ae64986d2ffec95e7e7b150f" name="web/js/timeline-loader-smartphone.js" role="data" />
    <file baseinstalldir="/" md5sum="1022f7302942ac20ab97c65a8b3b0867" name="web/js/timeline-loader.api.js" role="data" />
    <file baseinstalldir="/" md5sum="41d4e18b4ad695410c8526f607f9df79" name="web/js/timeline-loader.js" role="data" />
    <file baseinstalldir="/" md5sum="d68f452e78f4ed9d29fc37894175c506" name="dependencies.yml" role="data" />
    <file baseinstalldir="/" md5sum="617856c3fb2b7177fe7fffa8a1ddd1a1" name="dependencies.yml.sample" role="data" />
    <file baseinstalldir="/" md5sum="f34dd7a47996e29f48fe9629cc0dcbd1" name="README" role="data" />
-   <file baseinstalldir="/" md5sum="25580ea253391eabd18b5c471de88815" name="README.md" role="data" />
+   <file baseinstalldir="/" md5sum="6878749fbff2cf25b04765a24d4710a7" name="README.md" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -364,6 +364,21 @@ stable release.
    <license>Apache</license>
    <notes>
 1.1.2.1 alpha release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.3</release>
+    <api>1.1.3</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2013-01-18</date>
+   <license>Apache</license>
+   <notes>
+1.1.3 alpha release.
    </notes>
   </release>
  </changelog>
