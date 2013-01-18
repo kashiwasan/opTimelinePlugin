@@ -64,10 +64,10 @@ $ ./symfony opTimelinePlugin:install
   <active>yes</active>
  </developer>
  <date>2013-01-18</date>
- <time>15:30:02</time>
+ <time>18:23:06</time>
  <version>
-  <release>1.1.3</release>
-  <api>1.1.3</api>
+  <release>1.1.4</release>
+  <api>1.1.4</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -75,7 +75,7 @@ $ ./symfony opTimelinePlugin:install
  </stability>
  <license>Apache</license>
  <notes>
-1.1.3 alpha release.
+alpha release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -147,7 +147,7 @@ $ ./symfony opTimelinePlugin:install
    <file baseinstalldir="/" md5sum="7cec2d08abea342962b56ef1b8001fa8" name="lib/task/opTimelinePluginInstallTask.class.php" role="data" />
    <file baseinstalldir="/" md5sum="3b6ada109ba2de030eb580f6bc425901" name="lib/util/opTimelineDb.php" role="data" />
    <file baseinstalldir="/" md5sum="c605c87b2b9a8be9c94dbd6856a1f120" name="lib/util/opTimelineImage.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="44c4cde663d6b40db77626b5e006ae32" name="lib/util/opTimelinePluginUtil.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="6201576882c0133c6f2c0965c54db1c7" name="lib/util/opTimelinePluginUtil.class.php" role="data" />
    <file baseinstalldir="/" md5sum="25b04d5e2306bbc79824f120dc88d181" name="test/bootstrap/database.php" role="data" />
    <file baseinstalldir="/" md5sum="2089e76b9d0ae0fd4d222ee37ea68cb5" name="test/bootstrap/functional.php" role="data" />
    <file baseinstalldir="/" md5sum="4bfa4b596e946c8a283410a2e2ba4315" name="test/bootstrap/unit.php" role="data" />
@@ -226,7 +226,7 @@ $ ./symfony opTimelinePlugin:install
    <file baseinstalldir="/" md5sum="d68f452e78f4ed9d29fc37894175c506" name="dependencies.yml" role="data" />
    <file baseinstalldir="/" md5sum="617856c3fb2b7177fe7fffa8a1ddd1a1" name="dependencies.yml.sample" role="data" />
    <file baseinstalldir="/" md5sum="f34dd7a47996e29f48fe9629cc0dcbd1" name="README" role="data" />
-   <file baseinstalldir="/" md5sum="6878749fbff2cf25b04765a24d4710a7" name="README.md" role="data" />
+   <file baseinstalldir="/" md5sum="77c7c3549b9e6ba0c5aa023c97e880c9" name="README.md" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -379,6 +379,21 @@ stable release.
    <license>Apache</license>
    <notes>
 1.1.3 alpha release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.4</release>
+    <api>1.1.4</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2013-01-18</date>
+   <license>Apache</license>
+   <notes>
+alpha release.
    </notes>
   </release>
  </changelog>
