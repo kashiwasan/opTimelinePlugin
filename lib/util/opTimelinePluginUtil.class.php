@@ -4,6 +4,7 @@ class opTimelinePluginUtil
 {
 
   const DB_MAX_FILE_SIZE = 4294967295;
+  const HTTP_REQUEST_DEFAULT_MAX = 131072;
 
   public static function hasScreenName($body)
   {
@@ -36,7 +37,8 @@ class opTimelinePluginUtil
             (int) opTimelineDb::findVariableOfMySQL('max_allowed_packet'),
             self::_calcConfigSizeToByte(ini_get('post_max_size')),
             self::_calcConfigSizeToByte(ini_get('upload_max_filesize')),
-            self::DB_MAX_FILE_SIZE);
+            self::DB_MAX_FILE_SIZE,
+            self::HTTP_REQUEST_DEFAULT_MAX);
   }
 
   const ONE_KB = 1024;
