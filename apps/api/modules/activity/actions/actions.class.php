@@ -243,7 +243,6 @@ class activityActions extends opJsonApiActions
 
   public function executeSearch(sfWebRequest $request)
   {
-
     $parameters = $request->getGetParameters();
 
     if (isset($parameters['target']))
@@ -251,29 +250,28 @@ class activityActions extends opJsonApiActions
       $this->_forward400IfInvalidTargetForSearchAPI($parameters);
     }
 
-    $activityDatas = $this->_activitySearchAPI($request);
+    $activityDatas = $this->_timeline->searchActivityDatasByAPIRequestDatasAndMemberId(
+                    $request->getGetParameters(), $this->getUser()->getMemberId());
 
+    $activitySearchDatas = $activityDatas->getData();
     //一回も投稿していない
-    if (empty($activityDatas))
+    if (empty($activitySearchDatas))
     {
       return $this->renderJSON(array('status' => 'success', 'data' => array()));
     }
 
-    return $this->renderJSON(array('status' => 'success', 'data' => $activityDatas));
-  }
-
-  private function _activitySearchAPI(sfWebRequest $request)
-  {
-    $activityDatas = $this->_timeline->searchActivityDatasByAPIRequestDatasAndMemberId(
-                    $request->getGetParameters(), $this->getUser()->getMemberId());
-
-    
     $responseDatas = $this->_timeline->createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI(
                     $activityDatas, $this->getUser()->getMemberId());
 
     $responseDatas = $this->_timeline->addPublicFlagByActivityDatasForSearchAPIByActivityDatas($responseDatas, $activityDatas);
     $responseDatas = $this->_timeline->embedImageUrlToContentForSearchAPI($responseDatas);
 
+    return $this->renderJSON(array('status' => 'success', 'data' => $responseDatas));
+  }
+
+  private function _activitySearchAPI(sfWebRequest $request)
+  {
+    
     return $responseDatas;
   }
 
