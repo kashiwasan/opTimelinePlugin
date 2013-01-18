@@ -5,6 +5,11 @@ $(function(){
   
   $('.basic-mode').remove();
   $('.timeline-mode').show();
+  
+  if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+    $('#timeline-upload-photo-button').hide();
+    $('#timeline-public-flag').css('margin', '0 0 0 0');
+  }
  
   $('#timeline_postform_submit').click( function() {
     $('#timeline-submit-error').hide();
