@@ -64,10 +64,10 @@ $ ./symfony opTimelinePlugin:install
   <active>yes</active>
  </developer>
  <date>2013-01-18</date>
- <time>14:49:05</time>
+ <time>15:17:08</time>
  <version>
-  <release>1.1.2</release>
-  <api>1.1.2</api>
+  <release>1.1.2.1</release>
+  <api>1.1.2.1</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -75,7 +75,7 @@ $ ./symfony opTimelinePlugin:install
  </stability>
  <license>Apache</license>
  <notes>
-1.1.2 alpha release.
+1.1.2.1 alpha release.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -122,7 +122,7 @@ $ ./symfony opTimelinePlugin:install
    <file baseinstalldir="/" md5sum="74df32b52ccdbbe8020942ca4b952a48" name="apps/pc_frontend/modules/timeline/templates/_smtTimelineMember.php" role="data" />
    <file baseinstalldir="/" md5sum="5a67b31eba756fe3169053fad8d41049" name="apps/pc_frontend/modules/timeline/templates/_smtTimelinePostButton.php" role="data" />
    <file baseinstalldir="/" md5sum="371a22c72612c81b4f5ae4ab315e608b" name="apps/pc_frontend/modules/timeline/templates/_timelineAll.php" role="data" />
-   <file baseinstalldir="/" md5sum="f99438b024de201178bfd8e513d0d698" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data" />
+   <file baseinstalldir="/" md5sum="4efd7bb791a5a7dece3f5c1b518781c3" name="apps/pc_frontend/modules/timeline/templates/_timelineCommunity.php" role="data" />
    <file baseinstalldir="/" md5sum="388382b2632f931f2c166afafbf330b7" name="apps/pc_frontend/modules/timeline/templates/_timelineMentions.php" role="data" />
    <file baseinstalldir="/" md5sum="bc5e1eca560c517de03d4ad460f2cda8" name="apps/pc_frontend/modules/timeline/templates/_timelineProfile.php" role="data" />
    <file baseinstalldir="/" md5sum="08bc86eb4f5a47968386b345a1337d01" name="apps/pc_frontend/modules/timeline/templates/_timelineTemplate.php" role="data" />
@@ -220,7 +220,7 @@ $ ./symfony opTimelinePlugin:install
    <file baseinstalldir="/" md5sum="3c72e5622664560f4f2c1bcfd1cacc00" name="web/js/jquery.timeline.js" role="data" />
    <file baseinstalldir="/" md5sum="94466a640d5b6830cd9724d071a8e9bf" name="web/js/jquery.upload-1.0.2.js" role="data" />
    <file baseinstalldir="/" md5sum="3063792fd8f0c850fc8f609533f954f5" name="web/js/lightbox.js" role="data" />
-   <file baseinstalldir="/" md5sum="58092bfda0c48b72d1a339300b194946" name="web/js/timeline-loader-smartphone.js" role="data" />
+   <file baseinstalldir="/" md5sum="f44f698330b2f28903323a62a9c0178e" name="web/js/timeline-loader-smartphone.js" role="data" />
    <file baseinstalldir="/" md5sum="1022f7302942ac20ab97c65a8b3b0867" name="web/js/timeline-loader.api.js" role="data" />
    <file baseinstalldir="/" md5sum="41d4e18b4ad695410c8526f607f9df79" name="web/js/timeline-loader.js" role="data" />
    <file baseinstalldir="/" md5sum="d68f452e78f4ed9d29fc37894175c506" name="dependencies.yml" role="data" />
@@ -349,6 +349,21 @@ stable release.
    <license>Apache</license>
    <notes>
 1.1.2 alpha release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.2.1</release>
+    <api>1.1.2.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2013-01-18</date>
+   <license>Apache</license>
+   <notes>
+1.1.2.1 alpha release.
    </notes>
   </release>
  </changelog>

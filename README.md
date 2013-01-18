@@ -46,7 +46,7 @@ opTimelinePlugin
 ## インストール方法
 * 以下のコマンドを実行して下さい。
  プラグインをダウンロードします。  
-    ./symfony opPlugin:install opTimelinePlugin -r 1.1.2  
+    ./symfony opPlugin:install opTimelinePlugin -r 1.1.2.1  
  モデルとデータベースを更新します。  
     ./symfony opTimelinePlugin:install  
   
