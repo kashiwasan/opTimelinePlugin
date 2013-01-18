@@ -50,19 +50,18 @@ class opTimeline
 
   /**
    * メソッドを実行する前にopJsonApiをロードしておく必要がある
-   *
-   * @todo 整形というには大仕事をしすぎているので名前をcreateにする
    */
   public function createActivityDatasByActivityDataAndViewerMemberIdForSearchAPI($activityDatas, $viewerMemberId)
   {
-
-
-
     $activityIds = array();
-
     foreach ($activityDatas as $activity)
     {
       $activityIds[] = $activity->getId();
+    }
+
+    if (empty($activityIds))
+    {
+      return array();
     }
 
     $replayActivityDatas = $this->findReplayActivityDatasByActivityIdsGroupByActivityId($activityIds);
@@ -119,6 +118,7 @@ class opTimeline
 
   private function _createActivityDatasByActivityDatasAndMemberDatasForSearchAPI($activityDatas, $memberDatas)
   {
+    $activityIds = array();
     foreach ($activityDatas as $activity)
     {
       $activityIds[] = $activity->getId();
