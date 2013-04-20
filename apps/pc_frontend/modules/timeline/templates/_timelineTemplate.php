@@ -44,14 +44,15 @@
               {{/each}}
             {{/if}}
 
-            <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
-            <input class="timeline-post-comment-form-input" data-timeline-id="${id}" id="comment-textarea-${id}" type="text" />
-            <button data-timeline-id="${id}" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
-            </div>
-            <div id="timeline-post-comment-form-loader-${id}" class="timeline-post-comment-form-loader">
-            <?php echo op_image_tag('ajax-loader.gif', array()) ?>
-            </div>
-            <div id="timeline-post-comment-form-error-${id}" class="timeline-post-comment-form-loader">
+              <div id="timeline-post-comment-form-${id}" class="timeline-post-comment-form">
+              <input class="timeline-post-comment-form-input" data-timeline-id="${id}" id="comment-textarea-${id}" type="text" />
+              <button data-timeline-id="${id}" class="btn btn-primary btn-mini timeline-comment-button">投稿</button>
+              </div>
+              <div id="timeline-post-comment-form-loader-${id}" class="timeline-post-comment-form-loader">
+              <?php echo op_image_tag('ajax-loader.gif', array()) ?>
+              </div>
+              <div id="timeline-post-comment-form-error-${id}" class="timeline-post-comment-form-loader">
+              </div>
             </div>
           </div>
           {{if null!==image_url}}
@@ -118,6 +119,7 @@
                 {{html body_html}}
                 </span>
                 </div>
+<<<<<<< HEAD
               </div>
               <!-- like Plugin -->
               <span class="like-comment-wrapper hide">
@@ -138,6 +140,12 @@
                 {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
                 </div>
               
+=======
+                <div class="timeline-post-comment-control">
+                {{if member.self==true }}<a href="#timeline-post-delete-confirm-${id}" class="timeline-post-delete-confirm-link">削除する</a> | {{/if}} <a href="<?php echo url_for('@homepage', array('absolute' => true)) ?>timeline/show/id/${id}"><span class="timestamp">${created_at}</span></a>
+                </div>
+              </div>
+>>>>>>> origin/master
               {{if member.self==true }}
               <div class="timeline-post-delete-confirm" id="timeline-post-delete-confirm-${id}">
                 <div class="partsHeading"><h3>投稿の削除</h3></div>

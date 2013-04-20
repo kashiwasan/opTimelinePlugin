@@ -1,3 +1,5 @@
+<div id="communityTimeline" class="dparts communityTimeline"><div class="parts">
+
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
@@ -54,3 +56,4 @@ $(function(){
       <div id="timeline-loadmore-loading"><?php echo op_image_tag('ajax-loader.gif', array()) ?></div>
     </div>
 
+</div></div>

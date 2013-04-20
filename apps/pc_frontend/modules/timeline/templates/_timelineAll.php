@@ -1,7 +1,9 @@
+<div id="homeAllTimeline_<?php echo $gadget->id ?>" class="dparts homeAllTimeline"><div class="parts">
+
 <script type="text/javascript">
 //<![CDATA[
 var gorgon = {
-      'limit': '20',
+      'count': '<?php echo $gadget->getConfig('limit'); ?>',
       'post': {
 
       },
@@ -64,3 +66,4 @@ $(function(){
 
 </div>
 
+</div></div>
